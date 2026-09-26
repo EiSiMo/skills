@@ -1,0 +1,11 @@
+{
+  "name": "eisimo-skills",
+  "owner": { "name": "Moritz", "url": "https://github.com/EiSiMo" },
+  "plugins": [
+    {
+      "name": "eisimo-skills",
+      "source": "./",
+      "description": "Moritz's personal agent skills"
+    }
+  ]
+}
