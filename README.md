@@ -13,6 +13,7 @@ npx skills add EiSiMo/skills
 ## Skills
 
 - **init-project**: scaffolds a new repo with MIT license, .gitignore, README and an AGENTS.md with my coding rules.
+- **talk**: discuss a question or idea without touching any files.
 
 ## License
 
