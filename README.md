@@ -12,6 +12,7 @@ npx skills add EiSiMo/skills
 
 ## Skills
 
+- **exists**: checks what already exists before building — parallel research, profiles of the closest projects, and an honest verdict.
 - **init-project**: scaffolds a new repo with MIT license, .gitignore, README and an AGENTS.md with my coding rules.
 - **talk**: discuss a question or idea without touching any files.
 
