@@ -16,6 +16,7 @@ npx skills add EiSiMo/skills
 - **init-project**: scaffolds a new repo with MIT license, .gitignore, README and an AGENTS.md with my coding rules.
 - **iso**: works in a separate worktree and branch, leaves main alone until you inspect and approve the merge, then cleans up branch and worktree.
 - **keepup**: explains a term, component or command from the current project in plain language — zooms out to the big picture, then zooms in, so you can make decisions about code you did not write yourself.
+- **oversee**: watches a long-running job (backfill, mass AI prompts, long computations) on a tightening schedule, starts it as a systemd service if needed, fixes no-brainers via subagents and otherwise stops it and writes a report — without ever risking computed data.
 - **rethink**: read-only review of a grown codebase — architecture, quality and idiom, judged by a parallel team of subagents, with a neutral and proportional verdict.
 - **talk**: discuss a question or idea without touching any files.
 

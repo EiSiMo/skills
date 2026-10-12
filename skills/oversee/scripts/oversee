@@ -1,0 +1,267 @@
+#!/usr/bin/env bash
+# oversee: small helper for watching long-running jobs.
+#
+#   oversee start   <name> [--dir DIR] [--progress CMD] -- <command...>
+#   oversee adopt   <name> (--unit UNIT [--system] | --pid PID) [--log FILE] [--dir DIR] [--progress CMD]
+#   oversee check   <name>
+#   oversee stop    <name> [--force]
+#   oversee restart <name>
+#   oversee note    <name> <text...>
+#   oversee list
+#
+# State lives in ${OVERSEE_HOME:-/tmp/oversee}/<name>/, never in the project:
+#   meta        how to find the job (unit or pid, log, progress command, command line)
+#   last        values from the previous check, for deltas
+#   journal.md  append-only timeline of checks, incidents and actions
+#   output.log  stdout+stderr of jobs started with `oversee start`
+#
+# --progress CMD is a shell command run in the job's directory that prints one
+# number (rows done, files written, ...). It must be read-only and fast.
+set -euo pipefail
+
+STATE_ROOT="${OVERSEE_HOME:-/tmp/oversee}"
+ERR_RE='error|exception|traceback|fatal|panic|killed|out of memory|oom|timed? ?out|refused|rate.?limit|\b429\b|\b5[0-9][0-9]\b'
+STOP_TIMEOUT=300
+
+die() { echo "oversee: $*" >&2; exit 1; }
+stamp() { date '+%F %T'; }
+job_dir() { local d="$STATE_ROOT/$1"; [[ -d $d ]] || die "unknown job '$1'"; echo "$d"; }
+journal() { echo "- $(stamp) $2" >>"$1/journal.md"; }
+
+write_meta() {
+  local d=$1; shift
+  : >"$d/meta"
+  local kv
+  for kv in "$@"; do printf '%s=%q\n' "${kv%%=*}" "${kv#*=}" >>"$d/meta"; done
+}
+
+load() {
+  D=$(job_dir "$1")
+  KIND="" TARGET="" SCOPE="--user" LOG="" WORKDIR="" PROGRESS="" CMD=""
+  # shellcheck disable=SC1091
+  source "$D/meta"
+}
+
+ctl() { if [[ -n $SCOPE ]]; then systemctl "$SCOPE" "$@"; else systemctl "$@"; fi; }
+
+is_running() {
+  if [[ $KIND == unit ]]; then
+    [[ $(ctl show "$TARGET" -p ActiveState --value) =~ ^(active|activating|deactivating|reloading)$ ]]
+  else
+    kill -0 "$TARGET" 2>/dev/null
+  fi
+}
+
+run_unit() {
+  local -a cmd
+  eval "cmd=($CMD)"
+  local -a props=(
+    -p "StandardOutput=append:$D/output.log"
+    -p "StandardError=append:$D/output.log"
+    -p "TimeoutStopSec=$STOP_TIMEOUT"
+    -p KillMode=mixed
+  )
+  [[ -f $WORKDIR/.env ]] && props+=(-p "EnvironmentFile=$WORKDIR/.env")
+  systemd-run --user --unit "$TARGET" --working-directory "$WORKDIR" \
+    -E PATH="$PATH" "${props[@]}" "${cmd[@]}"
+}
+
+cmd_start() {
+  local name=$1; shift
+  local workdir=$PWD progress=""
+  while [[ $# -gt 0 && $1 != -- ]]; do
+    case $1 in
+      --dir) workdir=$(realpath "$2"); shift 2 ;;
+      --progress) progress=$2; shift 2 ;;
+      *) die "unknown option $1" ;;
+    esac
+  done
+  [[ ${1:-} == -- ]] || die "missing -- before the command"; shift
+  [[ $# -gt 0 ]] || die "no command given"
+  D="$STATE_ROOT/$name"
+  [[ -e $D/meta ]] && die "job '$name' already exists in $D, pick another name or remove it deliberately"
+  mkdir -p "$D"
+  write_meta "$D" KIND=unit "TARGET=oversee-$name" SCOPE=--user "LOG=$D/output.log" \
+    "WORKDIR=$workdir" "PROGRESS=$progress" "CMD=$(printf '%q ' "$@")"
+  load "$name"
+  run_unit
+  journal "$D" "started unit $TARGET: $CMD (in $WORKDIR)"
+  [[ $(loginctl show-user "$USER" -p Linger --value 2>/dev/null) == yes ]] ||
+    echo "warning: lingering is off, the job dies when $USER logs out (fix: loginctl enable-linger)"
+}
+
+cmd_adopt() {
+  local name=$1; shift
+  local kind="" target="" scope=--user log="" workdir=$PWD progress=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --unit) kind=unit target=$2; shift 2 ;;
+      --system) scope=""; shift ;;
+      --pid) kind=pid target=$2; shift 2 ;;
+      --log) log=$(realpath "$2"); shift 2 ;;
+      --dir) workdir=$(realpath "$2"); shift 2 ;;
+      --progress) progress=$2; shift 2 ;;
+      *) die "unknown option $1" ;;
+    esac
+  done
+  [[ -n $kind ]] || die "need --unit or --pid"
+  if [[ $kind == pid ]]; then
+    kill -0 "$target" 2>/dev/null || die "pid $target is not running"
+    [[ -n $log ]] || echo "warning: no --log given, check can only see process state"
+  fi
+  D="$STATE_ROOT/$name"
+  [[ -e $D/meta ]] && die "job '$name' already exists in $D"
+  mkdir -p "$D"
+  local cmdline=""
+  [[ $kind == pid ]] && cmdline=$(tr '\0' ' ' <"/proc/$target/cmdline")
+  write_meta "$D" "KIND=$kind" "TARGET=$target" "SCOPE=$scope" "LOG=$log" \
+    "WORKDIR=$workdir" "PROGRESS=$progress" "CMD=$cmdline"
+  journal "$D" "adopted $kind $target"
+}
+
+cmd_check() {
+  local name=$1
+  load "$name"
+  local last_t=0 last_lines=0 last_prog=""
+  # shellcheck disable=SC1091
+  [[ -f $D/last ]] && source "$D/last"
+  local t; t=$(date +%s)
+  local since_min=$(((t - (last_t ? last_t : t)) / 60))
+  local -a flags=()
+
+  echo "== $name  $(stamp)  (previous check: $([[ $last_t -gt 0 ]] && echo "${since_min} min ago" || echo none))"
+
+  echo "-- process"
+  if [[ $KIND == unit ]]; then
+    ctl show "$TARGET" -p ActiveState -p SubState -p Result -p ExecMainStatus \
+      -p ExecMainStartTimestamp -p MainPID -p MemoryCurrent -p CPUUsageNSec 2>&1 | sed 's/^/   /'
+    local active result status
+    active=$(ctl show "$TARGET" -p ActiveState --value)
+    result=$(ctl show "$TARGET" -p Result --value)
+    status=$(ctl show "$TARGET" -p ExecMainStatus --value)
+    if ! is_running; then
+      if [[ $result == success && $status == 0 ]]; then flags+=(FINISHED); else flags+=("DEAD(result=$result,status=$status,state=$active)"); fi
+    fi
+  else
+    if is_running; then
+      ps -o pid=,etime=,%cpu=,%mem=,rss=,stat= -p "$TARGET" | sed 's/^/   pid etime cpu% mem% rss stat: /'
+    else
+      echo "   pid $TARGET is gone (exit status unknown for adopted pids)"
+      flags+=(GONE)
+    fi
+  fi
+
+  echo "-- output"
+  local lines=0 newtext=""
+  if [[ -n $LOG && -f $LOG ]]; then
+    lines=$(wc -l <"$LOG")
+    ((lines < last_lines)) && last_lines=0 # log rotated or truncated
+    newtext=$(tail -n "+$((last_lines + 1))" "$LOG")
+    echo "   log: $LOG ($lines lines, $((lines - last_lines)) new)"
+  elif [[ $KIND == unit ]]; then
+    newtext=$(journalctl "${SCOPE:---system}" -u "$TARGET" -o cat --since "@${last_t:-0}" 2>/dev/null || true)
+    lines=$last_lines
+    echo "   journal of $TARGET ($(grep -c '' <<<"$newtext" || true) new lines)"
+  else
+    echo "   no log known"
+  fi
+  if [[ -n $newtext ]]; then
+    local errs; errs=$(grep -Eic "$ERR_RE" <<<"$newtext" || true)
+    if ((errs > 0)); then
+      flags+=("ERRORS($errs)")
+      echo "   error-like lines since previous check: $errs, latest:"
+      grep -Ei "$ERR_RE" <<<"$newtext" | tail -n 8 | cut -c1-300 | sed 's/^/   ! /'
+    fi
+    echo "   tail:"
+    tail -n 15 <<<"$newtext" | cut -c1-300 | sed 's/^/   | /'
+  elif is_running && ((last_t > 0)) && [[ -n $LOG || $KIND == unit ]]; then
+    flags+=(SILENT)
+    echo "   no new output since previous check"
+  fi
+
+  local prog=""
+  if [[ -n $PROGRESS ]]; then
+    echo "-- progress"
+    prog=$(cd "$WORKDIR" && timeout 60 bash -c "$PROGRESS" 2>&1 | tail -n 1) || true
+    echo "   now: $prog   previous: ${last_prog:-none}"
+    if [[ $prog =~ ^[0-9]+([.][0-9]+)?$ && $last_prog =~ ^[0-9]+([.][0-9]+)?$ && $since_min -gt 0 ]]; then
+      local delta; delta=$(awk -v a="$prog" -v b="$last_prog" 'BEGIN{print a-b}')
+      echo "   delta: $delta   rate: $(awk -v d="$delta" -v m="$since_min" 'BEGIN{printf "%.1f", d/m}')/min"
+      awk -v d="$delta" 'BEGIN{exit !(d<=0)}' && is_running && flags+=(NO_PROGRESS)
+    elif [[ -n $prog && ! $prog =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+      flags+=(PROGRESS_CMD_FAILED)
+    fi
+  fi
+
+  echo "-- resources"
+  local dfline use
+  dfline=$(df -h --output=avail,pcent,target "$WORKDIR" | tail -n 1)
+  echo "   disk (workdir): $dfline"
+  use=$(df --output=pcent "$WORKDIR" | tail -n 1 | tr -dc 0-9)
+  ((use >= 90)) && flags+=("DISK(${use}%)")
+  echo "   mem: $(free -h | awk '/^Mem:/{print $3" used / "$2" total, "$7" available"}')"
+  echo "   load: $(cut -d' ' -f1-3 /proc/loadavg)"
+
+  echo "-- flags: ${flags[*]:-OK}"
+  printf 'last_t=%q\nlast_lines=%q\nlast_prog=%q\n' "$t" "$lines" "$prog" >"$D/last"
+  journal "$D" "check: ${flags[*]:-OK}${prog:+ progress=$prog}"
+}
+
+cmd_stop() {
+  local name=$1 force=${2:-}
+  load "$name"
+  if ! is_running; then echo "not running"; return; fi
+  if [[ $KIND == unit ]]; then
+    # systemd sends SIGTERM and waits TimeoutStopSec before SIGKILL
+    ctl stop "$TARGET"
+  else
+    kill -TERM "$TARGET"
+    local i
+    for ((i = 0; i < STOP_TIMEOUT; i += 5)); do
+      kill -0 "$TARGET" 2>/dev/null || break
+      sleep 5
+    done
+    if kill -0 "$TARGET" 2>/dev/null; then
+      if [[ $force == --force ]]; then kill -KILL "$TARGET"; else
+        journal "$D" "stop: pid $TARGET ignored SIGTERM for ${STOP_TIMEOUT}s, still running"
+        die "pid $TARGET still alive after ${STOP_TIMEOUT}s, rerun with --force to SIGKILL"
+      fi
+    fi
+  fi
+  journal "$D" "stopped${force:+ (forced)}"
+  echo "stopped"
+}
+
+cmd_restart() {
+  local name=$1
+  load "$name"
+  [[ $KIND == unit && $TARGET == oversee-* ]] ||
+    die "only jobs started with 'oversee start' can be restarted, start it fresh under a new name"
+  is_running && cmd_stop "$name"
+  ctl reset-failed "$TARGET" 2>/dev/null || true
+  echo "----- restart $(stamp) -----" >>"$LOG"
+  run_unit
+  journal "$D" "restarted unit $TARGET"
+}
+
+cmd_list() {
+  [[ -d $STATE_ROOT ]] || return 0
+  local d
+  for d in "$STATE_ROOT"/*/; do
+    [[ -f $d/meta ]] || continue
+    load "$(basename "$d")"
+    printf '%-24s %-5s %-30s %s\n' "$(basename "$d")" "$KIND" "$TARGET" "$(is_running && echo running || echo stopped)"
+  done
+}
+
+sub=${1:-}; shift || true
+case $sub in
+  start) [[ $# -ge 1 ]] || die "usage: oversee start <name> [--dir DIR] [--progress CMD] -- <command...>"; cmd_start "$@" ;;
+  adopt) [[ $# -ge 1 ]] || die "usage: oversee adopt <name> (--unit UNIT [--system] | --pid PID) [--log FILE] [--dir DIR] [--progress CMD]"; cmd_adopt "$@" ;;
+  check) [[ $# -eq 1 ]] || die "usage: oversee check <name>"; cmd_check "$1" ;;
+  stop) [[ $# -ge 1 ]] || die "usage: oversee stop <name> [--force]"; cmd_stop "$@" ;;
+  restart) [[ $# -eq 1 ]] || die "usage: oversee restart <name>"; cmd_restart "$1" ;;
+  note) [[ $# -ge 2 ]] || die "usage: oversee note <name> <text...>"; D=$(job_dir "$1"); shift; journal "$D" "$*" ;;
+  list) cmd_list ;;
+  *) sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+esac
