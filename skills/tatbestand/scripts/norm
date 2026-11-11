@@ -39,6 +39,9 @@ def download(url, limit=None, timeout=30):
         except urllib.error.HTTPError as e:
             if e.code == 404:
                 return None
+            if e.code in (401, 403, 407):  # Sperre, kein Wackler: nicht wiederholen
+                sys.exit(f"ABRUF FEHLGESCHLAGEN: {url}\nHTTP {e.code}. Die Umgebung oder die Seite sperrt den Abruf. "
+                         "Skripte nicht weiter versuchen, Ausweichweg aus SKILL.md nehmen (Abschnitt 'Wenn die Skripte nicht ins Netz kommen').")
             error = e
         except OSError as e:  # URLError, Timeout, Connection reset
             error = e

@@ -42,7 +42,16 @@ Die Listen sind Gedankenstützen, nicht abschließend. Nimm auch Tatbestände au
 
 Lies jeden Kandidaten im geltenden Wortlaut nach, bevor du subsumierst. Maßgeblich ist das Recht zur Tatzeit; nennt der Sachverhalt keine, gilt heute.
 
-Die Skripte `norm`, `berlin` und `tbnr` liegen im Ordner `scripts/` neben dieser Datei. Rufe sie immer mit absolutem Pfad auf, gebildet aus dem Verzeichnis dieses Skills. Die Beispiele unten kürzen den Pfad ab.
+Die Skripte `norm`, `berlin` und `tbnr` liegen im Ordner `scripts/` neben dieser Datei. Rufe sie immer als `python3 <absoluter Pfad>/scripts/norm ...` auf, gebildet aus dem Verzeichnis dieses Skills; ohne `python3` scheitert der Aufruf dort, wo die Dateien nicht ausführbar sind. Die Beispiele unten kürzen das ab.
+
+### Wenn die Skripte nicht ins Netz kommen
+
+Meldet schon der erste Aufruf "ABRUF FEHLGESCHLAGEN" mit HTTP 403 oder einem Proxy-Fehler, sperrt die Umgebung die Seiten (so in claude.ai ohne freigegebene Domains). Versuche die Skripte dann nicht weiter und lies mit deinem Werkzeug zum Abrufen von Webseiten direkt in den amtlichen Quellen:
+
+- Bundesrecht: `https://www.gesetze-im-internet.de/stgb/__223.html` (Gesetz klein geschrieben, zwei Unterstriche, Paragraf; StVO, BKatV, FeV und OWiG heißen dort `stvo_2013`, `bkatv_2013`, `fev_2010`, `owig_1968`; Anlagen `anlage.html`, `anhang.html`). Den Stand zeigt `https://www.gesetze-im-internet.de/stgb/` unter dem Link zur Gesamtausgabe.
+- Berliner Landesrecht: Websuche nach der Vorschrift auf gesetze.berlin.de, sonst der Ausweichweg unten.
+
+Verlange vom Werkzeug den Wortlaut des Absatzes, keine Zusammenfassung. Gibt es nur eine Zusammenfassung oder Bruchstücke zurück, gilt der Wortlaut als nicht gelesen (⚠, höchstens B). TBNR und Tatvorwurf-Zitat gibt es auf diesem Weg nicht; es bleibt bei der BKat-Nummer. Schreibe in diesem Fall als erste Zeile unter D: "Skripte ohne Netzzugang: Domains gesetze-im-internet.de, gesetze.berlin.de, recht.bund.de, kba.de für die Code-Ausführung freigeben".
 
 ### Bundesrecht
 
@@ -224,7 +233,7 @@ Regeln für die Form:
 - **Tatbestandsmerkmale nur in A**, je Merkmal eine Zeile mit wenigen Worten: Merkmal, Doppelpunkt, die Tatsache. Selbstverständliches (etwa "Mensch", "Sache") weglassen.
 - **Qualifikation, Regelbeispiel oder weitere Variante desselben Delikts, die offen ist**: kein eigener B-Eintrag, sondern eine Zeile "+ fraglich § …: offen, ob …" am Eintrag in A. Dasselbe für erhöhte Regelsätze (Voreintragung, Vorsatz).
 - **B und C: eine Zeile je Eintrag**, bei B die offene Tatsache, bei C das fehlende Merkmal. Keine Merkmalsliste. Eine Verkehrsordnungswidrigkeit in B nennt TBNR, BKat-Nummer und Regelsatz in Klammern, damit der Nutzer sie bei Bestätigung übernehmen kann. Würde ein B-Eintrag einen aus A ersetzen, steht das dabei ("statt Diebstahl").
-- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einer Zeile TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Darunter immer der Tatvorwurf aus dem Tatbestandskatalog als Zitat in Anführungszeichen, wortgleich aus der Ausgabe von `tbnr`, etwa "Sie fuhren infolge zu geringen Abstands auf das abbremsende Fahrzeug auf. Es kam zum Unfall." Platzhalter (`#D#`, `*)`) ersetzt du durch die Werte aus dem Sachverhalt, bei Auswahlklammern (`<dem Gehweg/der Fahrbahn>`) nimmst du die zutreffende Variante; sonst änderst du nichts und formulierst nicht selbst. Ohne TBNR entfällt das Zitat. Bei offener Einordnung je Variante TBNR-Zeile und Zitat.
+- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einer Zeile TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Darunter immer der Tatvorwurf aus dem Tatbestandskatalog als Zitat in Anführungszeichen, wortgleich aus der Ausgabe von `tbnr`, etwa "Sie fuhren infolge zu geringen Abstands auf das abbremsende Fahrzeug auf. Es kam zum Unfall." Platzhalter (`#D#`, `*)`) ersetzt du durch die Werte aus dem Sachverhalt, bei Auswahlklammern (`<dem Gehweg/der Fahrbahn>`) nimmst du die zutreffende Variante; sonst änderst du nichts und formulierst nicht selbst. Ohne TBNR oder ohne wortgleichen Text aus `tbnr` entfällt das Zitat. Bei offener Einordnung je Variante TBNR-Zeile und Zitat.
 - **Mehrere Verkehrsverstöße in einer Fahrt**: eine Zeile "Tateinheit" nach den Blöcken, damit niemand die Regelsätze addiert. Was in Tatmehrheit steht, nennst du dort ebenfalls.
 - **Ordnungswidrigkeit neben Straftat in derselben Handlung**: Die OWi bleibt in A, weil sie in die Anzeige gehört, ohne Regelsatz und ohne Merkmalszeilen. Darunter einmal für alle: "OWi treten hinter § … zurück (§ 21 OWiG)". Ist nicht klar, ob es dieselbe Handlung ist (Messer in der Tasche während einer Bedrohung), bleibt die OWi ein gewöhnlicher Eintrag ohne diese Zeile.
 - **Sonstige Konkurrenzen** nur, wenn ein Verstoß aus A verdrängt wird, dann als Zusatz am Eintrag ("tritt hinter § … zurück").
