@@ -1,0 +1,273 @@
+#!/usr/bin/env python3
+"""Berliner Landesrecht von gesetze.berlin.de nachlesen: Wortlaut und Stand.
+
+  berlin --suche Hund Leine       Vorschriften und Paragrafen finden, in denen die
+                                  Wörter vorkommen (Volltext, nur geltendes Recht)
+  berlin "LImSchG Bln"            Stand und Inhaltsverzeichnis
+  berlin "LImSchG Bln" 3 20       Stand und Wortlaut von § 3 und § 20
+  berlin "WaffFVerbotV BE 2025" "Anlage 1"   Anlage (etwa Gebietsbeschreibung)
+  berlin HundeG 33 --finde Leine  nur die Zeilen des Paragrafen mit diesem Wort
+  berlin jlr-NNLBE00004773 20     dasselbe über die Kennung aus --suche
+
+Das erste Argument ist die amtliche Abkürzung, wie sie --suche ausgibt, oder
+die Kennung (jlr-...). Geholt wird die heute gültige Fassung über eine
+Gast-Sitzung, wie sie jeder Besucher der Seite bekommt.
+"""
+import datetime
+import html
+import http.cookiejar
+import json
+import re
+import sys
+import time
+import urllib.error
+import urllib.request
+
+HOST = "https://gesetze.berlin.de"
+API = HOST + "/jportal/wsrest/recherche3/"
+AGENT = "tatbestand-skill/1 (Einzelabruf durch Nutzer)"
+FALLBACK = (
+    "ABRUF FEHLGESCHLAGEN: {}\n"
+    "gesetze.berlin.de hat nicht wie erwartet geantwortet (Seite geändert oder "
+    "gesperrt). Nicht wiederholt versuchen, sondern den Ausweichweg aus SKILL.md nehmen."
+)
+
+
+class Portal:
+    def __init__(self):
+        jar = http.cookiejar.CookieJar()
+        self.http = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+        self.http.addheaders = [("User-Agent", AGENT)]
+        self.token = None
+        page = self.open(HOST + "/jportal/portal/page/bsbe").decode("utf-8", "replace")
+        m = re.search(r"name='juris-version' content='([^']+)'", page)
+        self.version = m.group(1) if m else "bsbe"
+        self.token = self.call("init", {}).get("csrfToken")
+
+    def open(self, request):
+        """Verbindungsabbrüche kommen vor: zweimal neu versuchen. HTTP-Fehler gehen sofort durch."""
+        for attempt in range(3):
+            try:
+                return self.http.open(request, timeout=30).read()
+            except urllib.error.HTTPError:
+                raise
+            except OSError as e:
+                error = e
+                time.sleep(1 + attempt)
+        raise error
+
+    def call(self, operation, body):
+        body = dict(
+            body,
+            clientID="bsbe",
+            clientVersion=self.version,
+            r3ID=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        )
+        headers = {"Content-Type": "application/json", "JURIS-PORTALID": "bsbe"}
+        if self.token:
+            headers["X-CSRF-TOKEN"] = self.token
+        req = urllib.request.Request(API + operation, json.dumps(body).encode(), headers)
+        try:
+            return json.loads(self.open(req))
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")
+            m = re.search(r'"msgId":"([^"]+)"', detail)
+            sys.exit(FALLBACK.format(f"{operation}: HTTP {e.code} {m.group(1) if m else ''}"))
+
+    def search(self, term):
+        """Geltende Vorschriften (docPart R) und Paragrafen (S); Kleinbuchstaben sind alte Fassungen."""
+        result = self.call("search", {
+            "searchTasks": {"RESULT_LIST": {"start": 1, "size": 100}},
+            "filters": {"CATEGORY": ["Gesetze"]},
+            "searches": [{"id": "FastSearch", "value": term}],
+        })
+        return [
+            r for r in result.get("resultList", [])
+            if r.get("docPart") in ("R", "S") and str(r.get("docId", "")).startswith("jlr-")
+        ]
+
+    def document(self, doc_id, part):
+        return self.call("document", {
+            "docId": doc_id, "format": "xsl", "docPart": part,
+            "sourceParams": {"source": "Unknown", "category": "Alles"},
+        })
+
+    def toc(self, doc_id):
+        root = self.call("toc", {"docId": doc_id, "allNodes": True, "loadFirstDocument": False}).get("root", {})
+        out = []
+
+        def walk(node, depth):
+            for child in node.get("children", []):
+                out.append((depth, child.get("title", ""), child.get("dokID", "")))
+                walk(child, depth + 1)
+
+        walk(root, 0)
+        return out
+
+
+def text(fragment):
+    f = re.sub(r"(?s)<!--.*?-->", "", fragment or "")
+    f = re.sub(r"(?i)<dt[^>]*>", "\n  ", f)
+    f = re.sub(r"(?i)</dt>", " ", f)
+    f = re.sub(r"(?i)<(br|/p|/div|/tr|/h\d|/dd)[^>]*>", "\n", f)
+    f = re.sub(r"(?i)</t[dh]>", " ", f)
+    f = html.unescape(re.sub(r"<[^>]+>", "", f)).replace("\xa0", " ")
+    lines = [re.sub(r"[ \t]+", " ", l).strip() for l in f.split("\n")]
+    return "\n".join(l for l in lines if l).split("\nPermalink\n")[0]
+
+
+def find(body, terms):
+    """Zeilen mit allen Suchwörtern, je mit der Zeile davor und danach."""
+    lines = body.split("\n")
+    hits = [i for i, l in enumerate(lines) if all(t.lower() in l.lower() for t in terms)]
+    if not hits:
+        return "KEIN TREFFER für: " + " ".join(terms) + ". Anderes Wort aus dem Normtext versuchen oder ohne --finde aufrufen."
+    keep = sorted({j for i in hits for j in (i - 1, i, i + 1) if 0 <= j < len(lines)} | {0})
+    out, last = [], None
+    for i in keep:
+        if last is not None and i > last + 1:
+            out.append("  […]")
+        out.append(lines[i])
+        last = i
+    return "\n".join(out)
+
+
+def paragraph(doc):
+    """Nur Gültigkeit, Wortlaut und Hinweis auf weitere Fassungen."""
+    head = [l for l in text(doc.get("head")).split("\n") if l.startswith(("Fassung vom", "Gültig"))]
+    body = text(doc.get("text")).split("\n")
+    start = next((i for i, l in enumerate(body) if re.match(r"(§|Art\.?|Artikel|Anlage)\s*\S", l)), 0)
+    out, keep = [], True
+    images = len(re.findall(r'(?i)<img\b[^>]*src="/jportal/docs/', doc.get("text") or ""))
+    if images:
+        out.append(f"[Hinweis: {images} Abbildung(en) oder Karte(n) fehlen hier. Bei Bedarf über den Link ansehen.]")
+    for line in body[start:]:
+        if line in ("Fußnoten", "Redaktionelle Hinweise"):
+            keep = False
+        elif line == "Weitere Fassungen dieser Norm":
+            keep = True
+        if keep:
+            out.append(line)
+    return "\n".join([" · ".join(head)] + out)
+
+
+def group(hits):
+    """Treffer je Vorschrift bündeln: Kennung -> Abkürzung, Titel, getroffene Paragrafen."""
+    norms = {}
+    for h in hits:
+        title = " ".join(h.get("titleList", [])).strip()
+        subs = [s for s in h.get("subtitleList", []) if s != "Landesnorm Berlin" and not s.startswith("gültig")]
+        if h["docPart"] == "R":
+            norm_id, abbr, para = h["docId"], title, None
+        else:
+            m = re.match(r"(jlr-.+)NN\d+$", h["docId"])
+            p = re.match(r"((?:§|Art\.?|Artikel|Anlage)\s*\S+)\s+(.+)", title)
+            if not m or not p:
+                continue  # Inhaltsverzeichnis, Eingangsformel
+            norm_id, abbr = m.group(1), p.group(2)
+            para = p.group(1) + (" " + subs[0].lstrip("- ") if len(subs) > 1 else "")
+        n = norms.setdefault(norm_id, {"abbr": abbr, "title": subs[-1] if subs else "", "paras": []})
+        if para and para not in n["paras"]:
+            n["paras"].append(para)
+    return norms
+
+
+def listing(norms, limit=15):
+    out = []
+    for norm_id, n in list(norms.items())[:limit]:
+        out.append(f"{n['abbr']}  ({norm_id})  {n['title']}")
+        out += [f"    {p}" for p in n["paras"][:8]]
+        if len(n["paras"]) > 8:
+            out.append(f"    … und {len(n['paras']) - 8} weitere Paragrafen")
+    if len(norms) > limit:
+        out.append(f"… und {len(norms) - limit} weitere Vorschriften. Suche enger fassen.")
+    return "\n".join(out)
+
+
+def resolve(portal, name):
+    if name.startswith("jlr-"):
+        return name
+    norms = group(portal.search(name))
+    want = name.strip().lower()
+    exact = [i for i, n in norms.items() if n["abbr"].lower() == want]
+    near = [i for i, n in norms.items() if n["abbr"].lower().startswith(want)]
+    for candidates in (exact, near):
+        if len(candidates) == 1:
+            if norms[candidates[0]]["abbr"].lower() != want:
+                print(f"Hinweis: '{name}' als {norms[candidates[0]]['abbr']} gelesen.")
+            return candidates[0]
+    sys.exit(f"Vorschrift '{name}' nicht eindeutig gefunden. Treffer:\n"
+             f"{listing({i: norms[i] for i in exact or near} or norms) or '  (keine Treffer)'}\n"
+             "Mit der genauen Abkürzung oder der Kennung (jlr-...) erneut aufrufen. "
+             "Bundesrecht (StGB, StVO, OWiG ...) steht hier nicht, dafür das Skript norm.")
+
+
+def find_entry(toc, wanted):
+    w = wanted.lower().replace("§", "").replace("_", " ").strip()
+    w = re.sub(r"^(\d+[a-z]?)\s+(abs|absatz|nr|nummer|satz)\b.*", r"\1", w)  # "28 Abs. 1" -> 28
+    pattern = re.compile(
+        rf"^(§|art\.?|artikel)?\s*{re.escape(w)}(\s|$)" if not w.startswith("anlage")
+        else rf"^{re.escape(w)}(\s|$)",
+        re.I,
+    )
+    for depth, title, doc_id in toc:
+        if re.match(r"^§ \S+ - § ", title):
+            continue  # Abschnittsüberschrift "§ 1 - § 2 Erster Teil"
+        if pattern.match(title):
+            return title, doc_id
+    return None
+
+
+def main():
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        sys.exit(__doc__)
+    try:
+        portal = Portal()
+    except (urllib.error.URLError, OSError) as e:
+        sys.exit(FALLBACK.format(e))
+
+    if args[0] == "--suche":
+        print(listing(group(portal.search(" ".join(args[1:])))) or
+              "Keine Vorschrift gefunden. Die Suche ist ein Volltext über geltendes Landesrecht: "
+              "einzelne Wörter versuchen, wie sie im Normtext stehen (Messer statt Messerverbotszone).")
+        return
+
+    terms = []
+    if "--finde" in args:
+        cut = args.index("--finde")
+        args, terms = args[:cut], args[cut + 1:]
+        if not terms or len(args) < 2:
+            sys.exit('Aufruf: berlin "ABKÜRZUNG" PARAGRAF --finde WORT [WORT ...]')
+
+    doc_id = resolve(portal, args[0])
+    frame = portal.document(doc_id, "R")
+    print(f"Quelle: {HOST}/perma?d={doc_id}  (abgerufen {datetime.date.today():%d.%m.%Y})")
+    keep = ("Amtliche Abkürzung", "Gültig ab", "Fundstelle")
+    print(" · ".join(l for l in text(frame.get("head")).split("\n") if l.startswith(keep)))
+    intro = text(frame.get("text")).split("\nFußnoten\n")[0]
+    print(intro)
+    if "Stand:" not in intro:
+        print("Stand: keine Änderung verzeichnet (Ursprungsfassung)")
+    toc = portal.toc(doc_id)
+
+    if len(args) == 1:
+        print("\nInhalt:")
+        for depth, title, _ in toc:
+            print("  " * (depth + 1) + title)
+        return
+
+    for arg in args[1:]:
+        entry = find_entry(toc, arg)
+        if not entry:
+            print(f"\n--- NICHT GEFUNDEN: '{arg}' gibt es in dieser Vorschrift nicht "
+                  "(aufgehoben, anders nummeriert oder noch nicht in Kraft?). Inhaltsverzeichnis ohne Paragraf aufrufen.")
+            continue
+        title, part_id = entry
+        doc = portal.document(part_id, "S")
+        print(f"\n--- {title}  {HOST}/perma?d={part_id}")
+        print(find(paragraph(doc), terms) if terms else paragraph(doc))
+
+
+if __name__ == "__main__":
+    main()

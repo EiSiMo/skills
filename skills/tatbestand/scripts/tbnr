@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""Tatbestandsnummern aus der Datenbank des KBA-Tatbestandskatalogs, live von kba.de.
+
+  tbnr bkat:132.3 bkat:241        Einträge zu diesen Nummern des Bußgeldkatalogs
+  tbnr "Rotlicht Sekunde" Gurt    Einträge, deren Text alle Wörter einer Suche enthält
+  tbnr "bkat:11.3.6 innerhalb"   BKat-Nummer und Wort zusammen, wenn eine Nummer viele Einträge hat
+  tbnr 137618                     dieser Eintrag
+  tbnr --datum 03.05.2024 bkat:241   Fassung, die an diesem Tattag galt (sonst heute)
+
+Alle Suchen eines Sachverhalts in EINEN Aufruf legen: Jeder Aufruf lädt die
+ganze Datenbank (8 MB), und kba.de sperrt Adressen, die zu oft abrufen.
+"""
+import datetime
+import html
+import re
+import sys
+import urllib.error
+import urllib.request
+
+PAGE = "https://www.kba.de/DE/Themen/ZentraleRegister/FAER/BT_KAT_OWI/btkat_node.html"
+AGENT = "tatbestand-skill/1 (Einzelabruf durch Nutzer)"
+BLOCKED = (
+    "ABRUF FEHLGESCHLAGEN: {}\n"
+    "kba.de antwortet nicht mit der Datenbank (Sperre nach zu vielen Abrufen oder Seite geändert).\n"
+    "Nicht wiederholen. Ausweichweg aus SKILL.md nehmen: BKat-Nummer ausgeben, TBNR per Websuche mit ⚠."
+)
+LIMIT = 25
+
+
+def get(url):
+    req = urllib.request.Request(url, headers={"User-Agent": AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=90) as r:
+            return r.read().decode("utf-8-sig", "replace")
+    except (urllib.error.URLError, OSError) as e:
+        sys.exit(BLOCKED.format(e))
+
+
+def database():
+    """Die Übersichtsseite nennt die aktuelle Datei; ihr Name trägt das Datum der Fassung."""
+    page = get(PAGE)
+    m = re.search(r'href="([^"]*bet_datenbank_(\d{2})(\d{2})(\d{4})_txt[^"]*)"', page)
+    if not m:
+        sys.exit(BLOCKED.format("kein Link zur Datenbankdatei auf der Übersichtsseite"))
+    url = urllib.request.urljoin(PAGE, html.unescape(m.group(1)))
+    data = get(url)
+    rows = [l.split("^") for l in data.split("\n") if re.match(r"\d{6}\^", l)]
+    if not rows:
+        sys.exit(BLOCKED.format("Datei enthält keine Einträge"))
+    return f"{m.group(2)}.{m.group(3)}.{m.group(4)}", rows
+
+
+def join(parts):
+    return re.sub(r"-\s+(?=[a-zäöü])", "", " ".join(p.strip() for p in parts if p.strip()))
+
+
+def show(row):
+    text, norms = join(row[1:6]), join(row[6:8])
+    bkat = re.search(r"(\S+) BKat", norms)
+    points = f"{row[9]} Punkt(e)" if row[9].strip() not in ("", "0") else "keine Punkte"
+    ban = f" · Fahrverbot {row[17].strip()}" if row[17].strip() else ""
+    since = datetime.date.fromisoformat(row[16]).strftime("%d.%m.%Y")
+    head = f"{row[0]} · BKat {bkat.group(1) if bkat else '?'} · {row[10]},{row[11]} € · {points}{ban} · gilt seit {since}"
+    return f"{head}\n  {text}\n  {norms}"
+
+
+def main():
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        sys.exit(__doc__)
+    day = datetime.date.today()
+    if args[0] == "--datum":
+        try:
+            day = datetime.datetime.strptime(args[1], "%d.%m.%Y").date()
+        except (IndexError, ValueError):
+            sys.exit("Aufruf: tbnr --datum TT.MM.JJJJ SUCHE ...")
+        args = args[2:]
+    if not args:
+        sys.exit(__doc__)
+
+    stand, rows = database()
+    valid = [r for r in rows if len(r) >= 18 and r[16] <= day.isoformat() <= r[15]]
+    print(f"Quelle: KBA, Datenbank zum Tatbestandskatalog, Stand {stand} (abgerufen {datetime.date.today():%d.%m.%Y}), "
+          f"Fassung für Tattag {day:%d.%m.%Y}")
+    print("Betrag, Punkte und Fahrverbot gegen den Bußgeldkatalog prüfen (norm BKatV anlage --finde ...).")
+
+    for query in args:
+        print(f"\n=== {query}")
+        if re.fullmatch(r"\d{6}", query):
+            hits = [r for r in valid if r[0] == query]
+        else:  # "bkat:11.3.6 geschlossener" = BKat-Nummer und Wort im Tatvorwurf
+            hits = valid
+            for word in query.lower().split():
+                if word.startswith("bkat:"):
+                    pattern = re.compile(rf"(?<![\w.]){re.escape(word[5:])} bkat")
+                    hits = [r for r in hits if pattern.search(join(r[6:8]).lower())]
+                else:
+                    hits = [r for r in hits if word in join(r[1:6]).lower()]
+        if not hits:
+            print("KEIN TREFFER. Andere Wörter aus dem Tatvorwurf oder die BKat-Nummer (bkat:132.3) versuchen. "
+                  "Nicht jeder Verstoß hat eine BKat-Nummer; dann über Wörter suchen.")
+            continue
+        print("\n".join(show(r) for r in hits[:LIMIT]))
+        if len(hits) > LIMIT:
+            print(f"… und {len(hits) - LIMIT} weitere Einträge. Suche enger fassen.")
+
+
+if __name__ == "__main__":
+    main()

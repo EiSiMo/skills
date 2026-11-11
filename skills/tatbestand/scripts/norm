@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""Bundesrecht von gesetze-im-internet.de nachlesen: Wortlaut und Stand.
+
+  norm StGB              Stand und Inhaltsverzeichnis
+  norm StGB 223          Stand und Wortlaut von § 223
+  norm StVO 49 37        mehrere Paragrafen
+  norm BKatV anlage      Anlage (auch: anlage_2, anhang, anhang_1, art_3)
+  norm BKatV anlage --finde Wechsellicht
+                         nur die Zeilen mit diesem Wort, bei Katalogen samt
+                         dem ganzen Nummernblock (auch: --finde 132)
+  norm --suche verkehr   Gesetze finden, deren Abkürzung oder Titel passt
+  norm --bgbl 2026 321 7 Änderungsgesetz aus dem Bundesgesetzblatt Teil I lesen:
+                         Jahr, Nummer, optional nur dieser Artikel (ab 2023)
+
+Das erste Argument ist die amtliche Abkürzung (StVO) oder der Pfadname
+der Seite (stvo_2013). Nur Bundesrecht; Berliner Landesrecht steht dort nicht.
+"""
+import html
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.request
+
+BASE = "https://www.gesetze-im-internet.de/"
+AGENT = "tatbestand-skill/1 (Einzelabruf durch Nutzer)"
+
+
+def download(url, limit=None, timeout=30):
+    """Bytes der Seite, None bei 404. Verbindungsabbrüche kommen vor: zweimal neu versuchen."""
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": AGENT}), timeout=timeout) as r:
+                return r.read(limit) if limit else r.read()
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None
+            error = e
+        except OSError as e:  # URLError, Timeout, Connection reset
+            error = e
+        time.sleep(1 + attempt)
+    sys.exit(f"ABRUF FEHLGESCHLAGEN: {url}\n{error}\nDrei Versuche ohne Antwort. "
+             "Später einmal wiederholen; bleibt es dabei, die Norm als nicht gelesen kennzeichnen.")
+
+
+def fetch(path, limit=None):
+    data = download(BASE + path, limit)
+    return None if data is None else data.decode("iso-8859-1")
+
+
+def text(fragment):
+    f = re.sub(r"(?s)<(script|style).*?</\1>", "", fragment)
+    # Tabellenzeile = eine Textzeile, sonst zerfallen Kataloge wie der BKat
+    f = re.sub(r"(?is)<tr.*?</tr>", lambda m: re.sub(r"(?i)<(br|/?p|/?div|/?d[ldt])\b[^>]*>|\s+", " ", m.group(0)), f)
+    f = re.sub(r"(?i)<dt[^>]*>", "\n  ", f)
+    f = re.sub(r"(?i)</dt>", " ", f)
+    f = re.sub(r"(?i)<(br|/p|/div|/tr|/h\d|/dd)[^>]*>", "\n", f)
+    f = re.sub(r"(?i)</t[dh]>", " | ", f)
+    f = html.unescape(re.sub(r"<[^>]+>", "", f)).replace("\xa0", " ")
+    lines = [re.sub(r"[ \t]+", " ", l).strip() for l in f.split("\n")]
+    return "\n".join(l for l in lines if l and l != "|")
+
+
+def catalogue(letter):
+    page = fetch(f"Teilliste_{letter.upper()}.html") or ""
+    found = re.findall(
+        r'<a href="\./([^/"]+)/index\.html"><abbr title="([^"]*)">\s*([^<]*?)\s*</abbr>',
+        page,
+    )
+    return [(html.unescape(a), slug, html.unescape(t)) for slug, t, a in found]
+
+
+def resolve(name):
+    if re.fullmatch(r"[\w-]+", name) and fetch(f"{name.lower()}/index.html", 200):
+        return name.lower()
+    entries = catalogue(name[0])
+    hits = [c for c in entries if c[0].lower() == name.lower()]
+    if len(hits) == 1:
+        return hits[0][1]
+    near = hits or [c for c in entries if c[0].lower().startswith(name.lower())]
+    sys.exit(
+        f"Gesetz '{name}' nicht {'eindeutig ' if near else ''}gefunden.\n"
+        + "\n".join(f"  {a}  ({slug})  {t}" for a, slug, t in near[:20])
+        + ("\n" if near else "")
+        + "Mit dem Pfadnamen in Klammern erneut aufrufen oder mit --suche nach einem Wort "
+        "aus dem Titel suchen. Berliner Landesrecht steht hier nicht, dafür das Skript berlin."
+    )
+
+
+def search(term):
+    term = term.lower()
+    for letter in "ABCDEFGHIJKLMNOPQRSTUVWYZ123456789":
+        for a, slug, t in catalogue(letter):
+            if term in a.lower() or term in t.lower():
+                print(f"{a}  ({slug})  {t}")
+
+
+def stand(slug, index):
+    m = re.search(r'href="(BJNR[0-9A-Z]+\.html)"', index)
+    if not m:
+        return "Stand: nicht auslesbar"
+    head = text(fetch(f"{slug}/{m.group(1)}", 20000) or "")
+    m = re.search(r"(?s)(Ausfertigungsdatum.*?)\nNäheres zur Standangabe", head)
+    if not m:
+        return "Stand: nicht auslesbar"
+    return re.sub(r" ?\|", "", m.group(1)).replace("\n ", "\n")
+
+
+def bgbl(year, number, article=None):
+    url = f"https://www.recht.bund.de/bgbl/1/{year}/{number}/regelungstext.pdf?__blob=publicationFile"
+    data = download(url, timeout=60)
+    if data is None:
+        sys.exit(f"BGBl. {year} I Nr. {number} nicht abrufbar. Nur Fundstellen ab 2023.")
+    pdf = tempfile.NamedTemporaryFile(suffix=".pdf", prefix=f"bgbl-{year}-{number}-", delete=False)
+    pdf.write(data)
+    pdf.close()
+    print(f"Quelle: https://www.recht.bund.de/eli/bund/bgbl-1/{year}/{number}")
+    if not shutil.which("pdftotext"):
+        sys.exit(f"pdftotext fehlt. PDF liegt unter {pdf.name}, bitte direkt lesen.")
+    lines = subprocess.run(
+        ["pdftotext", "-layout", pdf.name, "-"], capture_output=True, text=True, check=True
+    ).stdout.split("\n")
+    os.unlink(pdf.name)
+    if article:
+        heads = [i for i, l in enumerate(lines) if re.fullmatch(r"\s*Artikel \d+[a-z]?\s*", l)]
+        start = next((i for i in heads if lines[i].split()[1] == str(article)), None)
+        if start is None:
+            sys.exit(f"Artikel {article} nicht gefunden. Ohne Artikel aufrufen, um alles zu sehen.")
+        end = next((i for i in heads if i > start), len(lines))
+        chosen = lines[start:end]
+        last = heads[-1]  # Inkrafttreten steht im letzten Artikel und entscheidet, ab wann die Änderung gilt
+        if last != start and "nkrafttreten" in " ".join(lines[last:last + 6]):
+            chosen += lines[last:]
+        lines = chosen
+    footer = re.compile(r"\s*Bundesgesetzblatt Jahrgang \d{4} Teil I Nr\. \d+.*Seite \d+ von \d+\s*")
+    print("\n".join(l.rstrip() for l in lines if l.strip() and not footer.fullmatch(l)))
+
+
+def page_name(arg):
+    """'§ 37 Abs. 2' -> __37, 'Anlage 2' -> anlage_2, 'Art. 3' -> art_3."""
+    a = arg.lower().replace("§", "").strip()
+    m = re.match(r"(anlage|anhang|art)[\s_.]*(\w*)", a)
+    if m:
+        return m.group(1) + ("_" + m.group(2) if m.group(2) else "")
+    if a in ("eingangsformel", "schlussformel"):
+        return a
+    m = re.match(r"\d+[a-z]?\b", a)
+    return "__" + (m.group(0) if m else re.sub(r"\W", "", a))
+
+
+LFD = re.compile(r"(\d+[a-z]?)((?:\.\d+[a-z]?)*) \|")
+
+
+def find(body, terms):
+    """Zeilen mit allen Suchwörtern; in Katalogen der Nummernblock dazu."""
+    lines = body.split("\n")
+    terms = [t.lower() for t in terms]
+    numbers = [(m.group(1) + m.group(2)).lower() if (m := LFD.match(l)) else None for l in lines]
+    hits = [i for i, n in enumerate(numbers) if n and [n] == terms]  # --finde 132
+    if not hits:
+        # Zahlen als ganze Nummer: 16 trifft weder 160 noch 1.16
+        tests = [re.compile(rf"(?<![\d.]){re.escape(t)}(?![\d.]*\d|[a-z])") if re.fullmatch(r"[\d.]+[a-z]?", t)
+                 else re.compile(re.escape(t)) for t in terms]
+        hits = [i for i, l in enumerate(lines) if all(t.search(l.lower()) for t in tests)]
+    if not hits:
+        return "KEIN TREFFER für: " + " ".join(terms) + ". Anderes Wort aus dem Normtext versuchen oder ohne --finde aufrufen."
+    keep = set()
+    for i in hits:
+        n = numbers[i]
+        if not n:
+            keep.update(range(max(0, i - 2), min(len(lines), i + 3)))
+            continue
+        top = re.match(r"\d+", n).group(0)  # 132 und 132a (Radfahrer) gehören in denselben Block
+        block = [j for j, o in enumerate(numbers) if o and re.match(r"\d+", o).group(0) == top]
+        if len(block) > 25:  # großer Abschnitt: nur Oberzeilen und Unterfälle des Treffers
+            block = [j for j in block if (n + ".").startswith(numbers[j] + ".") or numbers[j].startswith(n + ".")]
+        keep.update(block)
+        # Überschrift des Abschnitts, etwa "2. mit zwei Punkten" in Anlage 13 FeV
+        keep.update([j for j, l in enumerate(lines[:i]) if re.match(rf"{top}\. \D", l)][-1:])
+    out, last = [], None
+    for i in sorted(keep):
+        if last is not None and i > last + 1:
+            out.append("  […]")
+        out.append(lines[i])
+        last = i
+    return "\n".join(out)
+
+
+def main():
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        sys.exit(__doc__)
+    if args[0] == "--suche":
+        return search(" ".join(args[1:]))
+    if args[0] == "--bgbl":
+        if len(args) < 3:
+            sys.exit("Aufruf: norm --bgbl JAHR NUMMER [ARTIKEL]")
+        return bgbl(*args[1:4])
+
+    terms = []
+    if "--finde" in args:
+        cut = args.index("--finde")
+        args, terms = args[:cut], args[cut + 1:]
+        if not terms or len(args) < 2:
+            sys.exit("Aufruf: norm GESETZ PARAGRAF|anlage --finde WORT [WORT ...]")
+
+    slug = resolve(args[0])
+    index = fetch(f"{slug}/index.html")
+    print(f"Quelle: {BASE}{slug}/")
+    print(stand(slug, index))
+
+    if len(args) == 1:
+        print("\nInhalt:")
+        for href, label in re.findall(r'<a href="((?:__|anlage|anhang|art_)[^"]*)\.html">(.*?)</a>', index):
+            print(f"  {href.lstrip('_'):<12} {text(label).replace(chr(10), ' ')}")
+        return
+
+    for arg in args[1:]:
+        name = page_name(arg)
+        page = fetch(f"{slug}/{name}.html")
+        print(f"\n--- {BASE}{slug}/{name}.html")
+        if page is None:
+            print(f"NICHT GEFUNDEN: '{arg}' gibt es in diesem Gesetz nicht (aufgehoben oder anders nummeriert?).")
+            continue
+        head = re.search(r"(?s)<h1>(.*?)</h1>", page)
+        body = re.search(r'(?s)<div class="jnhtml">(.*?)<ul class="footerul"', page)
+        print(text(head.group(1)).replace("\n", " — ") if head else "")
+        if not body:
+            print("WORTLAUT NICHT AUSLESBAR, Seite direkt öffnen.")
+            continue
+        body = text(body.group(1))
+        if terms:
+            print(find(body, terms))
+        elif len(body) > 40000:
+            print(body[:3000])
+            print(f"\n[… gekürzt: {len(body) // 1000} KB. Gezielt lesen mit --finde WORT oder --finde LFDNR, "
+                  "etwa: norm BKatV anlage --finde Wechsellicht]")
+        else:
+            print(body)
+
+
+if __name__ == "__main__":
+    main()

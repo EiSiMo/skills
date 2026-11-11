@@ -18,6 +18,7 @@ npx skills add EiSiMo/skills
 - **keepup**: explains a term, component or command from the current project in plain language — zooms out to the big picture, then zooms in, so you can make decisions about code you did not write yourself.
 - **oversee**: watches a long-running job (backfill, mass AI prompts, long computations) on a tightening schedule, starts it as a systemd service if needed, fixes no-brainers via subagents and otherwise stops it and writes a report — without ever risking computed data.
 - **rethink**: read-only review of a grown codebase — architecture, quality and idiom, judged by a parallel team of subagents, with a neutral and proportional verdict.
+- **tatbestand**: takes a police case description from Berlin and returns the criminal and administrative offences it fulfils, per person, with legal basis and elements — every provision looked up in the current statute text (German).
 - **talk**: discuss a question or idea without touching any files.
 
 ## License
