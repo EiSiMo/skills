@@ -197,7 +197,7 @@ Auf Deutsch, im Chat, als Markdown formatiert. Kurz und knackig: Der Nutzer lies
 ```
 ## T1 – Fahrer des Pkw (17, Jugendlicher)
 
-### A – Vorliegend
+### Vorliegend
 
 - **Gefährliche Körperverletzung z. N. G1**, § 224 Abs. 1 Nr. 2 StGB (Vergehen)
   - körperliche Misshandlung: Schlag ins Gesicht
@@ -211,11 +211,11 @@ Auf Deutsch, im Chat, als Markdown formatiert. Kurz und knackig: Der Nutzer lies
 - **Führen eines Einhandmessers**, § 42a Abs. 1 Nr. 3, § 53 Abs. 1 Nr. … WaffG (OWi)
   - geführt: in der Jackentasche, öffentliche Straße
 
-### B – Fraglich
+### Fraglich
 
 - **Raub**, § 249 Abs. 1 StGB (Verbrechen), statt Diebstahl: offen, ob der Schlag der Wegnahme diente
 
-### C – Nicht vorliegend
+### Nicht vorliegend
 
 - **Vollrausch**, § 323a StGB: kein Anhalt für Schuldunfähigkeit
 
@@ -227,7 +227,7 @@ Nichts.
 
 **Halter (unbekannt):** bei Überlassung § 21 Abs. 1 Nr. 2 StVG
 
-## D – Reibung am Skill
+## Reibung am Skill
 
 - norm BKatV anhang_1 --finde 12.5: kein Treffer, obwohl die Zeile in der Tabelle steht
 ```
@@ -236,7 +236,7 @@ Das Beispiel zeigt nur die Form. Übernimm daraus keine Normen oder Zahlen.
 
 Regeln für die Form:
 
-- **Markdown**: Überschrift zweiter Ebene je Person, dritter Ebene je Block, Einträge als Liste mit fetter Bezeichnung, alles Weitere zum Eintrag als eingerückte Unterpunkte. Keine Tabellen. Überschriften sind ausgeschrieben wie im Beispiel, nie nur "A" oder "01".
+- **Markdown**: Überschrift zweiter Ebene je Person, dritter Ebene je Block, Einträge als Liste mit fetter Bezeichnung, alles Weitere zum Eintrag als eingerückte Unterpunkte. Keine Tabellen. Überschriften sind ausgeschrieben wie im Beispiel, nie nur "01". Die Buchstaben A, B, C und D sind nur Kürzel in dieser Datei und stehen nicht in der Ausgabe: Die Blöcke heißen "Vorliegend", "Fraglich", "Nicht vorliegend" und "Reibung am Skill".
 - **Ein Eintrag je Verstoß.** Verletzt eine Handlung zwei Vorschriften mit verschiedenen Merkmalen (Hund ohne Leine nach HundeG und nach GrünanlG), sind das zwei Einträge. Kopfzeile mit fetter Bezeichnung und genauer Norm (Absatz, Nummer). Bei Straftaten in Klammern nur, was für die Anzeige zählt: Verbrechen oder Vergehen, Antragsdelikt mit Norm, Versuch. Ordnungswidrigkeiten außerhalb des Verkehrs bekommen "(OWi)". Bei mehreren Geschädigten "z. N. G1".
 - **Tatbestandsmerkmale nur in A**, je Merkmal ein Unterpunkt mit wenigen Worten: Merkmal, Doppelpunkt, die Tatsache. Selbstverständliches (etwa "Mensch", "Sache") weglassen.
 - **Offene Qualifikation, Regelbeispiel oder weitere Variante desselben Delikts**: kein eigener B-Eintrag, sondern ein Unterpunkt "*fraglich* § …: offen, ob …" am Eintrag in A. Dasselbe für erhöhte Regelsätze (Voreintragung, Vorsatz).
@@ -253,7 +253,7 @@ Nicht in die Ausgabe gehören: Strafrahmen, Quellen und Stand, Rechtsprechung, H
 
 ### D: Reibung
 
-Der Block dient dazu, diesen Skill im Betrieb zu verbessern. Er steht ganz am Ende unter der Überschrift "D – Reibung am Skill" und nur, wenn in diesem Durchlauf etwas am Skill selbst gehakt hat und sich dort beheben lässt:
+Der Block dient dazu, diesen Skill im Betrieb zu verbessern. Er steht ganz am Ende unter der Überschrift "Reibung am Skill" und nur, wenn in diesem Durchlauf etwas am Skill selbst gehakt hat und sich dort beheben lässt:
 
 - ein Skript stürzte ab, fand etwas Vorhandenes nicht, lieferte Unbrauchbares oder viel zu viel,
 - eine Regel in dieser Datei fehlte, widersprach einer anderen oder zwang dich zu raten,
