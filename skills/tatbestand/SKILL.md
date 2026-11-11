@@ -196,6 +196,7 @@ A: VORLIEGEND
   + fraglich § 224 Abs. 1 Nr. 4: offen, ob T2 mitwirkte
 - Rotlichtverstoß, § 37 Abs. 2, § 49 Abs. 3 Nr. 2 StVO, § 24 StVG
   TBNR … · BKat … · … € · … Punkt(e) · Fahrverbot …
+  "Sie missachteten das Rotlicht der Lichtzeichenanlage."
   · Rotlicht missachtet: Haltlinie bei Rot überfahren
 - Führen eines Einhandmessers, § 42a Abs. 1 Nr. 3, § 53 Abs. 1 Nr. … WaffG (OWi)
   · geführt: in der Jackentasche, öffentliche Straße
@@ -223,7 +224,7 @@ Regeln für die Form:
 - **Tatbestandsmerkmale nur in A**, je Merkmal eine Zeile mit wenigen Worten: Merkmal, Doppelpunkt, die Tatsache. Selbstverständliches (etwa "Mensch", "Sache") weglassen.
 - **Qualifikation, Regelbeispiel oder weitere Variante desselben Delikts, die offen ist**: kein eigener B-Eintrag, sondern eine Zeile "+ fraglich § …: offen, ob …" am Eintrag in A. Dasselbe für erhöhte Regelsätze (Voreintragung, Vorsatz).
 - **B und C: eine Zeile je Eintrag**, bei B die offene Tatsache, bei C das fehlende Merkmal. Keine Merkmalsliste. Eine Verkehrsordnungswidrigkeit in B nennt TBNR, BKat-Nummer und Regelsatz in Klammern, damit der Nutzer sie bei Bestätigung übernehmen kann. Würde ein B-Eintrag einen aus A ersetzen, steht das dabei ("statt Diebstahl").
-- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einer Zeile TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Bei offener Einordnung je Variante eine solche Zeile.
+- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einer Zeile TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Darunter immer der Tatvorwurf aus dem Tatbestandskatalog als Zitat in Anführungszeichen, wortgleich aus der Ausgabe von `tbnr`, etwa "Sie fuhren infolge zu geringen Abstands auf das abbremsende Fahrzeug auf. Es kam zum Unfall." Platzhalter (`#D#`, `*)`) ersetzt du durch die Werte aus dem Sachverhalt, bei Auswahlklammern (`<dem Gehweg/der Fahrbahn>`) nimmst du die zutreffende Variante; sonst änderst du nichts und formulierst nicht selbst. Ohne TBNR entfällt das Zitat. Bei offener Einordnung je Variante TBNR-Zeile und Zitat.
 - **Mehrere Verkehrsverstöße in einer Fahrt**: eine Zeile "Tateinheit" nach den Blöcken, damit niemand die Regelsätze addiert. Was in Tatmehrheit steht, nennst du dort ebenfalls.
 - **Ordnungswidrigkeit neben Straftat in derselben Handlung**: Die OWi bleibt in A, weil sie in die Anzeige gehört, ohne Regelsatz und ohne Merkmalszeilen. Darunter einmal für alle: "OWi treten hinter § … zurück (§ 21 OWiG)". Ist nicht klar, ob es dieselbe Handlung ist (Messer in der Tasche während einer Bedrohung), bleibt die OWi ein gewöhnlicher Eintrag ohne diese Zeile.
 - **Sonstige Konkurrenzen** nur, wenn ein Verstoß aus A verdrängt wird, dann als Zusatz am Eintrag ("tritt hinter § … zurück").
