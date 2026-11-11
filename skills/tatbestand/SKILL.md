@@ -79,7 +79,16 @@ Drei Meldungen des Skripts:
 
 Der Bußgeldkatalog ist zu groß, um ihn ganz zu lesen; `--finde` liefert den Nummernblock mit allen Unterfällen (mit Gefährdung, mit Sachbeschädigung, Überschreitungsstufe). Nimm den Unterfall, dessen Text den Sachverhalt genau trifft. Passen mehrere oder keiner genau, nenne die Kandidaten und den Unterschied, statt zu raten.
 
-Geschwindigkeit, Abstand und Überladung verweisen auf Tabellen, die nicht in der Anlage stehen, sondern im Anhang: `scripts/norm BKatV anhang --finde 11.3.6` (Geschwindigkeit; weitere Tabellen in `anhang_1` bis `anhang_3`, siehe Inhaltsverzeichnis).
+Vier Tabellen stehen nicht in der Anlage, sondern je auf einer eigenen Seite:
+
+| Seite | Inhalt |
+|---|---|
+| `norm BKatV anhang` | Tabelle 1: Geschwindigkeit (`--finde 11.3.6`) |
+| `norm BKatV anhang_1` | Tabelle 2: Abstand |
+| `norm BKatV anhang_2` | Tabelle 3: Achslast und Gesamtgewicht |
+| `norm BKatV anhang_3` | Tabelle 4: Erhöhung bei Gefährdung oder Sachbeschädigung |
+
+Tabelle 4 brauchst du, sobald zu einem Verstoß mit Regelsatz über 55 € eine Gefährdung oder Sachbeschädigung hinzutritt, die der Katalog nicht als eigenen Unterfall führt (§ 3 Abs. 3 BKatV): Suche dort die Zeile mit dem Regelsatz (`--finde 80`) und nimm den erhöhten Betrag. `tbnr` zeigt in solchen Fällen schon den erhöhten Betrag; das ist dann keine Abweichung.
 
 Die Regelsätze in Abschnitt I gelten für fahrlässige Begehung und gewöhnliche Umstände. Ohne Anhaltspunkt für Vorsatz gibst du diesen Satz aus. Liegt Vorsatz nahe (bewusst missachtetes Haltgebot), lies § 3 BKatV nach und nenne den erhöhten Satz als Zusatzzeile. Abschnitt II des Katalogs (etwa Handy) ist schon für Vorsatz bemessen und wird nicht erhöht.
 

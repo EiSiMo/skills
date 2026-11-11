@@ -179,6 +179,11 @@ def find(body, terms):
         if len(block) > 25:  # großer Abschnitt: nur Oberzeilen und Unterfälle des Treffers
             block = [j for j in block if (n + ".").startswith(numbers[j] + ".") or numbers[j].startswith(n + ".")]
         keep.update(block)
+        # Spaltenkopf oder Zwischenüberschrift der Tabelle, sonst sind die Zahlen nicht lesbar
+        head = next((j for j in range(i - 1, -1, -1) if not numbers[j] and "|" in lines[j]), None)
+        while head is not None and head >= 0 and not numbers[head] and len(keep & set(range(head, i))) < 6:
+            keep.add(head)  # Köpfe laufen oft über mehrere Zeilen
+            head -= 1
         # Überschrift des Abschnitts, etwa "2. mit zwei Punkten" in Anlage 13 FeV
         keep.update([j for j, l in enumerate(lines[:i]) if re.match(rf"{top}\. \D", l)][-1:])
     out, last = [], None
