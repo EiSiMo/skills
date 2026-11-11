@@ -1,6 +1,6 @@
 ---
 name: tatbestand
-description: Prüft einen polizeilichen Sachverhalt aus Berlin und gibt aus, gegen welche Vorschriften verstoßen wurde — Straftaten (StGB und Nebenstrafrecht) und Ordnungswidrigkeiten (Bundesrecht und Berliner Landesrecht), je Beteiligtem aufgeschlüsselt, mit Rechtsgrundlage, Tatbestandsmerkmalen und bei Verkehrsordnungswidrigkeiten mit Tatbestandsnummer und Regelsatz. Jede Norm wird im aktuellen Gesetzestext nachgelesen. Verwenden, wenn der Nutzer "tatbestand" aufruft, einen Sachverhalt schildert und wissen will, was vorliegt, welche Straftat oder Ordnungswidrigkeit das ist oder welche Tatbestandsnummer passt.
+description: Prüft einen polizeilichen Sachverhalt aus Berlin auf Straftaten und Ordnungswidrigkeiten, je Beteiligtem, mit Norm, Merkmalen und bei Verkehrsverstößen TBNR und Regelsatz. Verwenden bei "tatbestand" oder wenn der Nutzer einen Sachverhalt schildert und wissen will, was vorliegt.
 ---
 
 # Tatbestand
