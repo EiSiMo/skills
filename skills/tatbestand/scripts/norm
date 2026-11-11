@@ -5,9 +5,10 @@
   norm StGB 223          Stand und Wortlaut von § 223
   norm StVO 49 37        mehrere Paragrafen
   norm BKatV anlage      Anlage (auch: anlage_2, anhang, anhang_1, art_3)
-  norm BKatV anlage --finde Wechsellicht
-                         nur die Zeilen mit diesem Wort, bei Katalogen samt
-                         dem ganzen Nummernblock (auch: --finde 132)
+  norm BKatV anlage --finde Wechsellicht --finde 246
+                         nur die Zeilen mit diesem Wort oder dieser laufenden
+                         Nummer, bei Katalogen samt dem ganzen Nummernblock;
+                         jedes --finde ist eine eigene Suche
   norm --suche verkehr   Gesetze finden, deren Abkürzung oder Titel passt
   norm --bgbl 2026 321 7 Änderungsgesetz aus dem Bundesgesetzblatt Teil I lesen:
                          Jahr, Nummer, optional nur dieser Artikel (ab 2023)
@@ -171,6 +172,10 @@ def find(body, terms):
         hits = [i for i, l in enumerate(lines) if all(t.search(l.lower()) for t in tests)]
     if not hits:
         return "KEIN TREFFER für: " + " ".join(terms) + ". Anderes Wort aus dem Normtext versuchen oder ohne --finde aufrufen."
+    if len(hits) > 12:
+        shown = "\n".join(lines[i][:160] for i in hits[:12])
+        return (f"ZU VIELE TREFFER für: {' '.join(terms)} ({len(hits)} Zeilen). Enger suchen: längeres Wort, "
+                f"zweites Wort dazu oder die laufende Nummer. Die ersten zwölf, gekürzt:\n{shown}")
     keep = set()
     for i in hits:
         n = numbers[i]
@@ -209,12 +214,17 @@ def main():
             sys.exit("Aufruf: norm --bgbl JAHR NUMMER [ARTIKEL]")
         return bgbl(*args[1:4])
 
-    terms = []
+    searches = []  # jedes --finde ist eine eigene Suche
     if "--finde" in args:
         cut = args.index("--finde")
-        args, terms = args[:cut], args[cut + 1:]
-        if not terms or len(args) < 2:
-            sys.exit("Aufruf: norm GESETZ PARAGRAF|anlage --finde WORT [WORT ...]")
+        args, rest = args[:cut], args[cut:]
+        for a in rest:
+            if a == "--finde":
+                searches.append([])
+            else:
+                searches[-1].append(a)
+        if not all(searches) or len(args) < 2:
+            sys.exit("Aufruf: norm GESETZ PARAGRAF|anlage --finde WORT [WORT ...] [--finde ...]")
 
     slug = resolve(args[0])
     index = fetch(f"{slug}/index.html")
@@ -241,8 +251,11 @@ def main():
             print("WORTLAUT NICHT AUSLESBAR, Seite direkt öffnen.")
             continue
         body = text(body.group(1))
-        if terms:
-            print(find(body, terms))
+        if searches:
+            for terms in searches:
+                if len(searches) > 1:
+                    print(f"=== {' '.join(terms)}")
+                print(find(body, terms))
         elif len(body) > 40000:
             print(body[:3000])
             print(f"\n[… gekürzt: {len(body) // 1000} KB. Gezielt lesen mit --finde WORT oder --finde LFDNR, "
