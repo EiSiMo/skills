@@ -192,36 +192,43 @@ In Block C steht ein ⚠ nur, wenn gerade das fehlende Merkmal von der ungeprüf
 
 ## Ausgabe
 
-Auf Deutsch, im Chat. Kurz und knackig: Der Nutzer liest das im Dienst und will das Ergebnis auf einen Blick. Keine Einleitung, keine Zusammenfassung, kein Schlusssatz.
+Auf Deutsch, im Chat, als Markdown formatiert. Kurz und knackig: Der Nutzer liest das im Dienst und will das Ergebnis auf einen Blick. Keine Einleitung, keine Zusammenfassung, kein Schlusssatz.
 
 ```
-T1 (17, Jugendlicher)
+## T1 – Fahrer des Pkw (17, Jugendlicher)
 
-A: VORLIEGEND
-- Gefährliche Körperverletzung z. N. G1, § 224 Abs. 1 Nr. 2 StGB (Vergehen)
-  · körperliche Misshandlung: Schlag ins Gesicht
-  · gefährliches Werkzeug: Bierflasche
-  · Vorsatz: gezielter Schlag
-  + fraglich § 224 Abs. 1 Nr. 4: offen, ob T2 mitwirkte
-- Rotlichtverstoß, § 37 Abs. 2, § 49 Abs. 3 Nr. 2 StVO, § 24 StVG
-  TBNR … · BKat … · … € · … Punkt(e) · Fahrverbot …
-  "Sie missachteten das Rotlicht der Lichtzeichenanlage."
-  · Rotlicht missachtet: Haltlinie bei Rot überfahren
-- Führen eines Einhandmessers, § 42a Abs. 1 Nr. 3, § 53 Abs. 1 Nr. … WaffG (OWi)
-  · geführt: in der Jackentasche, öffentliche Straße
+### A – Vorliegend
 
-B: FRAGLICH
-- Raub, § 249 Abs. 1 StGB (Verbrechen), statt Diebstahl: offen, ob der Schlag der Wegnahme diente
+- **Gefährliche Körperverletzung z. N. G1**, § 224 Abs. 1 Nr. 2 StGB (Vergehen)
+  - körperliche Misshandlung: Schlag ins Gesicht
+  - gefährliches Werkzeug: Bierflasche
+  - Vorsatz: gezielter Schlag
+  - *fraglich* § 224 Abs. 1 Nr. 4: offen, ob T2 mitwirkte
+- **Rotlichtverstoß**, § 37 Abs. 2, § 49 Abs. 3 Nr. 2 StVO, § 24 StVG
+  - TBNR … · BKat … · … € · … Punkt(e) · Fahrverbot …
+  - "Sie missachteten das Rotlicht der Lichtzeichenanlage."
+  - Rotlicht missachtet: Haltlinie bei Rot überfahren
+- **Führen eines Einhandmessers**, § 42a Abs. 1 Nr. 3, § 53 Abs. 1 Nr. … WaffG (OWi)
+  - geführt: in der Jackentasche, öffentliche Straße
 
-C: NICHT
-- Vollrausch, § 323a StGB: kein Anhalt für Schuldunfähigkeit
+### B – Fraglich
 
-Tateinheit: Rotlicht und Handy in einer Fahrt, eine Geldbuße nach dem höchsten Regelsatz (§ 19 OWiG, § 3 Abs. 5 BKatV)
+- **Raub**, § 249 Abs. 1 StGB (Verbrechen), statt Diebstahl: offen, ob der Schlag der Wegnahme diente
 
-T2: nichts
-Halter (unbekannt): bei Überlassung § 21 Abs. 1 Nr. 2 StVG
+### C – Nicht vorliegend
 
-D: REIBUNG
+- **Vollrausch**, § 323a StGB: kein Anhalt für Schuldunfähigkeit
+
+**Tateinheit:** Rotlicht und Handy in einer Fahrt, eine Geldbuße nach dem höchsten Regelsatz (§ 19 OWiG, § 3 Abs. 5 BKatV)
+
+## T2 – Beifahrer
+
+Nichts.
+
+**Halter (unbekannt):** bei Überlassung § 21 Abs. 1 Nr. 2 StVG
+
+## D – Reibung am Skill
+
 - norm BKatV anhang_1 --finde 12.5: kein Treffer, obwohl die Zeile in der Tabelle steht
 ```
 
@@ -229,15 +236,16 @@ Das Beispiel zeigt nur die Form. Übernimm daraus keine Normen oder Zahlen.
 
 Regeln für die Form:
 
-- **Ein Eintrag je Verstoß.** Verletzt eine Handlung zwei Vorschriften mit verschiedenen Merkmalen (Hund ohne Leine nach HundeG und nach GrünanlG), sind das zwei Einträge. Kopfzeile mit Bezeichnung und genauer Norm (Absatz, Nummer). Bei Straftaten in Klammern nur, was für die Anzeige zählt: Verbrechen oder Vergehen, Antragsdelikt mit Norm, Versuch. Ordnungswidrigkeiten außerhalb des Verkehrs bekommen "(OWi)". Bei mehreren Geschädigten "z. N. G1".
-- **Tatbestandsmerkmale nur in A**, je Merkmal eine Zeile mit wenigen Worten: Merkmal, Doppelpunkt, die Tatsache. Selbstverständliches (etwa "Mensch", "Sache") weglassen.
-- **Offene Qualifikation, Regelbeispiel oder weitere Variante desselben Delikts**: kein eigener B-Eintrag, sondern eine Zeile "+ fraglich § …: offen, ob …" am Eintrag in A. Dasselbe für erhöhte Regelsätze (Voreintragung, Vorsatz).
+- **Markdown**: Überschrift zweiter Ebene je Person, dritter Ebene je Block, Einträge als Liste mit fetter Bezeichnung, alles Weitere zum Eintrag als eingerückte Unterpunkte. Keine Tabellen. Überschriften sind ausgeschrieben wie im Beispiel, nie nur "A" oder "01".
+- **Ein Eintrag je Verstoß.** Verletzt eine Handlung zwei Vorschriften mit verschiedenen Merkmalen (Hund ohne Leine nach HundeG und nach GrünanlG), sind das zwei Einträge. Kopfzeile mit fetter Bezeichnung und genauer Norm (Absatz, Nummer). Bei Straftaten in Klammern nur, was für die Anzeige zählt: Verbrechen oder Vergehen, Antragsdelikt mit Norm, Versuch. Ordnungswidrigkeiten außerhalb des Verkehrs bekommen "(OWi)". Bei mehreren Geschädigten "z. N. G1".
+- **Tatbestandsmerkmale nur in A**, je Merkmal ein Unterpunkt mit wenigen Worten: Merkmal, Doppelpunkt, die Tatsache. Selbstverständliches (etwa "Mensch", "Sache") weglassen.
+- **Offene Qualifikation, Regelbeispiel oder weitere Variante desselben Delikts**: kein eigener B-Eintrag, sondern ein Unterpunkt "*fraglich* § …: offen, ob …" am Eintrag in A. Dasselbe für erhöhte Regelsätze (Voreintragung, Vorsatz).
 - **B und C: eine Zeile je Eintrag**, bei B die offene Tatsache, bei C das fehlende Merkmal. Eine Verkehrsordnungswidrigkeit in B nennt TBNR, BKat-Nummer und Regelsatz in Klammern, damit der Nutzer sie bei Bestätigung übernehmen kann. Würde ein B-Eintrag einen aus A ersetzen, steht das dabei ("statt Diebstahl"). Unbeantwortete Rückfragen stehen nicht noch einmal in der Ausgabe.
-- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einer Zeile TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Darunter immer der Tatvorwurf aus dem Tatbestandskatalog als Zitat in Anführungszeichen, wortgleich aus der Ausgabe von `tbnr`, etwa "Sie fuhren infolge zu geringen Abstands auf das abbremsende Fahrzeug auf. Es kam zum Unfall." Platzhalter (`#D#`, `*)`) ersetzt du durch die Werte aus dem Sachverhalt, bei Auswahlklammern (`<dem Gehweg/der Fahrbahn>`) nimmst du die zutreffende Variante; sonst änderst du nichts und formulierst nicht selbst. Ohne TBNR oder ohne wortgleichen Text aus `tbnr` entfällt das Zitat. Bei offener Einordnung je Variante TBNR-Zeile und Zitat.
-- **Mehrere Verkehrsverstöße in einer Fahrt**: eine Zeile "Tateinheit" nach den Blöcken, damit niemand die Regelsätze addiert. Was in Tatmehrheit steht, nennst du dort ebenfalls.
+- **Verkehrsordnungswidrigkeit**: Normenkette, dann in einem Unterpunkt TBNR, BKat-Nummer und Regelsatz, dazu Punkte und Fahrverbot, soweit vorgesehen. Als nächster Unterpunkt immer der Tatvorwurf aus dem Tatbestandskatalog als Zitat in Anführungszeichen, wortgleich aus der Ausgabe von `tbnr`, etwa "Sie fuhren infolge zu geringen Abstands auf das abbremsende Fahrzeug auf. Es kam zum Unfall." Platzhalter (`#D#`, `*)`) ersetzt du durch die Werte aus dem Sachverhalt, bei Auswahlklammern (`<dem Gehweg/der Fahrbahn>`) nimmst du die zutreffende Variante; sonst änderst du nichts und formulierst nicht selbst. Ohne TBNR oder ohne wortgleichen Text aus `tbnr` entfällt das Zitat. Bei offener Einordnung je Variante TBNR-Zeile und Zitat.
+- **Mehrere Verkehrsverstöße in einer Fahrt**: eine Zeile "**Tateinheit:** …" nach den Blöcken, damit niemand die Regelsätze addiert. Was in Tatmehrheit steht, nennst du dort ebenfalls.
 - **Ordnungswidrigkeit neben Straftat in derselben Handlung**: Die OWi bleibt in A, weil sie in die Anzeige gehört, ohne Regelsatz und ohne Merkmalszeilen. Darunter einmal für alle: "OWi treten hinter § … zurück (§ 21 OWiG)". Ist nicht klar, ob es dieselbe Handlung ist (Messer in der Tasche während einer Bedrohung), bleibt die OWi ein gewöhnlicher Eintrag ohne diese Zeile.
 - **Sonstige Konkurrenzen** nur, wenn ein Verstoß aus A verdrängt wird, dann als Zusatz am Eintrag ("tritt hinter § … zurück").
-- **Mehrere Beteiligte**: A, B und C je Person, Überschrift "T1", bei unter 21-Jährigen mit Alter und "Jugendlicher" oder "Heranwachsender", bei unter 14-Jährigen "Kind, strafunmündig". Unbekannte Beteiligte heißen "T2 (unbekannt, Radfahrer)". Wer nur Einträge in C hat, bekommt einen Block mit C. Die Zeile "T2: nichts" steht nur, wenn es zu jemandem keinen einzigen Eintrag gibt.
+- **Mehrere Beteiligte**: A, B und C je Person. Die Überschrift nennt Kürzel und Rolle im Sachverhalt ("T1 – Fahrer des Pkw", "01 – Radfahrerin"), bei unter 21-Jährigen dazu Alter und "Jugendlicher" oder "Heranwachsender", bei unter 14-Jährigen "Kind, strafunmündig", bei Unbekannten "T2 – Radfahrer (unbekannt)". Auch bei nur einem Beteiligten steht die Überschrift. Wer nur Einträge in C hat, bekommt einen Block mit C. "Nichts." steht nur, wenn es zu jemandem keinen einzigen Eintrag gibt.
 - **Leere Blöcke weglassen.**
 - **⚠-Einträge**: am Ende eine Zeile je Quelle mit Datum oder dem Ort zum Nachlesen. Mehrere Einträge mit derselben Quelle teilen sich die Zeile.
 
@@ -245,7 +253,7 @@ Nicht in die Ausgabe gehören: Strafrahmen, Quellen und Stand, Rechtsprechung, H
 
 ### D: Reibung
 
-Der Block dient dazu, diesen Skill im Betrieb zu verbessern. Er steht ganz am Ende und nur, wenn in diesem Durchlauf etwas am Skill selbst gehakt hat und sich dort beheben lässt:
+Der Block dient dazu, diesen Skill im Betrieb zu verbessern. Er steht ganz am Ende unter der Überschrift "D – Reibung am Skill" und nur, wenn in diesem Durchlauf etwas am Skill selbst gehakt hat und sich dort beheben lässt:
 
 - ein Skript stürzte ab, fand etwas Vorhandenes nicht, lieferte Unbrauchbares oder viel zu viel,
 - eine Regel in dieser Datei fehlte, widersprach einer anderen oder zwang dich zu raten,
