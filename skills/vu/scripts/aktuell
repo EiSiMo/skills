@@ -1,0 +1,679 @@
+#!/usr/bin/env python3
+"""Mitgelieferte Kopien aktuell halten: Gesetze und Tatbestandskatalog (recht/), Straßenverzeichnis (ort/).
+
+  python3 scripts/aktuell              prüfen: Stand der Kopien gegen die amtlichen Seiten
+  python3 scripts/aktuell --laden      Gesetze und Katalog neu herunterladen, recht/ neu aufbauen
+  python3 scripts/aktuell --strassen   Straßenverzeichnis mit Postleitzahlen neu aufbauen (ort/, lädt rund 150 MB)
+
+Braucht Netzzugang zu gesetze-im-internet.de, kba.de und gdi.berlin.de, sonst nur
+die Standardbibliothek. Welche Gesetze und Paragrafen mitgeliefert werden, steht
+unten in GESETZE: Zeile ergänzen, --laden aufrufen, fertig.
+"""
+import collections
+import datetime
+import html
+import json
+import math
+import os
+import re
+import socket
+import sys
+import time
+import urllib.error
+import urllib.request
+
+# (Datei in recht/, Kürzel, Pfadname auf gesetze-im-internet.de, Paragrafen oder None für das ganze Gesetz)
+GESETZE = [
+    ("stvo", "StVO", "stvo_2013", None),
+    ("stvg", "StVG", "stvg", None),
+    ("bkatv", "BKatV", "bkatv_2013", None),
+    ("ekfv", "eKFV", "ekfv", None),
+    ("pflvg", "PflVG", "pflvg", None),
+    ("stgb", "StGB", "stgb", ["44", "69", "69a", "69b", "142", "222", "229", "230", "240", "248b", "303", "303c",
+                              "315b", "315c", "315d", "316", "323a", "323c"]),
+    ("owig", "OWiG", "owig_1968", ["12", "19", "20", "21", "31", "33", "47", "53", "55", "56", "57", "58", "111"]),
+    ("stpo", "StPO", "stpo", ["81a", "94", "98", "111a", "136", "163a", "163b"]),
+    ("fev", "FeV", "fev_2010", ["4", "6", "28", "29", "75"]),
+]
+
+GII = "https://www.gesetze-im-internet.de/"
+KBA = "https://www.kba.de/DE/Themen/ZentraleRegister/FAER/BT_KAT_OWI/btkat_node.html"
+AGENT = "vu-skill/1 (Einzelabruf durch Nutzer)"
+RECHT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "recht")
+ORT = os.path.join(os.path.dirname(RECHT), "ort")
+GDI = "https://gdi.berlin.de/services/wfs/"
+HEUTE = datetime.date.today()
+
+
+class Fehler(Exception):
+    pass
+
+
+class KeinZugang(Fehler):
+    """Die Umgebung lässt das Skript nicht ins Netz: weitere Versuche sind sinnlos."""
+
+
+def abruf(url, limit=None):
+    for versuch in range(3):
+        try:
+            anfrage = urllib.request.Request(url, headers={"User-Agent": AGENT})
+            with urllib.request.urlopen(anfrage, timeout=60) as antwort:
+                return antwort.read(limit) if limit else antwort.read()
+        except urllib.error.HTTPError as e:
+            if e.code in (401, 403, 407):
+                raise KeinZugang(f"HTTP {e.code} bei {url}")
+            if e.code == 404:
+                raise Fehler(f"HTTP 404 bei {url} (Seite umgezogen?)")
+            fehler = e
+        except OSError as e:
+            grund = getattr(e, "reason", e)
+            if not isinstance(grund, (socket.timeout, TimeoutError, ConnectionResetError)):
+                raise KeinZugang(f"keine Verbindung zu {url}: {grund}")  # abgelehnt, kein DNS, kein Proxy
+            fehler = e
+        time.sleep(1 + versuch)
+    raise Fehler(f"keine Antwort von {url}: {fehler}")
+
+
+def text(fragment):
+    """HTML zu Text. Eine Tabellenzeile bleibt eine Textzeile, Spalten durch ' | ' getrennt."""
+    f = re.sub(r"(?s)<(script|style).*?</\1>", "", fragment)
+    f = re.sub(r"(?is)<tr.*?</tr>", lambda m: re.sub(r"(?i)<(br|/?p|/?div|/?d[ldt])\b[^>]*>|\s+", " ", m.group(0)), f)
+    f = re.sub(r"(?i)<dt[^>]*>", "\n  ", f)
+    f = re.sub(r"(?i)</dt>", " ", f)
+    f = re.sub(r"(?i)<(br|/p|/div|/tr|/h\d|/dd|/pre)[^>]*>", "\n", f)
+    f = re.sub(r"(?i)</t[dh]>", " | ", f)
+    f = html.unescape(re.sub(r"<[^>]+>", "", f)).replace("\xa0", " ")
+    zeilen = [re.sub(r"[ \t]+", " ", z).strip() for z in f.split("\n")]
+    return "\n".join(z for z in zeilen if z and z != "|")
+
+
+# ---------------------------------------------------------------- Gesetze
+
+def gesamtseite(pfad):
+    """Adresse der Seite, die das ganze Gesetz samt Standangabe enthält."""
+    index = abruf(f"{GII}{pfad}/index.html").decode("iso-8859-1")
+    m = re.search(r'href="(BJNR[0-9A-Z]+\.html)"', index)
+    if not m:
+        raise Fehler(f"{pfad}: Link zur Gesamtausgabe nicht gefunden (Seite umgebaut?)")
+    return f"{GII}{pfad}/{m.group(1)}"
+
+
+def stand(seite):
+    """Standangabe aus dem Kopf der Gesamtausgabe: (Stand, Hinweise).
+
+    Stand ist die Zeile "Stand:" samt der Folgezeile "zuletzt geändert durch ...";
+    alles Weitere (Hinweis: Änderung durch ... noch nicht berücksichtigt, mittelbare
+    Änderungen) sind Hinweise.
+    """
+    m = re.search(r'(?s)<table class="standangaben".*?</table>', seite)
+    zeilen = [re.sub(r"\s*\|\s*", " ", z).strip() for z in text(m.group(0)).split("\n")] if m else []
+    start = next((i for i, z in enumerate(zeilen) if z.startswith("Stand:")), None)
+    if start is None:
+        raise Fehler("Standangabe nicht gefunden (Seite umgebaut?)")
+    haupt, hinweise = [zeilen[start][len("Stand:"):].strip()], []
+    for z in zeilen[start + 1:]:
+        if not z:
+            continue
+        if not hinweise and z.lower().startswith("zuletzt geändert"):
+            haupt.append(z)
+        else:
+            hinweise.append(re.sub(r"^Hinweis:\s*", "", z))
+    return " ".join(haupt), "; ".join(hinweise) or "keine"
+
+
+def gesetz(datei, kuerzel, pfad, auswahl):
+    url = gesamtseite(pfad)
+    seite = abruf(url).decode("iso-8859-1")
+    titel = re.search(r'(?s)<span class="jnlangue">(.*?)</span>', seite)
+    titel = kuerzel + (": " + re.sub(r"\s+", " ", text(titel.group(1))) if titel else "")
+    teile = re.split(r'(?=<div class="jnnorm")', seite)[1:]
+    if not teile:
+        raise Fehler(f"{pfad}: keine Normen in der Gesamtausgabe gefunden (Seite umgebaut?)")
+    teile[-1] = re.split(r'<div id="fusszeile"|<div id="footer"|</body>', teile[-1])[0]
+
+    bloecke, gefunden, beispiel = [], set(), None
+    for teil in teile:
+        if 'title="Gliederung"' in teil[:300]:
+            kopf = re.search(r"(?s)<h2>(.*?)</h2>", teil)
+            if kopf and not auswahl:
+                bloecke.append("=== " + re.sub(r"\s+", " ", text(kopf.group(1))) + " ===")
+            continue
+        bez = re.search(r'(?s)<span class="jnenbez">(.*?)</span>', teil)
+        if not bez:
+            continue  # Rahmen mit Titel und Standangabe
+        bez = re.sub(r"\s+", " ", text(bez.group(1)))
+        name = re.search(r'(?s)<span class="jnentitel">(.*?)</span>', teil)
+        name = re.sub(r"\s+", " ", text(name.group(1))) if name else ""
+        nummer = bez.replace("§", "").strip()
+        if auswahl and nummer not in auswahl:
+            continue
+        gefunden.add(nummer)
+        beispiel = beispiel or (bez if bez.startswith("§") else None)
+        rumpf = text(teil.split("</h3>", 1)[-1])
+        if rumpf.strip() in ("", "-"):
+            rumpf = "(weggefallen)"
+        bloecke.append(f"## {bez} {name}".rstrip() + "\n" + rumpf)
+
+    fehlen = [p for p in (auswahl or []) if p not in gefunden]
+    haupt, hinweise = stand(seite)
+    kopf = [
+        f"# {titel}",
+        f"# Quelle: {url}",
+        f"# Stand: {haupt}",
+        f"# Hinweise: {hinweise}",
+        f"# Abgerufen: {HEUTE:%d.%m.%Y}",
+        "# Inhalt: " + ("vollständig" if not auswahl else "Auszug, nur §§ " + ", ".join(sorted(gefunden, key=sortierung))),
+        f'# Paragraf finden: grep -n "^## {beispiel or "§ 1"} " {datei}.txt   (jede Norm beginnt mit "## ", Anlagen mit "## Anlage")',
+    ]
+    return "\n".join(kopf) + "\n\n" + "\n\n".join(bloecke) + "\n", fehlen
+
+
+def sortierung(nummer):
+    m = re.match(r"(\d+)(\w*)", nummer)
+    return (int(m.group(1)), m.group(2)) if m else (10 ** 6, nummer)
+
+
+# ---------------------------------------------------------------- Tatbestandskatalog
+
+def kba_datei():
+    """Adresse und Datum der aktuellen Datenbankdatei; der Dateiname trägt das Datum der Fassung."""
+    seite = abruf(KBA).decode("utf-8", "replace")
+    m = re.search(r'href="([^"]*bet_datenbank_(\d{2})(\d{2})(\d{4})_txt[^"]*)"', seite)
+    if not m:
+        raise Fehler("kba.de: kein Link zur Datenbankdatei auf der Übersichtsseite (Seite umgebaut?)")
+    return urllib.request.urljoin(KBA, html.unescape(m.group(1))), f"{m.group(2)}.{m.group(3)}.{m.group(4)}"
+
+
+def zahl(wert):
+    """'000016' -> '16', '020,01' -> '20,01', Obergrenzen aus lauter Neunen -> ''."""
+    if not wert.strip() or set(wert.replace(",", "")) == {"9"}:
+        return ""
+    ganz, _, rest = wert.partition(",")
+    return (ganz.lstrip("0") or "0") + ("," + rest if rest else "")
+
+
+def tbkat(roh, fassung):
+    """Datenbank des KBA ('^'-getrennt, alle Fassungen seit 2002) zu einer Zeile je heute gültigem Eintrag."""
+    saetze = [z.rstrip("\r").split("^") for z in roh.split("\n") if re.match(r"\d{6}\^", z)]
+    heute = HEUTE.isoformat()
+    gueltig = [s for s in saetze if len(s) >= 23 and s[15] >= heute]  # heutige und schon verkündete künftige Fassung
+    if len(gueltig) < 1000:
+        raise Fehler(f"Tatbestandskatalog: nur {len(gueltig)} gültige Einträge, Dateiaufbau geändert?")
+    zeilen = []
+    for s in sorted(gueltig, key=lambda s: (s[0], s[16])):
+        verbinde = lambda teile: re.sub(r"\s+", " ", " ".join(t.strip() for t in teile if t.strip()))
+        betrag = s[10].lstrip("0") or "0"
+        if s[11] not in ("", "00"):
+            betrag += "," + s[11]
+        punkte = s[9].strip() or "0"
+        zusatz = [s[12].strip()] if s[12].strip() else []
+        von, bis = zahl(s[21]), zahl(s[22])
+        if von or bis:
+            zusatz.append("Bereich " + (f"{von} bis {bis}" if bis else f"ab {von}"))
+        if s[16] > heute:
+            zusatz.append("gilt erst ab " + datetime.date.fromisoformat(s[16]).strftime("%d.%m.%Y"))
+        elif s[15] < "2099":
+            zusatz.append("gilt nur bis " + datetime.date.fromisoformat(s[15]).strftime("%d.%m.%Y"))
+        zeilen.append(" | ".join([
+            s[0],
+            f"{betrag} €",
+            f"{punkte} P",
+            f"FV {s[17].strip()}" if s[17].strip() else "kein FV",
+            verbinde(s[1:6]),
+            verbinde(s[6:8]),
+        ] + ([", ".join(zusatz)] if zusatz else [])))
+    kopf = f"""# Tatbestandskatalog: Bundeseinheitlicher Tatbestandskatalog des Kraftfahrt-Bundesamts (Datenbank)
+# Quelle: {KBA}
+# Stand: Datenbank vom {fassung}
+# Hinweise: keine
+# Abgerufen: {HEUTE:%d.%m.%Y}
+# Inhalt: alle {len(zeilen)} heute gültigen Tatbestände, eine Zeile je Tatbestandsnummer
+# Spalten: TBNR | Regelsatz | Punkte | Fahrverbot (Monate) | Tatvorwurf | Vorschriften mit BKat-Nummer | Zusatz
+# Im Tatvorwurf: <a/b> = zutreffende Variante auswählen, #G# #Z# #D# usw. = Wert einsetzen,
+#   *) = Angabe konkretisieren, +) = angeben, worin die Behinderung oder Gefährdung bestand
+# Suchen: grep -i "abstand" tbkat.txt | grep -i "unfall"      Nummer: grep "^104106" tbkat.txt
+#   BKat-Nummer: grep " 12.3 BKat" tbkat.txt
+"""
+    return kopf + "\n" + "\n".join(zeilen) + "\n"
+
+
+def musterfaelle():
+    """Tatbestandsnummern in ref/beispiele.md, die der Katalog nicht mehr kennt."""
+    ordner = os.path.dirname(RECHT)
+    try:
+        with open(os.path.join(RECHT, "tbkat.txt"), encoding="utf-8") as f:
+            katalog = {z[:6] for z in f if re.match(r"\d{6} \|", z)}
+        with open(os.path.join(ordner, "ref", "beispiele.md"), encoding="utf-8") as f:
+            zeilen = [z for z in f if z.startswith("|")]
+    except OSError:
+        return []
+    genannt = {n for z in zeilen for n in re.findall(r"(?<!\d)\d{6}(?!\d)", z.rstrip().rstrip("|").rsplit("|", 1)[-1])}
+    return sorted(genannt - katalog)
+
+
+# ---------------------------------------------------------------- Straßenverzeichnis
+#
+# Drei amtliche Datensätze des Geoportals Berlin: alle Adressen mit Postleitzahl, das Straßennetz
+# (Abschnitte zwischen Knoten) und die Flächen der Postleitzahlen. Daraus entstehen zwei Textdateien:
+# ort/strassen.txt (Straße, Hausnummern, PLZ) und ort/kreuzungen.txt (Straßenpaar, PLZ).
+
+UMKREIS = {"0": 30, "I": 30, "II": 30, "III": 20, "IV": 20}  # Meter um den Knoten je Straßenklasse, sonst 15
+OHNE_KLASSE = {"AUBA", "AUTO", "KGA", "PARK", "GRAL", "FOAM", "INSE", "BRIP", "PAPL", "FUBR", "WWEG"}
+RAMPE = re.compile(r"^\d{3} A[DSK] ")  # Autobahnäste wie "100 AD Funkturm Ausfahrt ..."
+PLATZ = re.compile(r"(platz| Tor| Stern|Zirkel|Rondell)$", re.I)
+
+
+def wfs(dienst, schicht, felder=None, sortiert=None, seite=100000):
+    """Alle Objekte einer Schicht als Liste von GeoJSON-Objekten, bei 'sortiert' seitenweise."""
+    url = (f"{GDI}{dienst}?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES={dienst}:{schicht}"
+           "&OUTPUTFORMAT=application/json")
+    if felder:
+        url += "&PROPERTYNAME=" + ",".join(felder)
+    if not sortiert:
+        return json.loads(abruf(url))["features"]
+    aus = []
+    while True:
+        teil = json.loads(abruf(f"{url}&SORTBY={sortiert}&COUNT={seite}&STARTINDEX={len(aus)}"))["features"]
+        aus += teil
+        if len(teil) < seite:
+            return aus
+
+
+class Flaechen:
+    """Flächen der Postleitzahlen: in welcher liegt ein Punkt, welche liegen in seinem Umkreis."""
+
+    def __init__(self, objekte, zelle=100.0):
+        self.zelle, self.flaechen, self.gitter = zelle, [], collections.defaultdict(list)
+        for o in objekte:
+            g = o["geometry"]
+            teile = g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]
+            ringe = [[(p[0], p[1]) for p in ring] for teil in teile for ring in teil]
+            xs, ys = [p[0] for r in ringe for p in r], [p[1] for r in ringe for p in r]
+            nr = len(self.flaechen)
+            self.flaechen.append((o["properties"]["plz"], (min(xs), min(ys), max(xs), max(ys)), ringe))
+            for r in ringe:
+                for (x1, y1), (x2, y2) in zip(r, r[1:]):
+                    for cx in range(int(min(x1, x2) // zelle), int(max(x1, x2) // zelle) + 1):
+                        for cy in range(int(min(y1, y2) // zelle), int(max(y1, y2) // zelle) + 1):
+                            self.gitter[(cx, cy)].append((x1, y1, x2, y2, nr))
+
+    def enthaelt(self, x, y):
+        for plz, (a, b, c, d), ringe in self.flaechen:
+            if not (a <= x <= c and b <= y <= d):
+                continue
+            drin = False
+            for r in ringe:
+                for (x1, y1), (x2, y2) in zip(r, r[1:]):
+                    if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+                        drin = not drin
+            if drin:
+                return plz
+        return None
+
+    def nahe(self, x, y, radius):
+        """{PLZ: Abstand} aller Flächen, deren Rand höchstens 'radius' Meter entfernt ist."""
+        z, aus = self.zelle, {}
+        for cx in range(int((x - radius) // z), int((x + radius) // z) + 1):
+            for cy in range(int((y - radius) // z), int((y + radius) // z) + 1):
+                for x1, y1, x2, y2, nr in self.gitter.get((cx, cy), ()):
+                    dx, dy = x2 - x1, y2 - y1
+                    l2 = dx * dx + dy * dy
+                    t = 0.0 if l2 == 0 else max(0.0, min(1.0, ((x - x1) * dx + (y - y1) * dy) / l2))
+                    d = math.hypot(x - (x1 + t * dx), y - (y1 + t * dy))
+                    plz = self.flaechen[nr][0]
+                    if d <= radius and d < aus.get(plz, 1e9):
+                        aus[plz] = d
+        return aus
+
+
+def haeufigste(werte):
+    return [w for w, _ in collections.Counter(w for w in werte if w).most_common()]
+
+
+def brauchbar(p):
+    """Abschnitt einer benannten Straße; keine Autobahnäste, Park- und Kleingartenwege."""
+    n = p["strassenname"]
+    return bool(n) and n != "-" and p["strassenklasse2"] not in OHNE_KLASSE and not RAMPE.match(n)
+
+
+def hausnummern(adressen):
+    """[(Nummer, Zusatz, PLZ)] einer Straße -> {PLZ: [Angaben]}; Schreibweise siehe Kopf von strassen.txt."""
+    aus = {p: [] for p in sorted({p for _, _, p in adressen})}
+    mit = [(h, z, p) for h, z, p in adressen if h is not None]
+    if not mit:
+        return aus
+    marke = lambda a, b, art="": str(a) if a == b else f"{a}-{b}{art}"
+    if len(aus) == 1:
+        nummern = [h for h, _, _ in mit]
+        aus[mit[0][2]].append(marke(min(nummern), max(nummern)))
+        return aus
+
+    def laeufe(folge, art=""):
+        """Aufeinanderfolgende Nummern derselben PLZ zusammenfassen."""
+        lauf = []
+        for h, p in folge:
+            if lauf and lauf[-1][0] == p:
+                lauf[-1][2] = h
+            else:
+                lauf.append([p, h, h])
+        return [(a, p, marke(a, b, art)) for p, a, b in lauf if p]
+
+    je = collections.defaultdict(set)
+    for h, _, p in mit:
+        je[h].add(p)
+    gemischt = {h for h, s in je.items() if len(s) > 1}  # Zusätze derselben Nummer in verschiedenen PLZ
+    folge = sorted((h, None if h in gemischt else next(iter(s))) for h, s in je.items())  # None trennt den Lauf
+    alle = laeufe(folge)
+    seiten = laeufe([x for x in folge if x[0] % 2], "u") + laeufe([x for x in folge if not x[0] % 2], "g")
+    for _, p, m in sorted(alle if len(alle) <= len(seiten) else seiten):
+        aus[p].append(m)
+    for h, z, p in sorted(mit, key=lambda x: (x[0], x[1] or "")):
+        if h in gemischt:
+            aus[p].append(f"={h}{(z or '').upper()}")
+    return aus
+
+
+def strassenzeilen(adressen, netz, flaechen):
+    je = collections.defaultdict(list)
+    for a in adressen:
+        je[a["str_nr"]].append(a)
+    zeilen, namen = set(), set()
+    for v in je.values():
+        namen.add(v[0]["str_name"])
+        for plz, marken in hausnummern([(a["hnr"], a["hnr_zusatz"], a["plz"]) for a in v]).items():
+            orte = haeufigste(a["ort_name"] for a in v if a["plz"] == plz)
+            zeilen.add((v[0]["str_name"], ", ".join(orte), plz, " ".join(marken)))
+    nur_netz = collections.defaultdict(list)  # Brücken und Plätze ohne eigene Adresse
+    for o in netz:
+        p = o["properties"]
+        if brauchbar(p) and p["strassenname"] not in namen:
+            for x, y in o["geometry"]["coordinates"]:
+                nur_netz[(p["strassenname"], p["strassenschluessel"], flaechen.enthaelt(x, y))].append(p["stadtteil"])
+    for (name, _, plz), orte in nur_netz.items():
+        if plz:
+            zeilen.add((name, ", ".join(haeufigste(orte)[:2]), plz, ""))
+    return sorted(zeilen)
+
+
+def kreuzungszeilen(netz, flaechen):
+    an = collections.defaultdict(set)  # Knoten -> Straßen (Name, Schlüssel)
+    lage, klassen, ortsteile = {}, collections.defaultdict(set), collections.defaultdict(list)
+    laenge, knoten = collections.Counter(), collections.defaultdict(set)
+    for o in netz:
+        p = o["properties"]
+        if not brauchbar(p):
+            continue
+        strasse, linie = (p["strassenname"], p["strassenschluessel"]), o["geometry"]["coordinates"]
+        laenge[strasse] += p["laenge"] or 0
+        for vp, punkt in ((p["beginnt_bei_vp"], linie[0]), (p["endet_bei_vp"], linie[-1])):
+            an[vp].add(strasse)
+            lage[vp] = punkt
+            klassen[vp].add(p["strassenklasse1"])
+            ortsteile[vp].append(p["stadtteil"])
+            knoten[strasse].add(vp)
+    paare = collections.defaultdict(set)  # (Straße, Straße) -> Knoten
+    for vp, strassen in an.items():
+        for a in strassen:
+            for b in strassen:
+                if a < b and a[0] != b[0]:
+                    paare[(a, b)].add(vp)
+    for platz, vps in knoten.items():  # Straßen, die über denselben Platz verbunden sind
+        if not PLATZ.search(platz[0]) or laenge[platz] > 600:
+            continue
+        nachbarn = collections.defaultdict(set)
+        for vp in vps:
+            for strasse in an[vp] - {platz}:
+                nachbarn[strasse].add(vp)
+        for a in nachbarn:
+            for b in nachbarn:
+                if a < b and a[0] != b[0] and (a, b) not in paare:
+                    paare[(a, b)] = nachbarn[a] | nachbarn[b]
+    plz_an = {}
+    for vp, (x, y) in lage.items():
+        plz_an[vp] = (flaechen.enthaelt(x, y), flaechen.nahe(x, y, max(UMKREIS.get(k, 15) for k in klassen[vp])))
+    zeilen = set()
+    for (a, b), vps in paare.items():
+        mitte = collections.Counter(plz_an[v][0] for v in vps if plz_an[v][0])
+        rand = {}
+        for v in vps:
+            for plz, d in plz_an[v][1].items():
+                rand[plz] = min(d, rand.get(plz, 1e9))
+        plz = [p for p, _ in mitte.most_common()] + sorted((p for p in rand if p not in mitte), key=rand.get)
+        if plz:
+            x, y = sorted((a[0], b[0]))
+            zeilen.add((x, y, " ".join(plz), ", ".join(haeufigste(t for v in vps for t in ortsteile[v])[:2])))
+    return sorted(zeilen)
+
+
+def strassen_laden():
+    """ort/ neu aufbauen."""
+    print("Lade Postleitzahlen, Straßennetz und Adressen von gdi.berlin.de (rund 150 MB, ein bis zwei Minuten) ...")
+    gebiete = wfs("postleitzahlen", "postleitzahlen")
+    netz = wfs("detailnetz", "c_strassenabschnitte")
+    adressen = [o["properties"] for o in wfs(
+        "adressen_berlin", "adressen_berlin", ["str_name", "str_nr", "hnr", "hnr_zusatz", "plz", "ort_name"], "adressid")]
+    if len(gebiete) < 150 or len(netz) < 30000 or len(adressen) < 300000:
+        raise Fehler(f"Straßenverzeichnis: nur {len(gebiete)} PLZ-Flächen, {len(netz)} Straßenabschnitte, "
+                     f"{len(adressen)} Adressen erhalten, Dienst geändert?")
+    try:
+        flaechen = Flaechen(gebiete)
+        strassen = strassenzeilen(adressen, netz, flaechen)
+        kreuzungen = kreuzungszeilen(netz, flaechen)
+    except (KeyError, TypeError, IndexError) as e:
+        raise Fehler(f"Straßenverzeichnis: Feld {e} fehlt in den Daten, Aufbau des Dienstes geändert?")
+    if len(strassen) < 9000 or len(kreuzungen) < 15000:
+        raise Fehler(f"Straßenverzeichnis: nur {len(strassen)} Straßen- und {len(kreuzungen)} Kreuzungszeilen, "
+                     "Aufbau der Daten geändert?")
+    vermerk = re.search(r'Quellenvermerk[^"]*"([^"]+)"', html.unescape(
+        abruf(f"{GDI}postleitzahlen?SERVICE=WFS&REQUEST=GetCapabilities").decode("utf-8", "replace")))
+    vermerk = vermerk.group(1) if vermerk else f"Amt für Statistik Berlin-Brandenburg {HEUTE.year} / Postleitzahlen"
+    grenze = sum(1 for z in kreuzungen if " " in z[2])
+    schreibe("strassen.txt", f"""# Straßenverzeichnis Berlin mit Postleitzahlen
+# Quelle: Geoportal Berlin, Datensätze "Adressen Berlin" und "Detailnetz Berlin" ({GDI}adressen_berlin),
+#   Datenlizenz Deutschland – Zero – Version 2.0
+# Abgerufen: {HEUTE:%d.%m.%Y}
+# Inhalt: {len(strassen)} Zeilen aus {len(adressen)} amtlichen Adressen, eine Zeile je Straße und Postleitzahl
+# Spalten: Straße | Ortsteil | PLZ | Hausnummern mit dieser PLZ
+# Hausnummern: "1-45" alle Nummern von 1 bis 45 · "1-45u" nur die ungeraden · "2-46g" nur die geraden ·
+#   "=245A" genau diese Adresse · leer: Straße ohne Hausnummern (Brücke, Platz)
+# Derselbe Name in mehreren Zeilen: Die Straße liegt in mehreren Postleitzahlen, oder es gibt sie in
+#   mehreren Ortsteilen.
+# Nachschlagen: python3 scripts/plz "Ritterstr 42A"      von Hand: grep "^Ritterstraße" ort/strassen.txt
+
+""" + "\n".join(" | ".join(z).rstrip() for z in strassen) + "\n", ORT)
+    schreibe("kreuzungen.txt", f"""# Kreuzungen und Einmündungen in Berlin mit Postleitzahl
+# Quelle: Geoportal Berlin, Datensätze "Detailnetz Berlin" (Datenlizenz Deutschland – Zero – Version 2.0)
+#   und "Postleitzahlen" (CC BY 3.0 DE, {vermerk}); {GDI}detailnetz
+# Abgerufen: {HEUTE:%d.%m.%Y}
+# Inhalt: {len(kreuzungen)} Zeilen, eine je Straßenpaar, das sich an einem Knoten des Straßennetzes trifft
+#   oder über denselben Platz verbunden ist; {grenze} davon mit mehr als einer Postleitzahl
+# Spalten: Straße | Straße (alphabetisch) | PLZ | Ortsteil
+# PLZ: Die erste ist die des Gebiets, in dem die Kreuzungsmitte liegt. Weitere stehen dabei, wenn die
+#   Kreuzung auf einer PLZ-Grenze liegt (Nachbargebiet höchstens 15 bis 30 m von der Mitte entfernt, je
+#   nach Straßenklasse) oder wenn sich die beiden Straßen an mehreren Stellen treffen.
+# Nachschlagen: python3 scripts/plz "Ritterstr/Alexandrinenstr"
+#   von Hand: grep "^Alexandrinenstraße | Ritterstraße" ort/kreuzungen.txt
+
+""" + "\n".join(" | ".join(z) for z in kreuzungen) + "\n", ORT)
+    print(f"ort/strassen.txt: {len(strassen)} Zeilen aus {len(adressen)} Adressen")
+    print(f"ort/kreuzungen.txt: {len(kreuzungen)} Zeilen, {grenze} davon auf einer PLZ-Grenze")
+
+
+def strassen_stand():
+    """(Meldung, veraltet) zum Alter des Straßenverzeichnisses; geprüft wird nur das Abrufdatum."""
+    datum = kopfwert("strassen.txt", "Abgerufen", ORT)
+    if not datum or not kopfwert("kreuzungen.txt", "Abgerufen", ORT):
+        return "ort/: Straßenverzeichnis FEHLT. Erzeugen mit: python3 scripts/aktuell --strassen", True
+    alter = (HEUTE - datetime.datetime.strptime(datum, "%d.%m.%Y").date()).days
+    if alter > 365:
+        return (f"ort/: Straßenverzeichnis VERALTET, abgerufen am {datum} (älter als ein Jahr). "
+                "Erneuern mit: python3 scripts/aktuell --strassen"), True
+    return f"ort/: Straßenverzeichnis abgerufen am {datum} (wird nach einem Jahr erneuert)", False
+
+
+# ---------------------------------------------------------------- Ablauf
+
+def kopfwert(datei, feld, ordner=RECHT):
+    try:
+        with open(os.path.join(ordner, datei), encoding="utf-8") as f:
+            for zeile in f:
+                if not zeile.startswith("#"):
+                    break
+                if zeile.startswith(f"# {feld}: "):
+                    return zeile[len(feld) + 4:].strip()
+    except OSError:
+        pass
+    return None
+
+
+def lokal(datei):
+    """(Stand, Hinweise) aus dem Kopf der Kopie, None wenn sie fehlt."""
+    haupt = kopfwert(datei, "Stand")
+    return None if haupt is None else (haupt, kopfwert(datei, "Hinweise") or "keine")
+
+
+def zeige(st):
+    if st is None:
+        return "fehlt"
+    return st[0] + ("" if st[1] == "keine" else f" · Hinweise: {st[1]}")
+
+
+def schreibe(datei, inhalt, ordner=RECHT):
+    os.makedirs(ordner, exist_ok=True)
+    ziel = os.path.join(ordner, datei)
+    with open(ziel + ".neu", "w", encoding="utf-8") as f:
+        f.write(inhalt)
+    os.replace(ziel + ".neu", ziel)
+
+
+def uebersicht():
+    """STAND.md aus den Kopfzeilen der Dateien: was liegt vor, von wann, wo prüft man es."""
+    zeilen = [
+        "# Stand der mitgelieferten Kopien",
+        "",
+        "Erzeugt von `scripts/aktuell --laden` und `--strassen`. Nicht von Hand ändern.",
+        "",
+        "| Datei | Inhalt | Stand laut Quelle | Hinweise der Quelle | abgerufen | Prüfseite |",
+        "|---|---|---|---|---|---|",
+    ]
+    for datei in [g[0] for g in GESETZE] + ["tbkat"]:
+        name = datei + ".txt"
+        st = lokal(name)
+        if st is None:
+            continue
+        with open(os.path.join(RECHT, name), encoding="utf-8") as f:
+            titel = f.readline()[2:].strip().split(":")[0]
+        zeilen.append(f"| {name} | {titel}, {kopfwert(name, 'Inhalt')} | {st[0]} | {st[1]} | "
+                      f"{kopfwert(name, 'Abgerufen')} | {kopfwert(name, 'Quelle')} |")
+    abgerufen = kopfwert("strassen.txt", "Abgerufen", ORT)
+    if abgerufen:
+        zeilen.append(f"| ../ort/strassen.txt, ../ort/kreuzungen.txt | Straßenverzeichnis Berlin mit Postleitzahlen, "
+                      f"{kopfwert('strassen.txt', 'Inhalt', ORT).split(',')[0]} | amtlicher Bestand am Abruftag | keine | "
+                      f"{abgerufen} | keine, es zählt das Abrufdatum |")
+    zeilen += [
+        "",
+        "## Prüfen ohne das Skript",
+        "",
+        "Jede Prüfseite öffnen. Ganz oben, vor dem Gesetzestext, steht \"Stand: …\", oft gefolgt von \"zuletzt geändert",
+        "durch …\" und von Hinweisen. Nur dieser Kopf zählt; dass ein Abruf die lange Seite danach kürzt, schadet nicht.",
+        "",
+        "- Stimmt \"zuletzt geändert durch …\" (Artikel, Datum, Fundstelle) mit der Spalte \"Stand laut Quelle\" überein,",
+        "  ist die Kopie aktuell. Auf den Wortlaut der übrigen Teile kommt es nicht an.",
+        "- Zusätzlich auf einen \"Hinweis: Änderung durch …\" im Kopf achten, dessen Fundstelle in der Spalte \"Hinweise der",
+        "  Quelle\" noch nicht vorkommt: Auch das ist eine neue Änderung. Die übrigen Hinweise musst du nicht abgleichen.",
+        "- Tatbestandskatalog: Auf der Prüfseite trägt der Link zur Datenbank (\"Datenbank\", Textdatei) das Datum im",
+        "  Dateinamen (bet_datenbank_TTMMJJJJ). Es muss zum Stand in der Tabelle passen.",
+        "- Straßenverzeichnis: nichts abrufen. Es ist aktuell, solange der Abruf höchstens ein Jahr zurückliegt",
+        "  (neue Straßen kommen selten dazu, die Postleitzahl einer bestehenden Adresse ändert sich so gut wie nie).",
+        "  Ist es älter: am Rechner `python3 scripts/aktuell --strassen`.",
+    ]
+    schreibe("STAND.md", "\n".join(zeilen) + "\n")
+
+
+def main():
+    if sys.argv[1:] == ["--strassen"]:
+        try:
+            strassen_laden()
+        except KeinZugang as e:
+            sys.exit(f"KEIN NETZZUGANG für das Skript ({e}). Das bisherige Straßenverzeichnis bleibt gültig.")
+        except Fehler as e:
+            sys.exit(f"FEHLER {e}\nDas bisherige Straßenverzeichnis bleibt gültig.")
+        uebersicht()
+        return
+    laden = sys.argv[1:] == ["--laden"]
+    if sys.argv[1:] and not laden:
+        sys.exit(__doc__)
+    veraltet, fehler = [], []
+    ort_meldung, ort_alt = strassen_stand()
+    if not laden:
+        print(ort_meldung)
+
+    try:
+        for datei, kuerzel, pfad, auswahl in GESETZE:
+            name = datei + ".txt"
+            alt = lokal(name)
+            try:
+                if laden:
+                    inhalt, fehlen = gesetz(datei, kuerzel, pfad, auswahl)
+                    schreibe(name, inhalt)
+                    print(f"{name}: {'unverändert' if lokal(name) == alt else 'NEU'}, Stand {zeige(lokal(name))}")
+                    for p in fehlen:
+                        fehler.append(f"{name}: § {p} steht nicht mehr im Gesetz (aufgehoben oder umnummeriert?), "
+                                      "Auswahl in GESETZE anpassen")
+                else:
+                    amtlich = stand(abruf(gesamtseite(pfad), 60000).decode("iso-8859-1"))
+                    if amtlich == alt:
+                        print(f"{name}: aktuell ({alt[0]})")
+                    else:
+                        veraltet.append(name)
+                        print(f"{name}: VERALTET\n   Kopie:   {zeige(alt)}\n   amtlich: {zeige(amtlich)}")
+            except KeinZugang:
+                raise
+            except Fehler as e:
+                fehler.append(f"{name}: {e}")
+
+        alt = lokal("tbkat.txt")
+        try:
+            url, fassung = kba_datei()
+            amtlich = (f"Datenbank vom {fassung}", "keine")
+            if laden:
+                schreibe("tbkat.txt", tbkat(abruf(url).decode("utf-8-sig", "replace"), fassung))
+                print(f"tbkat.txt: {'unverändert' if amtlich == alt else 'NEU'}, Stand {amtlich[0]}")
+            elif amtlich == alt:
+                print(f"tbkat.txt: aktuell ({alt[0]})")
+            else:
+                veraltet.append("tbkat.txt")
+                print(f"tbkat.txt: VERALTET\n   Kopie:   {zeige(alt)}\n   amtlich: {zeige(amtlich)}")
+        except KeinZugang:
+            raise
+        except Fehler as e:
+            fehler.append(f"tbkat.txt: {e}")
+    except KeinZugang as e:
+        print(f"KEIN NETZZUGANG für das Skript ({e}).")
+        if laden:
+            sys.exit("Abgebrochen. Bereits geschriebene Dateien bleiben gültig; mit Netzzugang erneut aufrufen.")
+        sys.exit("Nichts weiter geprüft. Die Stände von Hand vergleichen: recht/STAND.md nennt je Datei den Stand "
+                 "und die Prüfseite.")
+
+    if laden:
+        uebersicht()
+        fehlend = musterfaelle()
+        if fehlend:
+            print("HINWEIS ref/beispiele.md nennt Tatbestandsnummern, die es im Katalog nicht mehr gibt: "
+                  + ", ".join(fehlend) + ". Dort ersetzen oder streichen.")
+    for f in fehler:
+        print("FEHLER " + f)
+    if fehler and not laden:
+        print("Nicht geprüfte Dateien von Hand prüfen: recht/STAND.md nennt je Datei die Prüfseite.")
+    if veraltet:
+        print(f"\n{len(veraltet)} Datei(en) veraltet. Erneuern mit: python3 scripts/aktuell --laden "
+              "(danach den Skill neu hochladen, wo er als Kopie liegt).")
+    elif not fehler and not laden and not ort_alt:
+        print(f"\nAlles aktuell. Kopien abgerufen am {kopfwert('tbkat.txt', 'Abgerufen')}.")
+    if ort_alt and laden:
+        print(ort_meldung)
+    sys.exit(1 if veraltet or fehler or ort_alt else 0)
+
+
+if __name__ == "__main__":
+    main()

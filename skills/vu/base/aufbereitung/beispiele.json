@@ -1,0 +1,1888 @@
+[
+{
+"S.": "4",
+"Skizze (kurz)": "Fz (Q, S) auf Fz (T) am rechten Rand",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "101006",
+"Beschreibung": "nicht angepasste Geschwindigkeit (besondere Verhältnisse), Kollision mit geparktem Fahrzeug",
+"ua": "1"
+},
+{
+"S.": "4",
+"Skizze (kurz)": "dto.",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "103620/101006, 103608/103614, 103632",
+"Beschreibung": "nicht angepasste Geschwindigkeit (besondere Verhältnisse), Kollision mit geparktem Fahrzeug, Schleudern",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "Rechtsabbieger (Q, S) trifft Fz (T)",
+"Typ": "1",
+"Urs": "13, 35, 72 oder 73",
+"TBNR": "103620/101006, 103626/103632",
+"Beschreibung": "nicht angepasste Geschwindigkeit (Abbiegen, Schleudern), Kollision mit geparktem Fahrzeug",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "Fz links auf Gegenfahrbahn gegen Fz (T)",
+"Typ": "5",
+"Urs": "10",
+"TBNR": "101118+",
+"Beschreibung": "Benutzung der falschen Fahrbahn, Kollision mit geparktem Fahrzeug",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "streift Fz (T) rechts",
+"Typ": "5",
+"Urs": "14",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "frontal gegen Fz (T) links",
+"Typ": "5",
+"Urs": "14",
+"TBNR": "102668",
+"Beschreibung": "unzureichender Sicherheitsabstand, Kollision mit parkendem Fahrzeug, linke Fahrbahnseite",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "aus Grundstück, trifft Fz (T)",
+"Typ": "5",
+"Urs": "14",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Einbiegen (Grundstücksausfahrt)",
+"ua": "1"
+},
+{
+"S.": "5",
+"Skizze (kurz)": "Wenden, trifft Fz (T)",
+"Typ": "5",
+"Urs": "14, 36",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Wenden",
+"ua": "1"
+},
+{
+"S.": "6",
+"Skizze (kurz)": "Linksabbieger trifft Fz (T)",
+"Typ": "5",
+"Urs": "14, 35",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Abbiegen",
+"ua": "1"
+},
+{
+"S.": "6",
+"Skizze (kurz)": "Rechtsabbieger trifft Fz (T) (2×)",
+"Typ": "5",
+"Urs": "14, 35",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Abbiegen",
+"ua": "1"
+},
+{
+"S.": "6",
+"Skizze (kurz)": "Einfahren vom Rand",
+"Typ": "5 (rot)",
+"Urs": "37",
+"TBNR": "110131",
+"Beschreibung": "Einfahren vom Fahrbahnrand in den Fließverkehr, mit Kollision (2×)",
+"ua": "1"
+},
+{
+"S.": "6",
+"Skizze (kurz)": "Anfahren und links einbiegen",
+"Typ": "5",
+"Urs": "37",
+"TBNR": "110131",
+"Beschreibung": "Einfahren in den Fließverkehr nach links, bei rechts vor links",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "Tür, Nachfolger trifft",
+"Typ": "5",
+"Urs": "45",
+"TBNR": "114106",
+"Beschreibung": "Kollision mit einem anderen Fahrzeug beim unachtsamen Türöffnen durch Fahrerin oder Fahrer oder Insassin und/oder Insasse",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "**leeres Feld**; nur unsichtbar in der Textebene",
+"Typ": "(5)",
+"Urs": "(43)",
+"TBNR": "(101118+)",
+"Beschreibung": "(Unzulässiges Halten und Parken)",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "stehendes Fz (Q, T)",
+"Typ": "5",
+"Urs": "45",
+"TBNR": "122603/122609",
+"Beschreibung": "Verkehrswidriges Verhalten beim Ein- und Aussteigen/Be- u. Entladen (ungesicherte Ladeeinrichtung)",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "Einparken (hohl)",
+"Typ": "5 (rot)",
+"Urs": "36",
+"TBNR": "109649",
+"Beschreibung": "Kollision mit Fließverkehr beim Einparken",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "Haltestelle Z 224, Bus fährt aus",
+"Typ": "5",
+"Urs": "49",
+"TBNR": "120192",
+"Beschreibung": "Abfahren von der Haltestelle (Z 224) nicht ermöglicht",
+"ua": "1"
+},
+{
+"S.": "7",
+"Skizze (kurz)": "zwei Fz an einer Parklücke",
+"Typ": "5",
+"Urs": "49",
+"TBNR": "112446 und 101118+",
+"Beschreibung": "Kollision beim Vorrang an der Parklücke",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "stehendes Fz (Q, T)",
+"Typ": "5",
+"Urs": "46",
+"TBNR": "117173/117179, 117167",
+"Beschreibung": "Nichtbeachten der Beleuchtungsvorschriften (Z 630 Park- und Warntafel)",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "vorwärts einparken",
+"Typ": "7",
+"Urs": "14",
+"TBNR": "101054",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des Abstandes beim Einparken",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "ausparken",
+"Typ": "7",
+"Urs": "14",
+"TBNR": "101054",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des Abstandes beim Ausparken",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "Anfahren auf Vorderfz",
+"Typ": "7",
+"Urs": "14",
+"TBNR": "101118",
+"Beschreibung": "Kollision mit einem parkenden Fahrzeug in Folge Nichteinhaltung des Abstandes beim Anfahren, auch Starten mit eingelegtem Gang",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "Fz (Q, T) auf Kreuzung",
+"Typ": "7",
+"Urs": "49",
+"TBNR": "134101/134107",
+"Beschreibung": "Sicherungspflicht nach einem VU",
+"ua": "1"
+},
+{
+"S.": "8",
+"Skizze (kurz)": "rückwärts aus Grundstück [?]",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "101012",
+"Beschreibung": "Fehler beim Rückwärtsfahren, Kollision mit einem geparkten Fahrzeug",
+"ua": "1"
+},
+{
+"S.": "9",
+"Skizze (kurz)": "rückwärts auf Fz (T)",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "101054",
+"Beschreibung": "Fehler beim Rückwärtsfahren, Kollision mit einem geparkten Fahrzeug",
+"ua": "1"
+},
+{
+"S.": "9",
+"Skizze (kurz)": "BAB, Fz (Q, T)",
+"Typ": "7",
+"Urs": "43",
+"TBNR": "118706",
+"Beschreibung": "Unzulässiges Halten und Parken auf der BAB oder Kraftfahrstraße",
+"ua": "1"
+},
+{
+"S.": "9",
+"Skizze (kurz)": "Fz rollt aus Parkstreifen",
+"Typ": "7",
+"Urs": "45",
+"TBNR": "114118",
+"Beschreibung": "Verkehrswidriges Verhalten beim Ein- und Aussteigen bei geparkten Fahrzeugen (eigenständiges Rollen in den Fließverkehr)",
+"ua": "1"
+},
+{
+"S.": "9",
+"Skizze (kurz)": "01 (Q, T) vorn, 02 (Q) dahinter",
+"Typ": "7",
+"Urs": "14, 44, 46",
+"TBNR": "101012/115601, 115607",
+"Beschreibung": "Mangelnde Sicherung eines liegengebliebenen Fahrzeuges - Lkw, Anhänger 2,8 t ohne Beleuchtung oder reflekt. Tafel (01) - Abstand (02)",
+"ua": "1"
+},
+{
+"S.": "10",
+"Skizze": "Rechtsabbieger (Q, S) trifft Fz (T)",
+"Typ": "1",
+"Urs": "13, 35, 72 oder 73",
+"TBNR": "103620/101006, 103626/103632",
+"Beschreibung": "nicht angepasste Geschwindigkeit (Abbiegen, Schleudern), Kollision mit verkehrsbedingt haltendem Fahrzeug",
+"ua": "2"
+},
+{
+"S.": "10",
+"Skizze": "Abbieger trifft Fz (T)",
+"Typ": "2",
+"Urs": "14, 35",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem haltenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Abbiegen",
+"ua": "2"
+},
+{
+"S.": "11",
+"Skizze": "Varianten Abbiegen (3×)",
+"Typ": "2",
+"Urs": "14, 35",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem haltenden Fahrzeug in Folge Nichteinhaltung des seitlichen Abstandes beim Abbiegen",
+"ua": "2"
+},
+{
+"S.": "11",
+"Skizze": "zwei Abbieger nebeneinander",
+"Typ": "2",
+"Urs": "14, 35",
+"TBNR": "101012",
+"Beschreibung": "Abstand beim Abbiegen (Streifen)",
+"ua": "2"
+},
+{
+"S.": "11",
+"Skizze": "Abbieger bremst, Nachfolger fährt auf",
+"Typ": "2",
+"Urs": "15",
+"TBNR": "104119",
+"Beschreibung": "Bremsen ohne zwingenden Grund beim Abbiegen",
+"ua": "2"
+},
+{
+"S.": "11",
+"Skizze": "R auf Radweg (Q), Fz (T) biegt ein",
+"Typ": "2",
+"Urs": "10",
+"TBNR": "101118+",
+"Beschreibung": "Falsche Fahrbahnbenutzung, Kollision mit einem verkehrsbedingt haltenden Fahrzeug",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "Abkommen nach links gegen Fz (T)",
+"Typ": "6",
+"Urs": "14",
+"TBNR": "102668",
+"Beschreibung": "Kollision mit einem stehenden Fahrzeug durch Abkommen auf die linke Fahrbahnseite",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "Auffahren",
+"Typ": "6",
+"Urs": "14",
+"TBNR": "101124+/104106",
+"Beschreibung": "ungenügender Sicherheitsabstand zum vorausfahrenden Fahrzeug",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "Auffahren auf Fz (T)",
+"Typ": "6",
+"Urs": "14",
+"TBNR": "101130+/104106",
+"Beschreibung": "Kollision mit voraus verkehrsbedingt haltendem Fahrzeug durch nichtausreichenden Sicherheitsabstand",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "dto. mit S",
+"Typ": "6",
+"Urs": "13, 14, 72 oder 73",
+"TBNR": "103620/103626, 103632",
+"Beschreibung": "Kollision mit voraus verkehrsbedingt haltendem Fahrzeug durch nicht ausreichenden Sicherheitsabstand, besondere Verhältnisse",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "Auffahren",
+"Typ": "6",
+"Urs": "13, 14, 72 oder 73",
+"TBNR": "103620/103626, 103632",
+"Beschreibung": "Kollision mit Vorausfahrendem durch nicht angepasste Geschwindigkeit, besondere Verhältnisse",
+"ua": "2"
+},
+{
+"S.": "12",
+"Skizze": "Vorderer bremst (Q)",
+"Typ": "6",
+"Urs": "15",
+"TBNR": "104119",
+"Beschreibung": "Bremsen ohne zwingenden Grund, im Längsverkehr",
+"ua": "2"
+},
+{
+"S.": "13",
+"Skizze": "Krad zwischen zwei Fz („R,M,K“)",
+"Typ": "6",
+"Urs": "14",
+"TBNR": "101012",
+"Beschreibung": "Auffahren im Längsverkehr (Kradfahrerin oder Kradfahrer zwischen zwei Fahrzeugen)",
+"ua": "2"
+},
+{
+"S.": "13",
+"Skizze": "Wenden, trifft Fz (T)",
+"Typ": "7",
+"Urs": "14, 36",
+"TBNR": "101012",
+"Beschreibung": "Kollision mit einem haltenden Fahrzeug … beim Wenden",
+"ua": "2"
+},
+{
+"S.": "13",
+"Skizze": "rückwärts",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "109649",
+"Beschreibung": "Fehler beim Rückwärtsfahren im Längsverkehr",
+"ua": "2"
+},
+{
+"S.": "13",
+"Skizze": "rückwärts, BAB",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "118674/118686, 118698",
+"Beschreibung": "Fehler beim Rückwärtsfahren im Längsverkehr auf BAB oder Kraftfahrstraße",
+"ua": "2"
+},
+{
+"S.": "14",
+"Skizze": "zwei Abbieger nebeneinander, einer (Q, S)",
+"Typ": "1",
+"Urs": "13, 35, 72 oder 73",
+"TBNR": "103620/101006, 103626/103632",
+"Beschreibung": "nicht angepasste Geschwindigkeit (Abbiegen, Schleudern- besondere Witterungsverhältnisse)",
+"ua": "3"
+},
+{
+"S.": "14",
+"Skizze": "paarweise links, äußerer (Q)",
+"Typ": "2",
+"Urs": "26, 35",
+"TBNR": "107101",
+"Beschreibung": "Fehler beim paarweisen Abbiegen nach links, keine Einzelursache, äußerer Beteiligter hat Ursache gesetzt",
+"ua": "3"
+},
+{
+"S.": "14",
+"Skizze": "paarweise rechts, Z 297",
+"Typ": "2",
+"Urs": "26, 35, 49",
+"TBNR": "141252",
+"Beschreibung": "Fehler beim paarweisen Abbiegen, nicht den Pfeilen Z 297 gefolgt",
+"ua": "3"
+},
+{
+"S.": "14",
+"Skizze": "R und Fz biegen nebeneinander links ab",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109127",
+"Beschreibung": "als auf der Fahrbahn abbiergende Radfahrerin oder abbiegender Radfahrer nicht an der rechten Seite eines in gleicher Richtung abbiegenden Fahrzeuges geblieben",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "Hindernis, rechter schert aus",
+"Typ": "5",
+"Urs": "25",
+"TBNR": "101118+ mit Ankündigung, 106106 ohne Ankündigung",
+"Beschreibung": "Nichtbeachten des Nachfolgenden beim Vorbeifahren an Hindernissen",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "Dauerlichtzeichen, Streifenwechsel",
+"Typ": "6",
+"Urs": "10, 26",
+"TBNR": "101118+",
+"Beschreibung": "Falsche Fahrbahnbenutzung -Lichtzeichen bzw. Dauerlichtzeichen, Fahrstreifenwechsel",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "zwei parallel",
+"Typ": "6",
+"Urs": "11",
+"TBNR": "102631",
+"Beschreibung": "Verstoß gegen das Rechtsfahrgebot beim Überholen",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "Rechtsüberholer schert ein",
+"Typ": "6",
+"Urs": "16",
+"TBNR": "105101",
+"Beschreibung": "Unzulässiges Rechtsüberholen",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "zwei parallel, linker (Q)",
+"Typ": "6",
+"Urs": "18",
+"TBNR": "105614/105626, 105638/105650",
+"Beschreibung": "Überholen trotz unklarer Verkehrslage, Überholverbot",
+"ua": "3"
+},
+{
+"S.": "15",
+"Skizze": "dto. mit Z 276/277",
+"Typ": "6",
+"Urs": "49",
+"TBNR": "105656",
+"Beschreibung": "Überholverbot (Z 276/277)",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "linker zieht vor rechten",
+"Typ": "6",
+"Urs": "20",
+"TBNR": "105673/105132",
+"Beschreibung": "Überholen ohne Beachtung des nachfolgenden Verkehrs, Wiedereinordnen, Ausscheren",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "dto.",
+"Typ": "6",
+"Urs": "21",
+"TBNR": "105126",
+"Beschreibung": "Fehler beim Wiedereinordnen nach rechts, Schneiden, mit Kollision",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "parallel, linker (Q)",
+"Typ": "6",
+"Urs": "22",
+"TBNR": "105113",
+"Beschreibung": "Sonstige Fehler beim Überholen, Seitenabstand",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "parallel, rechter (Q)",
+"Typ": "6",
+"Urs": "23",
+"TBNR": "105142",
+"Beschreibung": "Fehler beim Überholt werden, Geschwindigkeit erhöhen",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "S-Bogen-Wechsel",
+"Typ": "6",
+"Urs": "26",
+"TBNR": "107101",
+"Beschreibung": "Normalfall des Fahrstreifenwechsels",
+"ua": "3"
+},
+{
+"S.": "16",
+"Skizze": "Hindernis, Ausscheren",
+"Typ": "6",
+"Urs": "26",
+"TBNR": "107101",
+"Beschreibung": "Nichtbeachten des Nachfolgenden beim Vorbeifahren an Hindernissen, wie Baustelle usw.",
+"ua": "3"
+},
+{
+"S.": "17",
+"Skizze": "dauernde Verengung",
+"Typ": "6",
+"Urs": "26",
+"TBNR": "107101",
+"Beschreibung": "Nichtbeachten des Nachfolgenden beim Vorbeifahren an Hindernisse, Ausscheren an einer dauernden Verengung",
+"ua": "3"
+},
+{
+"S.": "17",
+"Skizze": "Z 297, geradeaus aus Abbiegestreifen",
+"Typ": "6",
+"Urs": "49",
+"TBNR": "141252",
+"Beschreibung": "Nicht den Pfeilen Z 297 gefolgt",
+"ua": "3"
+},
+{
+"S.": "18",
+"Skizze": "frontal",
+"Typ": "1",
+"Urs": "13; 12 (nur wenn Beweismittel vorhanden sind)",
+"TBNR": "103854",
+"Beschreibung": "Geschwindigkeit - Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "18",
+"Skizze": "einer schleudert (S)",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "103620/101006 /103632",
+"Beschreibung": "Geschwindigkeit - besondere Verhältnisse Schleudern/Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "18",
+"Skizze": "Einmündung mit Insel",
+"Typ": "1",
+"Urs": "13, 35",
+"TBNR": "103620/103626, 103632",
+"Beschreibung": "Geschwindigkeit - falsche Fahrbahn Abbiegen, Begegnung",
+"ua": "4"
+},
+{
+"S.": "18",
+"Skizze": "Kurve",
+"Typ": "1",
+"Urs": "11",
+"TBNR": "102649/102637",
+"Beschreibung": "Rechtsfahrgebot - Kurve, Kuppe",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "Insel",
+"Typ": "2",
+"Urs": "10, 35",
+"TBNR": "102124*",
+"Beschreibung": "falsche Fahrbahn beim Abbiegen, Begegnung",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "ohne Insel",
+"Typ": "2",
+"Urs": "11, 35",
+"TBNR": "102661",
+"Beschreibung": "Rechtsfahrgebot beim Abbiegen - Begegnung",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "Grünpfeil, 2. Streifen",
+"Typ": "2",
+"Urs": "11, 35, 49",
+"TBNR": "137106 + oder 137632, 102661",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen, Rechtsfahrgebot beim Abbiegen",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "dto. mit Insel",
+"Typ": "2",
+"Urs": "10, 35, 49",
+"TBNR": "137106 + oder 137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen, falsche Fahrbahn beim Abbiegen",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "Grünpfeil, 1 Streifen",
+"Typ": "2",
+"Urs": "11, 35, 49",
+"TBNR": "137632/102661",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil, Rechtsfahrgebot beim Abbiegen",
+"ua": "4"
+},
+{
+"S.": "19",
+"Skizze": "dto. mit Insel",
+"Typ": "2",
+"Urs": "10, 35, 49",
+"TBNR": "137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil, falsche Fahrbahn beim Abbiegen",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "Hindernis, Ausweichen",
+"Typ": "5",
+"Urs": "24",
+"TBNR": "106102",
+"Beschreibung": "Vorbeifahren an vorübergehenden Hindernissen, Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "mehrstreifig frontal",
+"Typ": "6",
+"Urs": "10",
+"TBNR": "101118+; 142640/142643 i. V. m. 142646 Überholen",
+"Beschreibung": "falsche Fahrbahnbenutzung, Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "Doppellinie",
+"Typ": "6",
+"Urs": "10",
+"TBNR": "102608/102614, 102620",
+"Beschreibung": "„Geisterfahrerin\" oder „Geisterfahrer\" auf der BAB oder Kraftfahrstraße",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "Z 267",
+"Typ": "6",
+"Urs": "10",
+"TBNR": "141184+/141190",
+"Beschreibung": "falsche Fahrbahnbenutzung, entgegen Z 267",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "Dauerlichtzeichen",
+"Typ": "6",
+"Urs": "10",
+"TBNR": "137650",
+"Beschreibung": "falsche Fahrbahnbenutzung - Lichtzeichen, Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "20",
+"Skizze": "frontal",
+"Typ": "6",
+"Urs": "11",
+"TBNR": "102625/102667",
+"Beschreibung": "Rechtsfahrtgebot, Gegenverkehr - mit Kollision",
+"ua": "4"
+},
+{
+"S.": "21",
+"Skizze": "Überholer gegen Gegenverkehr",
+"Typ": "6",
+"Urs": "17",
+"TBNR": "105608/105620, 105632/105644",
+"Beschreibung": "Überholen trotz Gegenverkehrs",
+"ua": "4"
+},
+{
+"S.": "21",
+"Skizze": "Engstelle, beide (Q) [?]",
+"Typ": "6",
+"Urs": "49",
+"TBNR": "101030*",
+"Beschreibung": "Verständigung an Engstellen",
+"ua": "4"
+},
+{
+"S.": "21",
+"Skizze": "Z 208",
+"Typ": "6",
+"Urs": "32",
+"TBNR": "141141",
+"Beschreibung": "Vorrang bei Z 208 - verengte Fahrbahn, Gegenverkehr",
+"ua": "4"
+},
+{
+"S.": "21",
+"Skizze": "Z 325",
+"Typ": "7",
+"Urs": "49",
+"TBNR": "142109",
+"Beschreibung": "Schrittgeschwindigkeit - Z 325",
+"ua": "4"
+},
+{
+"S.": "21",
+"Skizze": "frontal",
+"Typ": "7",
+"Urs": "46",
+"TBNR": "117102/117126, 117132/117114, 117155",
+"Beschreibung": "Beleuchtungsbetriebsvorschriften",
+"ua": "4"
+},
+{
+"S.": "22",
+"Skizze": "Insel, Rechtsabbieger",
+"Typ": "1",
+"Urs": "13, 35",
+"TBNR": "103620/103626, 103632",
+"Beschreibung": "Nichtangepasste Geschwindigkeit - falsche Fahrbahn, Abbiegen",
+"ua": "5"
+},
+{
+"S.": "22",
+"Skizze": "dto.",
+"Typ": "2",
+"Urs": "10, 35",
+"TBNR": "102124*",
+"Beschreibung": "falsche Fahrbahnbenutzung beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "zwei Linksabbieger begegnen sich",
+"Typ": "2",
+"Urs": "11, 35",
+"TBNR": "102655",
+"Beschreibung": "Rechtsfahrgebot beim Abbiegen, wo tangentiales Abbiegen nicht möglich ist",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "dto., beide (Q)",
+"Typ": "2",
+"Urs": "35, 49",
+"TBNR": "101118+",
+"Beschreibung": "ungenügender Seitenabstand beim tangentialen Abbiegen",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "dto.",
+"Typ": "2",
+"Urs": "35, 49",
+"TBNR": "109631",
+"Beschreibung": "tangentiales Abbiegen nicht befolgt",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "01 biegt ab, 02 überholt",
+"Typ": "2",
+"Urs": "18, 35",
+"TBNR": "105614/109114",
+"Beschreibung": "Abbiegen - Nichtbeachten Nachfolgeverkehr 01 - Überholen, unklare Verkehrslage 02",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "dto. an Grundstück",
+"Typ": "2",
+"Urs": "18, 35",
+"TBNR": "105614/109637, 109114",
+"Beschreibung": "Abbiegen - Nichtbeachten Nachfolgeverkehr 01 - Überholen, unklare Verkehrslage 02",
+"ua": "5"
+},
+{
+"S.": "23",
+"Skizze": "Rechtsabbieger, Querverkehr",
+"Typ": "2",
+"Urs": "11, 35",
+"TBNR": "102661",
+"Beschreibung": "Rechtsfahrgebot beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "Linksüberholen eines Linksabbiegers",
+"Typ": "2",
+"Urs": "22",
+"TBNR": "105155",
+"Beschreibung": "Vorschriftswidriges Linksüberholen",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "Abbiegen aus falschem Streifen",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109108/101118+",
+"Beschreibung": "Fehler beim Abbiegen - Nichteinordnen",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "Linksabbieger, Gegenverkehr",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109601",
+"Beschreibung": "Fehler beim Linksabbiegen - Gegenverkehr",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "abknickende Vorfahrt",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109601",
+"Beschreibung": "Fehler beim Linksabbiegen - abknickende Vorfahrt, Gegenverkehr",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "Rechtsabbieger aus 2. Streifen",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109102/109108, 109114/109601",
+"Beschreibung": "Fehler beim Abbiegen - aus 2. Fahrstreifen - ohne Ankündigung - Nichteinordnen",
+"ua": "5"
+},
+{
+"S.": "24",
+"Skizze": "Linksabbieger aus rechtem Streifen",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109102/109108, 109114",
+"Beschreibung": "Fehler beim Abbiegen - ohne Ankündigung - Nichteinordnen",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "Linksabbieger",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109655",
+"Beschreibung": "Fehler beim Linksabbiegen - Gegenverkehr nach rechts",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "in Grundstück",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109637",
+"Beschreibung": "Fehler beim Abbiegen in ein Grundstück, auch nach links",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "Z 297",
+"Typ": "2",
+"Urs": "49",
+"TBNR": "141252",
+"Beschreibung": "Nicht den Pfeilen Z 297 gefolgt",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "über Z 295 ins Grundstück",
+"Typ": "2",
+"Urs": "35, 49",
+"TBNR": "109637 / 141254, 141500",
+"Beschreibung": "Fehler beim Abbiegen in ein Grundstück, Nichtbeachten Z 295",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "Furt grün, 01 biegt ab, 02 Rad",
+"Typ": "2",
+"Urs": "35 und 10",
+"TBNR": "109613 und 101118+, 109619/109114",
+"Beschreibung": "Fehler beim Abbiegen (01) Radfahrerin oder Radfahrer über 10 Jahre auf Fußgängerfurt (02)",
+"ua": "5"
+},
+{
+"S.": "25",
+"Skizze": "Rechtsabbieger bei Grün, R (Q) fährt bei Rot geradeaus",
+"Typ": "2",
+"Urs": "31",
+"TBNR": "137606/137614",
+"Beschreibung": "Missachtung des Rotlichts der LZA, als Radfahrerin oder Radfahrer",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "Rechtsabbieger, Geradeausfahrer",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109613/10961/109601 (so gedruckt, 5-stellig)",
+"Beschreibung": "Nichtbeachten der oder des in gleicher Richtung fahrenden Verkehrsteilnehmers beim Abbiegen nach rechts (links)",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "Busspur",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109607",
+"Beschreibung": "Sonderfahrstreifen - Z 245",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "Busspur, beide (Q)",
+"Typ": "2",
+"Urs": "10 und 35",
+"TBNR": "141202/109114",
+"Beschreibung": "Sonderfahrstreifen - Z 245",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "Radfahrstreifen",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109114/102157",
+"Beschreibung": "Nichtbenutzung des vorhandenen Radfahrstreifens beim Abbiegen nach links",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "R biegt links ab",
+"Typ": "2",
+"Urs": "35",
+"TBNR": "109114",
+"Beschreibung": "Abbiegen nach links, ohne auf den nachfolgenden Verkehr zu achten, Wartepflicht",
+"ua": "5"
+},
+{
+"S.": "26",
+"Skizze": "Grünpfeil, 2. Streifen",
+"Typ": "2",
+"Urs": "11, 35, 49",
+"TBNR": "137106/137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen, Rechtsfahrgebot beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "dto. Insel",
+"Typ": "2",
+"Urs": "10, 35, 49",
+"TBNR": "137106/137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen, falsche Fahrbahn beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "Grünpfeil",
+"Typ": "2",
+"Urs": "11, 35, 49",
+"TBNR": "137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil, Rechtsfahrgebot beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "Grünpfeil, Insel",
+"Typ": "2",
+"Urs": "10, 35, 49",
+"TBNR": "137106",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil, falsche Fahrbahn beim Abbiegen",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "rechts vor links",
+"Typ": "3",
+"Urs": "27",
+"TBNR": "108601",
+"Beschreibung": "Vorfahrt - rechts vor links",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "dto. vorgefahren",
+"Typ": "3",
+"Urs": "27",
+"TBNR": "108601",
+"Beschreibung": "Vorfahrt - rechts vor links - zu weit vorgefahren",
+"ua": "5"
+},
+{
+"S.": "27",
+"Skizze": "STOP",
+"Typ": "3",
+"Urs": "28",
+"TBNR": "141601",
+"Beschreibung": "Vorfahrt - Z 206",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "Z 205/206",
+"Typ": "3",
+"Urs": "28",
+"TBNR": "108607+",
+"Beschreibung": "Vorfahrt - Z 205/Z 206",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "dto. vorgefahren",
+"Typ": "3",
+"Urs": "28",
+"TBNR": "108607+",
+"Beschreibung": "Vorfahrt - Z 205/Z 206 - zu weit vorgefahren",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "Einfädeln",
+"Typ": "3",
+"Urs": "29",
+"TBNR": "118626",
+"Beschreibung": "Vorfahrt - BAB - Kraftfahrstraße",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "Waldweg",
+"Typ": "3",
+"Urs": "30",
+"TBNR": "108613",
+"Beschreibung": "Vorfahrt - Feld- , Waldweg",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "abknickende Vorfahrt",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "142101",
+"Beschreibung": "Nichtankündigung beim Folgen des Verlaufes der abknickenden Vorfahrtstraße",
+"ua": "5"
+},
+{
+"S.": "28",
+"Skizze": "LZA",
+"Typ": "3",
+"Urs": "31",
+"TBNR": "137602",
+"Beschreibung": "Vorrang - LZA",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "Kreuzung",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "136607",
+"Beschreibung": "Haltezeichen eines Eingreifpostens",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "dto.",
+"Typ": "3",
+"Urs": "31",
+"TBNR": "136106",
+"Beschreibung": "Vorrang - VP Regelung",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "Räumer",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "101043",
+"Beschreibung": "Räumen nicht ermöglicht, mit LZA",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "Räumer bei Rot",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "101118+",
+"Beschreibung": "Zu spätes Räumen, mit LZA - schon ein oder zwei Fahrzeuge durchgefahren",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "02 von links, 01 von unten",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "138112/135000",
+"Beschreibung": "Missachtung Sonderrechte (01) Gebührende Rücksichtnahme (02) - immer beide Verursacherinnen und/oder Verursacher",
+"ua": "5"
+},
+{
+"S.": "29",
+"Skizze": "Querverkehr",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "111101",
+"Beschreibung": "stockender Verkehr, **ohne** LZA",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "Gleise",
+"Typ": "3",
+"Urs": "33",
+"TBNR": "119608",
+"Beschreibung": "Vorrang - Z 201",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "dto.",
+"Typ": "3",
+"Urs": "33",
+"TBNR": "119608, 119614 (rot)",
+"Beschreibung": "Vorrang - Lichtzeichen, Schranken",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "aus Grundstück",
+"Typ": "3",
+"Urs": "37",
+"TBNR": "110101",
+"Beschreibung": "Einfahren - Grundstück, Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "R vom Radweg",
+"Typ": "3",
+"Urs": "37",
+"TBNR": "110119",
+"Beschreibung": "Einfahren - anderer Straßenteil, Radweg, Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "über Furt",
+"Typ": "3",
+"Urs": "37",
+"TBNR": "110119",
+"Beschreibung": "Einfahren - anderer Straßenteil Fußgängerfurt/-symbol, Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "30",
+"Skizze": "anderer Straßenteil",
+"Typ": "3",
+"Urs": "37",
+"TBNR": "110119",
+"Beschreibung": "Einfahren - anderer Straßenteil Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "Einmündung",
+"Typ": "3",
+"Urs": "37",
+"TBNR": "110113/110107/110125",
+"Beschreibung": "Einfahren - verkehrsberuhigter Bereich Z 326 - Fußgängerbereich Z 243 - Absenkung, Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "Grünpfeil, R",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "137638",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "Grünpfeil, R 02 falscher Radweg",
+"Typ": "3",
+"Urs": "49 u. 10",
+"TBNR": "137638 oder 102163",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil (01) R falschen Radweg benutzt (02)",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "Grünpfeil 2. Streifen, R",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "137638",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "dto. R 02",
+"Typ": "3",
+"Urs": "49 u. 10",
+"TBNR": "137106 + o. 137638 u. 102163",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen (01), R falschen Radweg benutzt (02)",
+"ua": "5"
+},
+{
+"S.": "31",
+"Skizze": "dto. Fz",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "137106 + o. 137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "Grünpfeil",
+"Typ": "3",
+"Urs": "49",
+"TBNR": "137632",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "vom Rand einfahren und abbiegen",
+"Typ": "5 (rot)",
+"Urs": "35, 37",
+"TBNR": "110131/109114",
+"Beschreibung": "Einfahren aus ruhendem Verkehr - Abbiegen",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "vom Rand wenden",
+"Typ": "5 (rot)",
+"Urs": "36, 37",
+"TBNR": "110131/109643",
+"Beschreibung": "Einfahren aus ruhendem Verkehr - Wenden",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "Parkhafen, rollt",
+"Typ": "5",
+"Urs": "45",
+"TBNR": "114118",
+"Beschreibung": "Fahrzeug verlassen, Weiterrollen",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "Parkhafen rückwärts",
+"Typ": "5 (rot)",
+"Urs": "36, 37",
+"TBNR": "109649",
+"Beschreibung": "Rückwärtsfahren - Einfahren in den Fließverkehr aus Parkhafen",
+"ua": "5"
+},
+{
+"S.": "32",
+"Skizze": "in Parkhafen",
+"Typ": "5 (rot)",
+"Urs": "35",
+"TBNR": "109114",
+"Beschreibung": "Abbiegen - Parkhafen",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "Z 272",
+"Typ": "7",
+"Urs": "36, 49",
+"TBNR": "141207",
+"Beschreibung": "Wendeverbot Z 272",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "rückwärts",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "109649",
+"Beschreibung": "Rückwärtsfahren - Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "rückwärts aus Grundstück",
+"Typ": "7",
+"Urs": "36, 37",
+"TBNR": "109649/110101",
+"Beschreibung": "Rückwärtsfahren - Einfahren in den Fließverkehr vom Grundstück",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "rückwärts von anderem Straßenteil",
+"Typ": "7",
+"Urs": "36, 37",
+"TBNR": "109649/110119",
+"Beschreibung": "Rückwärtsfahren - Einfahren in den Fließverkehr vom anderen Straßenteil",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "Wenden",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "109643",
+"Beschreibung": "Wenden - aus Fließverkehr",
+"ua": "5"
+},
+{
+"S.": "33",
+"Skizze": "Wenden BAB",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "118668/118680/118692",
+"Beschreibung": "Wenden - BAB - Kraftfahrstraße",
+"ua": "5"
+},
+{
+"S.": "34",
+"Skizze": "Parkplatz",
+"Typ": "7",
+"Urs": "49",
+"TBNR": "101118 +",
+"Beschreibung": "Verständigung auf Parkplätzen nach § 1 StVO",
+"ua": "5"
+},
+{
+"S.": "35",
+"Skizze": "Rot, Furt, Abbieger, F",
+"Typ": "2",
+"Urs": "60",
+"TBNR": "137101",
+"Beschreibung": "Fußgängerfurt - Abbiegen, LZA in Betrieb",
+"ua": "6"
+},
+{
+"S.": "35",
+"Skizze": "ohne LZA",
+"Typ": "2",
+"Urs": "40",
+"TBNR": "109625",
+"Beschreibung": "Abbiegen",
+"ua": "6"
+},
+{
+"S.": "35",
+"Skizze": "Grün, Furt",
+"Typ": "2",
+"Urs": "39, 40",
+"TBNR": "109625",
+"Beschreibung": "Fußgängerfurt - Abbiegen, LZA in Betrieb",
+"ua": "6"
+},
+{
+"S.": "35",
+"Skizze": "Ausfahrt Grundstück, F auf Gehweg",
+"Typ": "3",
+"Urs": "37, 42",
+"TBNR": "110101",
+"Beschreibung": "Ausfahren - Grundstück Fußgängerin oder Fußgänger auf Gehweg",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "Zebrastreifen",
+"Typ": "4",
+"Urs": "38",
+"TBNR": "126608",
+"Beschreibung": "Fußgängerüberweg Z 293, Z 350",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "Furt Rot",
+"Typ": "4",
+"Urs": "39",
+"TBNR": "137602",
+"Beschreibung": "Fußgängerfurt - LZA in Betrieb",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "Zebrastreifen, F (Q)",
+"Typ": "4",
+"Urs": "61",
+"TBNR": "101118+",
+"Beschreibung": "Fußgängerüberweg Z 293, Z 350",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "Furt Rot, F",
+"Typ": "4",
+"Urs": "60",
+"TBNR": "137101",
+"Beschreibung": "Fußgängerfurt - LZA in Betrieb, - VP-Regelung",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "Kreuzung",
+"Typ": "4",
+"Urs": "62",
+"TBNR": "125113",
+"Beschreibung": "Benutzungspflicht (§ 25 Abs. 3 StVO) - Fußgängerfurt, - Fußgängerüberweg, - Fußgängertunnel",
+"ua": "6"
+},
+{
+"S.": "36",
+"Skizze": "F von links",
+"Typ": "4",
+"Urs": "42",
+"TBNR": "101118+",
+"Beschreibung": "falsches Verhalten gegenüber Fußgängerinnen oder Fußgängern an anderen Stellen",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "F, Fz (Q); Bus nicht gezeichnet",
+"Typ": "4",
+"Urs": "41",
+"TBNR": "120750+/120702+",
+"Beschreibung": "Schulbus mit Warnblinklicht",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "Haltestelle Z 224",
+"Typ": "4",
+"Urs": "41",
+"TBNR": "120613+",
+"Beschreibung": "Haltestelle Z 224",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "F, Fz (Q)",
+"Typ": "4",
+"Urs": "13, 42",
+"TBNR": "103709+",
+"Beschreibung": "mangelnde Bremsbereitschaft gegenüber Fußgängerinnen oder Fußgängern - Kind, hilfsbedürftigen, älteren Menschen",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "F (Q), Fz",
+"Typ": "4",
+"Urs": "64, (63)",
+"TBNR": "125113",
+"Beschreibung": "Nichtbeachten Fahrzeugverkehr, Hervortreten hinter Sichthindernis",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "F01 (Q), 02 Fz (Q)",
+"Typ": "4",
+"Urs": "64, (65), 42",
+"TBNR": "125113/101118+",
+"Beschreibung": "Nichtbeachten Fahrzeugverkehr (01) falsches Verhalten gegenüber Fußgängerinnen oder Fußgängern (02)",
+"ua": "6"
+},
+{
+"S.": "37",
+"Skizze": "Grünpfeil, Furt",
+"Typ": "4",
+"Urs": "39, 49",
+"TBNR": "137638",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil",
+"ua": "6"
+},
+{
+"S.": "38",
+"Skizze": "dto. F von links",
+"Typ": "4",
+"Urs": "39, 49",
+"TBNR": "137638",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil",
+"ua": "6"
+},
+{
+"S.": "38",
+"Skizze": "dto. 2 Streifen",
+"Typ": "4",
+"Urs": "39, 49",
+"TBNR": "137638",
+"Beschreibung": "Abbiegen nach rechts bei Grünpfeil aus 2. Fahrstreifen (2×)",
+"ua": "6"
+},
+{
+"S.": "38",
+"Skizze": "rückwärts gegen F",
+"Typ": "7",
+"Urs": "36, 42",
+"TBNR": "101118+, 109649",
+"Beschreibung": "falsches Verhalten gegenüber Fußgängern an anderen Stellen - Rückwärtsfahren",
+"ua": "6"
+},
+{
+"S.": "38",
+"Skizze": "rückwärts aus Grundstück",
+"Typ": "7",
+"Urs": "37, 42",
+"TBNR": "110101",
+"Beschreibung": "Ausfahren, rückwärts - Grundstück, Fußgänger auf Gehweg",
+"ua": "6"
+},
+{
+"S.": "38",
+"Skizze": "BAB, F (Q)",
+"Typ": "7",
+"Urs": "69",
+"TBNR": "118184, 118190",
+"Beschreibung": "verbotswidriges Betreten - BAB - Kraftfahrstraße",
+"ua": "6"
+},
+{
+"Typ": "7",
+"Urs": "85",
+"TBNR": "---",
+"Beschreibung": "Nicht gesicherte Baustelle",
+"ua": "7"
+},
+{
+"Typ": "7",
+"Urs": "86",
+"TBNR": "---",
+"Beschreibung": "Wild auf Fahrbahn",
+"ua": "7"
+},
+{
+"Typ": "7",
+"Urs": "87",
+"TBNR": "128001 gegen den Verantwortlichen",
+"Beschreibung": "anderes Tier auf der Fahrbahn - z. B. nicht angeleinte und frei herumlaufende Hunde",
+"ua": "7"
+},
+{
+"S.": "40 (UA 8)",
+"Typ": "1",
+"Urs": "13; (12) nur wenn Beweismittel vorhanden",
+"TBNR": "103602/101000, 103608, 103614",
+"Beschreibung": "Geschwindigkeit (Baustelle)",
+"ua": "8/9"
+},
+{
+"S.": "42 (UA 9)",
+"Typ": "1",
+"Urs": "dto.",
+"TBNR": "103620/101000, 103626, 103632",
+"Beschreibung": "Geschwindigkeit (Baustelle)",
+"ua": "8/9"
+},
+{
+"S.": "40/42",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "103620/101006, 103626, 103632",
+"Beschreibung": "Geschwindigkeit - besondere Verhältnisse, Schleudern",
+"ua": "8/9"
+},
+{
+"S.": "40/42",
+"Typ": "1",
+"Urs": "13, 35, 72 oder 73",
+"TBNR": "103620/101006 (S. 42: 101006+), 103626, 103632",
+"Beschreibung": "Geschwindigkeit - Abbiegen, besondere Verhältnisse, Schleudern",
+"ua": "8/9"
+},
+{
+"S.": "40/42",
+"Typ": "1",
+"Urs": "13, 35",
+"TBNR": "103620/101000 (S. 42: 101000+), 103626, 103632",
+"Beschreibung": "Geschwindigkeit - Abbiegen",
+"ua": "8/9"
+},
+{
+"S.": "41/43",
+"Typ": "1",
+"Urs": "13, 36",
+"TBNR": "101000, 101006",
+"Beschreibung": "Geschwindigkeit - Wenden",
+"ua": "8/9"
+},
+{
+"S.": "41/43",
+"Typ": "7",
+"Urs": "13; (12) nur wenn Beweismittel vorhanden",
+"TBNR": "101000/101006",
+"Beschreibung": "Geschwindigkeit - auch Radio einstellen, Zigarette anzünden usw.",
+"ua": "8/9"
+},
+{
+"S.": "44",
+"Skizze": "R, K, M",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "101006",
+"Beschreibung": "Geschwindigkeit - Sturz ohne Fremdeinwirkung",
+"ua": "0"
+},
+{
+"S.": "44",
+"Skizze": "Gleise",
+"Typ": "1",
+"Urs": "13, 72 oder 73",
+"TBNR": "101006",
+"Beschreibung": "Geschwindigkeit - Sturz auf schienengleichen Wegübergang",
+"ua": "0"
+},
+{
+"S.": "44",
+"Skizze": "Z 205",
+"Typ": "3",
+"Urs": "28",
+"TBNR": "108607",
+"Beschreibung": "Vorfahrt - ohne Berührung mit Abkommen von der Fahrbahn",
+"ua": "0"
+},
+{
+"S.": "44",
+"Skizze": "1/2",
+"Typ": "5",
+"Urs": "14 und 45",
+"TBNR": "101012, 114106",
+"Beschreibung": "- Vorbeifahren (01) - Fahrerin oder Fahrer steht an Fz-Tür und wird angefahren (02)",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "Ausweichen",
+"Typ": "6",
+"Urs": "11",
+"TBNR": "102625",
+"Beschreibung": "falsche Fahrbahnseite - Rechtsfahrgebot, Gegenverkehr von der Fahrbahn abgekommen, ohne Kollision",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "Streifenwechsel",
+"Typ": "6",
+"Urs": "26",
+"TBNR": "107101",
+"Beschreibung": "Fahrstreifenwechsel - ohne Berührung mit Abkommen von der Fahrbahn",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "Gehweg, R, K, M",
+"Typ": "7",
+"Urs": "10",
+"TBNR": "102100+",
+"Beschreibung": "anderer Straßenteil - Sturz ohne Fremdeinwirkung auf Gehweg",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "LA",
+"Typ": "7",
+"Urs": "10 i. V. m. 80 oder 81",
+"TBNR": "102680",
+"Beschreibung": "Benutzungsverbot",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "Tafel",
+"Typ": "7",
+"Urs": "14",
+"TBNR": "101000",
+"Beschreibung": "Abstand, Hindernis beim Rangieren",
+"ua": "0"
+},
+{
+"S.": "45",
+"Skizze": "R",
+"Typ": "7",
+"Urs": "47",
+"TBNR": "121160",
+"Beschreibung": "Überbesetzung",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "rückwärts gegen Tafel",
+"Typ": "7",
+"Urs": "36",
+"TBNR": "101000+, 101006+",
+"Beschreibung": "Rückwärtsfahren - Hindernis beim Rangieren",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "Ladung",
+"Typ": "7",
+"Urs": "48",
+"TBNR": "122609, 122603",
+"Beschreibung": "ungesicherte Ladung, fallend - direkt auf Fahrzeug",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "dto.",
+"Typ": "7",
+"Urs": "48, 88",
+"TBNR": "122609, 122603",
+"Beschreibung": "ungesicherte Ladung fallend - Mauerstein von Lkw auf Fahrbahn",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "dto.",
+"Typ": "7",
+"Urs": "48",
+"TBNR": "122609, 122603",
+"Beschreibung": "ungesicherter Ausleger",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "dto.",
+"Typ": "7",
+"Urs": "48",
+"TBNR": "123607+",
+"Beschreibung": "ungesicherte Ladung - allgemein",
+"ua": "0"
+},
+{
+"S.": "46",
+"Skizze": "Z 265 3,8 m",
+"Typ": "7",
+"Urs": "49",
+"TBNR": "141181+",
+"Beschreibung": "Nichtbeachten Z Z 265 (Durchfahrtshöhe)",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "Abkommen",
+"Typ": "7",
+"Urs": "49",
+"TBNR": "101000+, 101006+",
+"Beschreibung": "Beifahrerin oder Beifahrer greift ins Lenkrad (§23 StVO)",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "dto.",
+"Typ": "7",
+"Urs": "04, 49",
+"TBNR": "---",
+"Beschreibung": "körperliche oder geistige Mängel - z. B. Schwächeanfall, Zuckerschock",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "–",
+"Typ": "7",
+"Urs": "70",
+"TBNR": "---",
+"Beschreibung": "Öl auf der Fahrbahn, Verursacherin oder Verursacher unbekannt - nur 1 Beteiligter",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "–",
+"Typ": "7",
+"Urs": "76",
+"TBNR": "---",
+"Beschreibung": "schlechter Straßenzustand - Löcher in der Fahrbahn",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "–",
+"Typ": "7",
+"Urs": "89",
+"TBNR": "---",
+"Beschreibung": "Gegenstand, z. B. Stein, auch Taube, Ente fliegt gegen die Windschutzscheibe",
+"ua": "0"
+},
+{
+"S.": "47",
+"Skizze": "Baum/Ast [?]",
+"Typ": "7",
+"Urs": "89",
+"TBNR": "---",
+"Beschreibung": "ungenügendes Lichtraumprofil",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "Kopftext",
+"Typ": "–",
+"Urs": "–",
+"TBNR": "–",
+"Beschreibung": "„Wenn der Mangel direkt ursächlich für den Unfall ist, keine andere Ursache angeben. Wenn er nur indirekt ursächlich ist, dann als Ursache angeben.“",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "gemeinsame Skizze",
+"Typ": "7",
+"Urs": "50 - 55",
+"TBNR": "123601",
+"Beschreibung": "Mängel allgemein - Verantwortlichkeit",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "",
+"Typ": "7",
+"Urs": "51",
+"TBNR": "336608, 336620",
+"Beschreibung": "Mängel - Bereifung",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "",
+"Typ": "7",
+"Urs": "52",
+"TBNR": "341602, 341608, 365000",
+"Beschreibung": "Mängel - Bremsen",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "",
+"Typ": "7",
+"Urs": "53",
+"TBNR": "338602, 338608",
+"Beschreibung": "Mängel - Lenkung",
+"ua": "0"
+},
+{
+"S.": "48",
+"Skizze": "",
+"Typ": "7",
+"Urs": "54",
+"TBNR": "343602, 343608",
+"Beschreibung": "Mängel - Zugvorrichtung",
+"ua": "0"
+}
+]

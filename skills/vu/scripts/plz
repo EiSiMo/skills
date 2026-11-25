@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""Postleitzahl eines Berliner Unfallorts aus dem mitgelieferten Straßenverzeichnis (Ordner ort/).
+
+  python3 scripts/plz "Ritterstr 42A"                 Straße mit Hausnummer
+  python3 scripts/plz "Ritterstr/Alexandrinenstr"     Kreuzung oder Einmündung
+  python3 scripts/plz "Oberbaumbrücke"                nur die Straße
+  python3 scripts/plz "Berliner Str 100, Tegel"       mit Ortsteil, wenn es den Namen mehrfach gibt
+  python3 scripts/plz "A-Str/B-Str" "A-Str/C-Str"     mehrere Orte auf einmal
+
+Je Treffer eine Zeile: PLZ | amtlicher Name | Ortsteil | Hinweis.
+Mehrere Zeilen: nicht eindeutig. "nicht gefunden": keine Postleitzahl ausgeben.
+Läuft ohne Netz, nur Standardbibliothek. Die Daten erneuert scripts/aktuell --strassen.
+"""
+import difflib
+import os
+import re
+import sys
+import unicodedata
+
+ORT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ort")
+FUELLWORT = r"[\s,]+(nr\.?|hnr\.?|hausnummer|höhe|hoehe|vor|gegenüber|ggü\.?)$"
+ENDUNG = ("strasse", "weg", "allee", "damm", "platz", "ufer", "chaussee", "ring", "steig", "pfad", "gasse", "zeile",
+          "promenade", "bruecke", "tor", "markt", "korso", "steg")  # "Skalitzer" meint "Skalitzer Straße"
+_schluessel = {}
+
+
+def schluessel(name):
+    """Name ohne Schreibvarianten: 'Ritterstr.', 'ritterstrasse' und 'Ritterstraße' ergeben dasselbe."""
+    if name not in _schluessel:
+        s = name.lower().replace("ß", "ss").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
+        s = "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
+        s = re.sub(r"str\b\.?", "strasse", s)
+        s = re.sub(r"\bpl\b\.?|(?<=[a-z])pl\.", "platz", s)
+        s = re.sub(r"(?<=\d)[^a-z0-9]+(?=\d)", "_", s)  # "Straße 4 4" ist nicht "Straße 44"
+        _schluessel[name] = re.sub(r"[^a-z0-9_]", "", s)
+    return _schluessel[name]
+
+
+def zeilen(datei):
+    with open(os.path.join(ORT, datei), encoding="utf-8") as f:
+        for z in f:
+            if z.strip() and not z.startswith("#"):
+                yield [t.strip() for t in z.split("|")] + ["", ""]
+
+
+def lade():
+    strassen, kreuzungen = {}, {}
+    for name, ortsteil, plz, nummern, *_ in zeilen("strassen.txt"):
+        for k in {schluessel(name), schluessel(name.split("(")[0])}:  # "Oberbaumbrücke (Spree)" auch ohne Klammer
+            strassen.setdefault(k, []).append((name, ortsteil, plz, tuple(nummern.split())))
+    for a, b, plz, ortsteil, *_ in zeilen("kreuzungen.txt"):
+        for ka in {schluessel(a), schluessel(a.split("(")[0])}:
+            for kb in {schluessel(b), schluessel(b.split("(")[0])}:
+                kreuzungen.setdefault(frozenset((ka, kb)), []).append((a, b, tuple(plz.split()), ortsteil))
+    bekannt = set(strassen) | {k for paar in kreuzungen for k in paar}
+    ortsteile = {o for eintraege in strassen.values() for e in eintraege for o in e[1].split(", ") if o}
+    return strassen, kreuzungen, bekannt, ortsteile
+
+
+def namen(eingabe, bekannt):
+    """Schlüssel der amtlichen Namen, die zur Eingabe passen, und ein Hinweis, falls nicht wörtlich."""
+    k = schluessel(eingabe)
+    if k in bekannt:
+        return [k], ""
+    vorn = sorted(k + e for e in ENDUNG if k + e in bekannt) if len(k) >= 4 else []
+    if vorn:
+        return vorn, "Name ergänzt"
+    tippfehler = len(k) >= 5 and not re.search(r"\d", k)  # "Straße 13" ist kein vertipptes "Straße 153"
+    nah = difflib.get_close_matches(k, bekannt, n=3, cutoff=0.88) if tippfehler else []
+    return nah, "Schreibweise angepasst" if nah else ""
+
+
+def spanne(marke):
+    """'1-45u' -> (1, 45, 1); '2-46g' -> (2, 46, 0); '7' -> (7, 7, None); '=245A' -> None."""
+    m = re.fullmatch(r"(\d+)(?:-(\d+))?([ug])?", marke)
+    if not m:
+        return None
+    return int(m.group(1)), int(m.group(2) or m.group(1)), {"u": 1, "g": 0, None: None}[m.group(3)]
+
+
+def passend(eintraege, nr, zusatz):
+    """Die Zeilen eines Straßennamens, zu denen die Hausnummer gehört."""
+    spannen = [(e, s) for e in eintraege for s in map(spanne, e[3]) if s]
+    drin = [e for e, (a, b, art) in spannen if a <= nr <= b and art in (None, nr % 2)]
+    # "=245A": einzeln geführte Adresse, weil die Zusätze dieser Nummer in verschiedenen PLZ liegen
+    einzeln = [e for e in eintraege if f"={nr}{zusatz}" in e[3]] or \
+              [e for e in eintraege if any(re.fullmatch(rf"={nr}[A-Z]?", m) for m in e[3])]
+    if einzeln or drin:
+        return list(dict.fromkeys(einzeln + drin))
+    # nicht verzeichnete Nummer: die nächste verzeichnete darunter und darüber, auf derselben Straßenseite
+    seite = [(e, s) for e, s in spannen if s[2] in (None, nr % 2)] or spannen
+    unten = max((x for x in seite if x[1][1] < nr), key=lambda x: x[1][1], default=None)
+    oben = min((x for x in seite if x[1][0] > nr), key=lambda x: x[1][0], default=None)
+    return list(dict.fromkeys(x[0] for x in (unten, oben) if x)) or eintraege
+
+
+def adresse(eingabe, strassen, bekannt):
+    eingabe = eingabe.strip()
+    nr, zusatz, name = None, "", eingabe
+    if schluessel(eingabe) not in strassen:  # "Straße 13" ist ein Name, "Ritterstr 13" eine Hausnummer
+        m = re.fullmatch(r"(.*?\D)\s*(\d+)\s*([a-zA-Z])?(?:\s*[-–/]\s*\d+\s*[a-zA-Z]?)?", eingabe)
+        if m:
+            name, nr, zusatz = m.group(1).strip(" ,."), int(m.group(2)), (m.group(3) or "").upper()
+    if schluessel(name) not in bekannt:  # "Ritterstr Höhe 42", aber "Nach der Höhe 3"
+        name = re.sub(FUELLWORT, "", name, flags=re.I)
+    schluessel_, hinweis = namen(name, bekannt)
+    aus = {}
+    for k in schluessel_:
+        eintraege = strassen.get(k, [])
+        for n, ortsteil, plz, _ in (passend(eintraege, nr, zusatz) if nr is not None else eintraege):
+            ziel = aus.setdefault((plz, n), [])
+            ziel += [o for o in ortsteil.split(", ") if o and o not in ziel]
+    anhang = f" {nr}{zusatz}" if nr is not None else ""
+    return [(plz, n + anhang, ", ".join(orte), hinweis) for (plz, n), orte in aus.items()]
+
+
+def kreuzung(teile, strassen, kreuzungen, bekannt):
+    gefunden = [namen(t, bekannt) for t in teile]
+    fehlt = [t.strip() for t, (ks, _) in zip(teile, gefunden) if not ks]
+    if fehlt:
+        return [], fehlt
+    hinweis = "; ".join(dict.fromkeys(h for _, h in gefunden if h))
+    aus = {}
+    for i in range(len(gefunden)):
+        for j in range(i + 1, len(gefunden)):
+            for a in gefunden[i][0]:
+                for b in gefunden[j][0]:
+                    for x, y, plz, ortsteil in kreuzungen.get(frozenset((a, b)), []):
+                        grenze = "liegt auf einer PLZ-Grenze" if len(plz) > 1 else ""
+                        aus[(" oder ".join(plz), f"{x} / {y}", ortsteil)] = "; ".join(h for h in (grenze, hinweis) if h)
+    if not aus and len(gefunden) == 2 and all(len(ks) == 1 for ks, _ in gefunden):
+        # Paar steht nicht im Straßennetz: sicher ist die PLZ nur, wenn eine der Straßen ganz in einer PLZ liegt
+        ea, eb = (strassen.get(ks[0], []) for ks, _ in gefunden)
+        pa, pb = {e[2] for e in ea}, {e[2] for e in eb}
+        eine = pa if len(pa) == 1 and pa <= pb else pb if len(pb) == 1 and pb <= pa else None
+        if eine:
+            orte = ", ".join(dict.fromkeys(e[1] for e in ea + eb if e[2] in eine and e[1]))
+            aus[(next(iter(eine)), f"{ea[0][0]} / {eb[0][0]}", orte)] = "; ".join(
+                h for h in ("Kreuzung nicht im Straßennetz, PLZ aus beiden Straßen abgeleitet", hinweis) if h)
+    if len(teile) > 2 and len(aus) > 1 and len({k[2] for k in aus}) == 1:  # mehr als zwei Straßen, ein Ort
+        zahl = {}
+        for (plz, _, _), _ in aus.items():
+            for p in plz.split(" oder "):
+                zahl[p] = zahl.get(p, 0) + 1
+        plz = sorted(zahl, key=lambda p: -zahl[p])
+        strassen_ = list(dict.fromkeys(n for _, paar, _ in aus for n in paar.split(" / ")))
+        grenze = "liegt auf einer PLZ-Grenze" if len(plz) > 1 else ""
+        aus = {(" oder ".join(plz), " / ".join(strassen_), next(iter(aus))[2]): "; ".join(h for h in (grenze, hinweis) if h)}
+    return [k + (h,) for k, h in aus.items()], []
+
+
+def treffer(eingabe, strassen, kreuzungen, bekannt):
+    teile = [t for t in re.split(r"\s*/\s*|\s+[Ee]cke\s+", eingabe.strip()) if t.strip()]
+    if len(teile) > 1:
+        return kreuzung(teile, strassen, kreuzungen, bekannt)[0]
+    return adresse(eingabe, strassen, bekannt)
+
+
+def suche(eingabe, daten):
+    strassen, kreuzungen, bekannt, ortsteile = daten
+    gefunden = treffer(eingabe, strassen, kreuzungen, bekannt)
+    if not gefunden:  # angehängter Ortsteil: "Berliner Str 100, Tegel" oder "... in Tegel"
+        for o in ortsteile:
+            m = re.fullmatch(rf"(.+?)[\s,]+(?:in\s+)?{re.escape(o)}\W*", eingabe.strip(), flags=re.I)
+            if m:
+                alle = treffer(m.group(1), strassen, kreuzungen, bekannt)
+                gefunden = [t for t in alle if o in t[2].split(", ")] or alle
+                break
+    if not gefunden:
+        return ["nicht gefunden: " + eingabe.strip()]
+    return [" | ".join(t).rstrip(" |") for t in gefunden]
+
+
+def main():
+    orte = [a for a in sys.argv[1:] if a.strip()]
+    if not orte or orte[0] in ("-h", "--help"):
+        sys.exit(__doc__)
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    try:
+        daten = lade()
+    except OSError as e:
+        sys.exit(f"Straßenverzeichnis fehlt ({e}). Keine Postleitzahl ausgeben.")
+    for ort in orte:
+        if len(orte) > 1:
+            print(f"== {ort}")
+        print("\n".join(suche(ort, daten)))
+
+
+if __name__ == "__main__":
+    main()

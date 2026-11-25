@@ -1,0 +1,140 @@
+# StGB: Strafgesetzbuch
+# Quelle: https://www.gesetze-im-internet.de/stgb/BJNR001270871.html
+# Stand: Neugefasst durch Bek. v. 13.11.1998 I 3322; zuletzt geändert durch Art. 1 G v. 20.3.2026 I Nr. 95
+# Hinweise: keine
+# Abgerufen: 25.11.2026
+# Inhalt: Auszug, nur §§ 44, 69, 69a, 69b, 142, 222, 229, 230, 240, 248b, 303, 303c, 315b, 315c, 315d, 316, 323a, 323c
+# Paragraf finden: grep -n "^## § 44 " stgb.txt   (jede Norm beginnt mit "## ", Anlagen mit "## Anlage")
+
+## § 44 Fahrverbot
+(1) Wird jemand wegen einer Straftat zu einer Freiheitsstrafe oder einer Geldstrafe verurteilt, so kann ihm das Gericht für die Dauer von einem Monat bis zu sechs Monaten verbieten, im Straßenverkehr Kraftfahrzeuge jeder oder einer bestimmten Art zu führen. Auch wenn die Straftat nicht bei oder im Zusammenhang mit dem Führen eines Kraftfahrzeugs oder unter Verletzung der Pflichten eines Kraftfahrzeugführers begangen wurde, kommt die Anordnung eines Fahrverbots namentlich in Betracht, wenn sie zur Einwirkung auf den Täter oder zur Verteidigung der Rechtsordnung erforderlich erscheint oder hierdurch die Verhängung einer Freiheitsstrafe oder deren Vollstreckung vermieden werden kann. Ein Fahrverbot ist in der Regel anzuordnen, wenn in den Fällen einer Verurteilung nach § 315c Abs. 1 Nr. 1 Buchstabe a, Abs. 3 oder § 316 die Entziehung der Fahrerlaubnis nach § 69 unterbleibt.
+(2) Das Fahrverbot wird wirksam, wenn der Führerschein nach Rechtskraft des Urteils in amtliche Verwahrung gelangt oder das Fahrverbot im Inland im Führerschein vermerkt ist, spätestens jedoch einen Monat nach Eintritt der Rechtskraft. Für seine Dauer werden von einer deutschen Behörde ausgestellte nationale und internationale Führerscheine amtlich verwahrt. Dies gilt auch, wenn der Führerschein von einer Behörde eines Mitgliedstaates der Europäischen Union oder eines anderen Vertragsstaates des Abkommens über den Europäischen Wirtschaftsraum ausgestellt worden ist, sofern der Inhaber seinen ordentlichen Wohnsitz im Inland hat. In einem ausländischen Führerschein, der weder von einem Mitgliedstaat der Europäischen Union noch von einem anderen Vertragsstaat des Abkommens über den Europäischen Wirtschaftsraum ausgestellt wurde, wird das Fahrverbot vermerkt.
+(3) Ist ein Führerschein amtlich zu verwahren oder das Fahrverbot in einem ausländischen Führerschein nach Absatz 2 Satz 4 zu vermerken, so wird die Verbotsfrist erst von dem Tag an gerechnet, an dem dies geschieht. In den übrigen Fällen wird die Verbotsfrist ab dem Tag des Eintritts der Wirksamkeit des Fahrverbots gerechnet. In die Verbotsfrist wird die Zeit nicht eingerechnet, in welcher der Täter auf behördliche Anordnung in einer Anstalt verwahrt worden ist.
+(4) Werden gegen den Täter mehrere Fahrverbote rechtskräftig verhängt, so sind die Verbotsfristen nacheinander zu berechnen. Die Verbotsfrist auf Grund des früher wirksam gewordenen Fahrverbots läuft zuerst. Werden Fahrverbote gleichzeitig wirksam, so läuft die Verbotsfrist auf Grund des früher angeordneten Fahrverbots zuerst, bei gleichzeitiger Anordnung ist die frühere Tat maßgebend.
+
+## § 69 Entziehung der Fahrerlaubnis
+(1) Wird jemand wegen einer rechtswidrigen Tat, die er bei oder im Zusammenhang mit dem Führen eines Kraftfahrzeuges oder unter Verletzung der Pflichten eines Kraftfahrzeugführers begangen hat, verurteilt oder nur deshalb nicht verurteilt, weil seine Schuldunfähigkeit erwiesen oder nicht auszuschließen ist, so entzieht ihm das Gericht die Fahrerlaubnis, wenn sich aus der Tat ergibt, daß er zum Führen von Kraftfahrzeugen ungeeignet ist. Einer weiteren Prüfung nach § 62 bedarf es nicht.
+(2) Ist die rechtswidrige Tat in den Fällen des Absatzes 1 ein Vergehen
+1. der Gefährdung des Straßenverkehrs (§ 315c),
+1a. des verbotenen Kraftfahrzeugrennens (§ 315d),
+2. der Trunkenheit im Verkehr (§ 316),
+3. des unerlaubten Entfernens vom Unfallort (§ 142), obwohl der Täter weiß oder wissen kann, daß bei dem Unfall ein Mensch getötet oder nicht unerheblich verletzt worden oder an fremden Sachen bedeutender Schaden entstanden ist, oder
+4. des Vollrausches (§ 323a), der sich auf eine der Taten nach den Nummern 1 bis 3 bezieht,
+so ist der Täter in der Regel als ungeeignet zum Führen von Kraftfahrzeugen anzusehen.
+(3) Die Fahrerlaubnis erlischt mit der Rechtskraft des Urteils. Ein von einer deutschen Behörde ausgestellter Führerschein wird im Urteil eingezogen.
+
+## § 69a Sperre für die Erteilung einer Fahrerlaubnis
+(1) Entzieht das Gericht die Fahrerlaubnis, so bestimmt es zugleich, daß für die Dauer von sechs Monaten bis zu fünf Jahren keine neue Fahrerlaubnis erteilt werden darf (Sperre). Die Sperre kann für immer angeordnet werden, wenn zu erwarten ist, daß die gesetzliche Höchstfrist zur Abwehr der von dem Täter drohenden Gefahr nicht ausreicht. Hat der Täter keine Fahrerlaubnis, so wird nur die Sperre angeordnet.
+(2) Das Gericht kann von der Sperre bestimmte Arten von Kraftfahrzeugen ausnehmen, wenn besondere Umstände die Annahme rechtfertigen, daß der Zweck der Maßregel dadurch nicht gefährdet wird.
+(3) Das Mindestmaß der Sperre beträgt ein Jahr, wenn gegen den Täter in den letzten drei Jahren vor der Tat bereits einmal eine Sperre angeordnet worden ist.
+(4) War dem Täter die Fahrerlaubnis wegen der Tat vorläufig entzogen (§ 111a der Strafprozeßordnung), so verkürzt sich das Mindestmaß der Sperre um die Zeit, in der die vorläufige Entziehung wirksam war. Es darf jedoch drei Monate nicht unterschreiten.
+(5) Die Sperre beginnt mit der Rechtskraft des Urteils. In die Frist wird die Zeit einer wegen der Tat angeordneten vorläufigen Entziehung eingerechnet, soweit sie nach Verkündung des Urteils verstrichen ist, in dem die der Maßregel zugrunde liegenden tatsächlichen Feststellungen letztmals geprüft werden konnten.
+(6) Im Sinne der Absätze 4 und 5 steht der vorläufigen Entziehung der Fahrerlaubnis die Verwahrung, Sicherstellung oder Beschlagnahme des Führerscheins (§ 94 der Strafprozeßordnung) gleich.
+(7) Ergibt sich Grund zu der Annahme, daß der Täter zum Führen von Kraftfahrzeugen nicht mehr ungeeignet ist, so kann das Gericht die Sperre vorzeitig aufheben. Die Aufhebung ist frühestens zulässig, wenn die Sperre drei Monate, in den Fällen des Absatzes 3 ein Jahr gedauert hat; Absatz 5 Satz 2 und Absatz 6 gelten entsprechend.
+
+## § 69b Wirkung der Entziehung bei einer ausländischen Fahrerlaubnis
+(1) Darf der Täter auf Grund einer im Ausland erteilten Fahrerlaubnis im Inland Kraftfahrzeuge führen, ohne daß ihm von einer deutschen Behörde eine Fahrerlaubnis erteilt worden ist, so hat die Entziehung der Fahrerlaubnis die Wirkung einer Aberkennung des Rechts, von der Fahrerlaubnis im Inland Gebrauch zu machen. Mit der Rechtskraft der Entscheidung erlischt das Recht zum Führen von Kraftfahrzeugen im Inland. Während der Sperre darf weder das Recht, von der ausländischen Fahrerlaubnis wieder Gebrauch zu machen, noch eine inländische Fahrerlaubnis erteilt werden.
+(2) Ist der ausländische Führerschein von einer Behörde eines Mitgliedstaates der Europäischen Union oder eines anderen Vertragsstaates des Abkommens über den Europäischen Wirtschaftsraum ausgestellt worden und hat der Inhaber seinen ordentlichen Wohnsitz im Inland, so wird der Führerschein im Urteil eingezogen und an die ausstellende Behörde zurückgesandt. In einem ausländischen Führerschein, der weder von einem Mitgliedstaat der Europäischen Union noch von einem anderen Vertragsstaat des Abkommens über den Europäischen Wirtschaftsraum ausgestellt wurde, werden die Entziehung der Fahrerlaubnis und die Sperre vermerkt.
+
+## § 142 Unerlaubtes Entfernen vom Unfallort
+(1) Ein Unfallbeteiligter, der sich nach einem Unfall im Straßenverkehr vom Unfallort entfernt, bevor er
+1. zugunsten der anderen Unfallbeteiligten und der Geschädigten die Feststellung seiner Person, seines Fahrzeugs und der Art seiner Beteiligung durch seine Anwesenheit und durch die Angabe, daß er an dem Unfall beteiligt ist, ermöglicht hat oder
+2. eine nach den Umständen angemessene Zeit gewartet hat, ohne daß jemand bereit war, die Feststellungen zu treffen,
+wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft.
+(2) Nach Absatz 1 wird auch ein Unfallbeteiligter bestraft, der sich
+1. nach Ablauf der Wartefrist (Absatz 1 Nr. 2) oder
+2. berechtigt oder entschuldigt
+vom Unfallort entfernt hat und die Feststellungen nicht unverzüglich nachträglich ermöglicht.
+(3) Der Verpflichtung, die Feststellungen nachträglich zu ermöglichen, genügt der Unfallbeteiligte, wenn er den Berechtigten (Absatz 1 Nr. 1) oder einer nahe gelegenen Polizeidienststelle mitteilt, daß er an dem Unfall beteiligt gewesen ist, und wenn er seine Anschrift, seinen Aufenthalt sowie das Kennzeichen und den Standort seines Fahrzeugs angibt und dieses zu unverzüglichen Feststellungen für eine ihm zumutbare Zeit zur Verfügung hält. Dies gilt nicht, wenn er durch sein Verhalten die Feststellungen absichtlich vereitelt.
+(4) Das Gericht mildert in den Fällen der Absätze 1 und 2 die Strafe (§ 49 Abs. 1) oder kann von Strafe nach diesen Vorschriften absehen, wenn der Unfallbeteiligte innerhalb von vierundzwanzig Stunden nach einem Unfall außerhalb des fließenden Verkehrs, der ausschließlich nicht bedeutenden Sachschaden zur Folge hat, freiwillig die Feststellungen nachträglich ermöglicht (Absatz 3).
+(5) Unfallbeteiligter ist jeder, dessen Verhalten nach den Umständen zur Verursachung des Unfalls beigetragen haben kann.
+
+## § 222 Fahrlässige Tötung
+Wer durch Fahrlässigkeit den Tod eines Menschen verursacht, wird mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe bestraft.
+
+## § 229 Fahrlässige Körperverletzung
+Wer durch Fahrlässigkeit die Körperverletzung einer anderen Person verursacht, wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft.
+
+## § 230 Strafantrag
+(1) Die vorsätzliche Körperverletzung nach § 223 und die fahrlässige Körperverletzung nach § 229 werden nur auf Antrag verfolgt, es sei denn, daß die Strafverfolgungsbehörde wegen des besonderen öffentlichen Interesses an der Strafverfolgung ein Einschreiten von Amts wegen für geboten hält. Stirbt die verletzte Person, so geht bei vorsätzlicher Körperverletzung das Antragsrecht nach § 77 Abs. 2 auf die Angehörigen über.
+(2) Ist die Tat gegen einen Amtsträger, einen für den öffentlichen Dienst besonders Verpflichteten oder einen Soldaten der Bundeswehr während der Ausübung seines Dienstes oder in Beziehung auf seinen Dienst begangen, so wird sie auch auf Antrag des Dienstvorgesetzten verfolgt. Dasselbe gilt für Träger von Ämtern der Kirchen und anderen Religionsgesellschaften des öffentlichen Rechts.
+
+## § 240 Nötigung
+(1) Wer einen Menschen rechtswidrig mit Gewalt oder durch Drohung mit einem empfindlichen Übel zu einer Handlung, Duldung oder Unterlassung nötigt, wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft.
+(2) Rechtswidrig ist die Tat, wenn die Anwendung der Gewalt oder die Androhung des Übels zu dem angestrebten Zweck als verwerflich anzusehen ist.
+(3) Der Versuch ist strafbar.
+(4) In besonders schweren Fällen ist die Strafe Freiheitsstrafe von sechs Monaten bis zu fünf Jahren. Ein besonders schwerer Fall liegt in der Regel vor, wenn der Täter
+1. eine Schwangere zum Schwangerschaftsabbruch nötigt oder
+2. seine Befugnisse oder seine Stellung als Amtsträger mißbraucht.
+
+## § 248b Unbefugter Gebrauch eines Fahrzeugs
+(1) Wer ein Kraftfahrzeug oder ein Fahrrad gegen den Willen des Berechtigten in Gebrauch nimmt, wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft, wenn die Tat nicht in anderen Vorschriften mit schwererer Strafe bedroht ist.
+(2) Der Versuch ist strafbar.
+(3) Die Tat wird nur auf Antrag verfolgt.
+(4) Kraftfahrzeuge im Sinne dieser Vorschrift sind die Fahrzeuge, die durch Maschinenkraft bewegt werden, Landkraftfahrzeuge nur insoweit, als sie nicht an Bahngleise gebunden sind.
+
+## § 303 Sachbeschädigung
+(1) Wer rechtswidrig eine fremde Sache beschädigt oder zerstört, wird mit Freiheitsstrafe bis zu zwei Jahren oder mit Geldstrafe bestraft.
+(2) Ebenso wird bestraft, wer unbefugt das Erscheinungsbild einer fremden Sache nicht nur unerheblich und nicht nur vorübergehend verändert.
+(3) Der Versuch ist strafbar.
+
+## § 303c Strafantrag
+In den Fällen der §§ 303, 303a Abs. 1 und 2 sowie § 303b Abs. 1 bis 3 wird die Tat nur auf Antrag verfolgt, es sei denn, daß die Strafverfolgungsbehörde wegen des besonderen öffentlichen Interesses an der Strafverfolgung ein Einschreiten von Amts wegen für geboten hält.
+
+## § 315b Gefährliche Eingriffe in den Straßenverkehr
+(1) Wer die Sicherheit des Straßenverkehrs dadurch beeinträchtigt, daß er
+1. Anlagen oder Fahrzeuge zerstört, beschädigt oder beseitigt,
+2. Hindernisse bereitet oder
+3. einen ähnlichen, ebenso gefährlichen Eingriff vornimmt,
+und dadurch Leib oder Leben eines anderen Menschen oder fremde Sachen von bedeutendem Wert gefährdet, wird mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe bestraft.
+(2) Der Versuch ist strafbar.
+(3) Handelt der Täter unter den Voraussetzungen des § 315 Abs. 3, so ist die Strafe Freiheitsstrafe von einem Jahr bis zu zehn Jahren, in minder schweren Fällen Freiheitsstrafe von sechs Monaten bis zu fünf Jahren.
+(4) Wer in den Fällen des Absatzes 1 die Gefahr fahrlässig verursacht, wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft.
+(5) Wer in den Fällen des Absatzes 1 fahrlässig handelt und die Gefahr fahrlässig verursacht, wird mit Freiheitsstrafe bis zu zwei Jahren oder mit Geldstrafe bestraft.
+
+## § 315c Gefährdung des Straßenverkehrs
+(1) Wer im Straßenverkehr
+1. ein Fahrzeug führt, obwohl er
+a) infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel oder
+b) infolge geistiger oder körperlicher Mängel
+nicht in der Lage ist, das Fahrzeug sicher zu führen, oder
+2. grob verkehrswidrig und rücksichtslos
+a) die Vorfahrt nicht beachtet,
+b) falsch überholt oder sonst bei Überholvorgängen falsch fährt,
+c) an Fußgängerüberwegen falsch fährt,
+d) an unübersichtlichen Stellen, an Straßenkreuzungen, Straßeneinmündungen oder Bahnübergängen zu schnell fährt,
+e) an unübersichtlichen Stellen nicht die rechte Seite der Fahrbahn einhält,
+f) auf Autobahnen oder Kraftfahrstraßen wendet, rückwärts oder entgegen der Fahrtrichtung fährt oder dies versucht oder
+g) haltende oder liegengebliebene Fahrzeuge nicht auf ausreichende Entfernung kenntlich macht, obwohl das zur Sicherung des Verkehrs erforderlich ist,
+und dadurch Leib oder Leben eines anderen Menschen oder fremde Sachen von bedeutendem Wert gefährdet, wird mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe bestraft.
+(2) In den Fällen des Absatzes 1 Nr. 1 ist der Versuch strafbar.
+(3) Wer in den Fällen des Absatzes 1
+1. die Gefahr fahrlässig verursacht oder
+2. fahrlässig handelt und die Gefahr fahrlässig verursacht,
+wird mit Freiheitsstrafe bis zu zwei Jahren oder mit Geldstrafe bestraft.
+
+## § 315d Verbotene Kraftfahrzeugrennen
+(1) Wer im Straßenverkehr
+1. ein nicht erlaubtes Kraftfahrzeugrennen ausrichtet oder durchführt,
+2. als Kraftfahrzeugführer an einem nicht erlaubten Kraftfahrzeugrennen teilnimmt oder
+3. sich als Kraftfahrzeugführer mit nicht angepasster Geschwindigkeit und grob verkehrswidrig und rücksichtslos fortbewegt, um eine höchstmögliche Geschwindigkeit zu erreichen,
+wird mit Freiheitsstrafe bis zu zwei Jahren oder mit Geldstrafe bestraft.
+(2) Wer in den Fällen des Absatzes 1 Nummer 2 oder 3 Leib oder Leben eines anderen Menschen oder fremde Sachen von bedeutendem Wert gefährdet, wird mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe bestraft.
+(3) Der Versuch ist in den Fällen des Absatzes 1 Nummer 1 strafbar.
+(4) Wer in den Fällen des Absatzes 2 die Gefahr fahrlässig verursacht, wird mit Freiheitsstrafe bis zu drei Jahren oder mit Geldstrafe bestraft.
+(5) Verursacht der Täter in den Fällen des Absatzes 2 durch die Tat den Tod oder eine schwere Gesundheitsschädigung eines anderen Menschen oder eine Gesundheitsschädigung einer großen Zahl von Menschen, so ist die Strafe Freiheitsstrafe von einem Jahr bis zu zehn Jahren, in minder schweren Fällen Freiheitsstrafe von sechs Monaten bis zu fünf Jahren.
+Fußnote
+§ 315d Abs. 1 Nr. 3: Mit GG (100-1) vereinbar gem. BVerfGE v. 9.2.2022 I 479 - 2 BvL 1/20 -
+
+## § 316 Trunkenheit im Verkehr
+(1) Wer im Verkehr (§§ 315 bis 315e) ein Fahrzeug führt, obwohl er infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel nicht in der Lage ist, das Fahrzeug sicher zu führen, wird mit Freiheitsstrafe bis zu einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in § 315a oder § 315c mit Strafe bedroht ist.
+(2) Nach Absatz 1 wird auch bestraft, wer die Tat fahrlässig begeht.
+
+## § 323a Vollrausch
+(1) Wer sich vorsätzlich oder fahrlässig durch alkoholische Getränke oder andere berauschende Mittel in einen Rausch versetzt, wird mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe bestraft, wenn er in diesem Zustand eine rechtswidrige Tat begeht und ihretwegen nicht bestraft werden kann, weil er infolge des Rausches schuldunfähig war oder weil dies nicht auszuschließen ist.
+(2) Die Strafe darf nicht schwerer sein als die Strafe, die für die im Rausch begangene Tat angedroht ist.
+(3) Die Tat wird nur auf Antrag, mit Ermächtigung oder auf Strafverlangen verfolgt, wenn die Rauschtat nur auf Antrag, mit Ermächtigung oder auf Strafverlangen verfolgt werden könnte.
+
+## § 323c Unterlassene Hilfeleistung; Behinderung von hilfeleistenden Personen
+(1) Wer bei Unglücksfällen oder gemeiner Gefahr oder Not nicht Hilfe leistet, obwohl dies erforderlich und ihm den Umständen nach zuzumuten, insbesondere ohne erhebliche eigene Gefahr und ohne Verletzung anderer wichtiger Pflichten möglich ist, wird mit Freiheitsstrafe bis zu einem Jahr oder mit Geldstrafe bestraft.
+(2) Ebenso wird bestraft, wer in diesen Situationen eine Person behindert, die einem Dritten Hilfe leistet oder leisten will.

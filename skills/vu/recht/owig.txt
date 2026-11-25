@@ -1,0 +1,85 @@
+# OWiG: Gesetz über Ordnungswidrigkeiten
+# Quelle: https://www.gesetze-im-internet.de/owig_1968/BJNR004810968.html
+# Stand: Neugefasst durch Bek. v. 19.2.1987 I 602; Zuletzt geändert durch Art. 7 G v. 22.10.2026 I Nr. 321
+# Hinweise: Mittelbare Änderung durch Art. 15 Nr. 7 G v. 22.10.2026 I Nr. 321 ist berücksichtigt
+# Abgerufen: 25.11.2026
+# Inhalt: Auszug, nur §§ 12, 19, 20, 21, 31, 33, 47, 53, 55, 56, 57, 58, 111
+# Paragraf finden: grep -n "^## § 12 " owig.txt   (jede Norm beginnt mit "## ", Anlagen mit "## Anlage")
+
+## § 12 Verantwortlichkeit
+(1) Nicht vorwerfbar handelt, wer bei Begehung einer Handlung noch nicht vierzehn Jahre alt ist. Ein Jugendlicher handelt nur unter den Voraussetzungen des § 3 Satz 1 des Jugendgerichtsgesetzes vorwerfbar.
+(2) Nicht vorwerfbar handelt, wer bei Begehung der Handlung wegen einer krankhaften seelischen Störung, wegen einer tiefgreifenden Bewußtseinsstörung oder wegen einer Intelligenzminderung oder einer schweren anderen seelischen Störung unfähig ist, das Unerlaubte der Handlung einzusehen oder nach dieser Einsicht zu handeln.
+
+## § 19 Tateinheit
+(1) Verletzt dieselbe Handlung mehrere Gesetze, nach denen sie als Ordnungswidrigkeit geahndet werden kann, oder ein solches Gesetz mehrmals, so wird nur eine einzige Geldbuße festgesetzt.
+(2) Sind mehrere Gesetze verletzt, so wird die Geldbuße nach dem Gesetz bestimmt, das die höchste Geldbuße androht. Auf die in dem anderen Gesetz angedrohten Nebenfolgen kann erkannt werden.
+
+## § 20 Tatmehrheit
+Sind mehrere Geldbußen verwirkt, so wird jede gesondert festgesetzt.
+
+## § 21 Zusammentreffen von Straftat und Ordnungswidrigkeit
+(1) Ist eine Handlung gleichzeitig Straftat und Ordnungswidrigkeit, so wird nur das Strafgesetz angewendet. Auf die in dem anderen Gesetz angedrohten Nebenfolgen kann erkannt werden.
+(2) Im Falle des Absatzes 1 kann die Handlung jedoch als Ordnungswidrigkeit geahndet werden, wenn eine Strafe nicht verhängt wird.
+
+## § 31 Verfolgungsverjährung
+(1) Durch die Verjährung werden die Verfolgung von Ordnungswidrigkeiten und die Anordnung von Nebenfolgen ausgeschlossen. § 27 Abs. 2 Satz 1 Nr. 1 bleibt unberührt.
+(2) Die Verfolgung von Ordnungswidrigkeiten verjährt, wenn das Gesetz nichts anderes bestimmt,
+1. in drei Jahren bei Ordnungswidrigkeiten, die mit Geldbuße im Höchstmaß von mehr als fünfzehntausend Euro bedroht sind,
+2. in zwei Jahren bei Ordnungswidrigkeiten, die mit Geldbuße im Höchstmaß von mehr als zweitausendfünfhundert bis zu fünfzehntausend Euro bedroht sind,
+3. in einem Jahr bei Ordnungswidrigkeiten, die mit Geldbuße im Höchstmaß von mehr als eintausend bis zu zweitausendfünfhundert Euro bedroht sind,
+4. in sechs Monaten bei den übrigen Ordnungswidrigkeiten.
+(3) Die Verjährung beginnt, sobald die Handlung beendet ist. Tritt ein zum Tatbestand gehörender Erfolg erst später ein, so beginnt die Verjährung mit diesem Zeitpunkt.
+
+## § 33 Unterbrechung der Verfolgungsverjährung
+(1) Die Verjährung wird unterbrochen durch
+1. die erste Vernehmung des Betroffenen, die Bekanntgabe, daß gegen ihn das Ermittlungsverfahren eingeleitet ist, oder die Anordnung dieser Vernehmung oder Bekanntgabe,
+2. jede richterliche Vernehmung des Betroffenen oder eines Zeugen oder die Anordnung dieser Vernehmung,
+3. jede Beauftragung eines Sachverständigen durch die Verfolgungsbehörde oder den Richter, wenn vorher der Betroffene vernommen oder ihm die Einleitung des Ermittlungsverfahrens bekanntgegeben worden ist,
+4. jede Beschlagnahme- oder Durchsuchungsanordnung der Verfolgungsbehörde oder des Richters und richterliche Entscheidungen, welche diese aufrechterhalten,
+5. die vorläufige Einstellung des Verfahrens wegen Abwesenheit des Betroffenen durch die Verfolgungsbehörde oder den Richter sowie jede Anordnung der Verfolgungsbehörde oder des Richters, die nach einer solchen Einstellung des Verfahrens zur Ermittlung des Aufenthalts des Betroffenen oder zur Sicherung von Beweisen ergeht,
+6. jedes Ersuchen der Verfolgungsbehörde oder des Richters, eine Untersuchungshandlung im Ausland vorzunehmen,
+7. die gesetzlich bestimmte Anhörung einer anderen Behörde durch die Verfolgungsbehörde vor Abschluß der Ermittlungen,
+8. die Abgabe der Sache durch die Staatsanwaltschaft an die Verwaltungsbehörde nach § 43,
+9. den Erlaß des Bußgeldbescheides, sofern er binnen zwei Wochen zugestellt wird, ansonsten durch die Zustellung,
+10. den Eingang der Akten beim Amtsgericht gemäß § 69 Abs. 3 Satz 1 und Abs. 5 Satz 2 und die Zurückverweisung der Sache an die Verwaltungsbehörde nach § 69 Abs. 5 Satz 1,
+11. jede Anberaumung einer Hauptverhandlung,
+12. den Hinweis auf die Möglichkeit, ohne Hauptverhandlung zu entscheiden (§ 72 Abs. 1 Satz 2),
+13. die Erhebung der öffentlichen Klage,
+14. die Eröffnung des Hauptverfahrens,
+15. den Strafbefehl oder eine andere dem Urteil entsprechende Entscheidung.
+Im selbständigen Verfahren wegen der Anordnung einer Nebenfolge oder der Festsetzung einer Geldbuße gegen eine juristische Person oder Personenvereinigung wird die Verjährung durch die dem Satz 1 entsprechenden Handlungen zur Durchführung des selbständigen Verfahrens unterbrochen.
+(2) Die Verjährung ist bei einer schriftlichen Anordnung oder Entscheidung in dem Zeitpunkt unterbrochen, in dem die Anordnung oder Entscheidung abgefasst wird. Ist das Dokument nicht alsbald nach der Abfassung in den Geschäftsgang gelangt, so ist der Zeitpunkt maßgebend, in dem es tatsächlich in den Geschäftsgang gegeben worden ist.
+(3) Nach jeder Unterbrechung beginnt die Verjährung von neuem. Die Verfolgung ist jedoch spätestens verjährt, wenn seit dem in § 31 Abs. 3 bezeichneten Zeitpunkt das Doppelte der gesetzlichen Verjährungsfrist, mindestens jedoch zwei Jahre verstrichen sind. Wird jemandem in einem bei Gericht anhängigen Verfahren eine Handlung zur Last gelegt, die gleichzeitig Straftat und Ordnungswidrigkeit ist, so gilt als gesetzliche Verjährungsfrist im Sinne des Satzes 2 die Frist, die sich aus der Strafdrohung ergibt. § 32 bleibt unberührt.
+(4) Die Unterbrechung wirkt nur gegenüber demjenigen, auf den sich die Handlung bezieht. Die Unterbrechung tritt in den Fällen des Absatzes 1 Satz 1 Nr. 1 bis 7, 11 und 13 bis 15 auch dann ein, wenn die Handlung auf die Verfolgung der Tat als Straftat gerichtet ist.
+
+## § 47 Verfolgung von Ordnungswidrigkeiten
+(1) Die Verfolgung von Ordnungswidrigkeiten liegt im pflichtgemäßen Ermessen der Verfolgungsbehörde. Solange das Verfahren bei ihr anhängig ist, kann sie es einstellen.
+(2) Ist das Verfahren bei Gericht anhängig und hält dieses eine Ahndung nicht für geboten, so kann es das Verfahren mit Zustimmung der Staatsanwaltschaft in jeder Lage einstellen. Die Zustimmung ist nicht erforderlich, wenn durch den Bußgeldbescheid eine Geldbuße bis zu einhundert Euro verhängt worden ist und die Staatsanwaltschaft erklärt hat, sie nehme an der Hauptverhandlung nicht teil. Der Beschluß ist nicht anfechtbar.
+(3) Die Einstellung des Verfahrens darf nicht von der Zahlung eines Geldbetrages an eine gemeinnützige Einrichtung oder sonstige Stelle abhängig gemacht oder damit in Zusammenhang gebracht werden.
+
+## § 53 Aufgaben der Polizei
+(1) Die Behörden und Beamten des Polizeidienstes haben nach pflichtgemäßem Ermessen Ordnungswidrigkeiten zu erforschen und dabei alle unaufschiebbaren Anordnungen zu treffen, um die Verdunkelung der Sache zu verhüten. Sie haben bei der Erforschung von Ordnungswidrigkeiten, soweit dieses Gesetz nichts anderes bestimmt, dieselben Rechte und Pflichten wie bei der Verfolgung von Straftaten. Ihre Akten übersenden sie unverzüglich der Verwaltungsbehörde, in den Fällen des Zusammenhangs (§ 42) der Staatsanwaltschaft.
+(2) Die Beamten des Polizeidienstes, die zu Ermittlungspersonen der Staatsanwaltschaft bestellt sind (§ 152 des Gerichtsverfassungsgesetzes), können nach den für sie geltenden Vorschriften der Strafprozeßordnung Beschlagnahmen, Durchsuchungen, Untersuchungen und sonstige Maßnahmen anordnen.
+
+## § 55 Anhörung des Betroffenen
+(1) § 163a Abs. 1 der Strafprozeßordnung ist mit der Einschränkung anzuwenden, daß es genügt, wenn dem Betroffenen Gelegenheit gegeben wird, sich zu der Beschuldigung zu äußern.
+(2) Der Betroffene braucht nicht darauf hingewiesen zu werden, daß er auch schon vor seiner Vernehmung einen von ihm zu wählenden Verteidiger befragen kann. § 136 Absatz 1 Satz 3 bis 5 der Strafprozeßordnung ist nicht anzuwenden.
+
+## § 56 Verwarnung durch die Verwaltungsbehörde
+(1) Bei geringfügigen Ordnungswidrigkeiten kann die Verwaltungsbehörde den Betroffenen verwarnen und ein Verwarnungsgeld von fünf bis fünfundfünfzig Euro erheben. Sie kann eine Verwarnung ohne Verwarnungsgeld erteilen.
+(2) Die Verwarnung nach Absatz 1 Satz 1 ist nur wirksam, wenn der Betroffene nach Belehrung über sein Weigerungsrecht mit ihr einverstanden ist und das Verwarnungsgeld entsprechend der Bestimmung der Verwaltungsbehörde entweder sofort zahlt oder innerhalb einer Frist, die eine Woche betragen soll, bei der hierfür bezeichneten Stelle oder bei der Post zur Überweisung an diese Stelle einzahlt. Eine solche Frist soll bewilligt werden, wenn der Betroffene das Verwarnungsgeld nicht sofort zahlen kann oder wenn es höher ist als zehn Euro.
+(3) Über die Verwarnung nach Absatz 1 Satz 1, die Höhe des Verwarnungsgeldes und die Zahlung oder die etwa bestimmte Zahlungsfrist wird eine Bescheinigung erteilt. Kosten (Gebühren und Auslagen) werden nicht erhoben.
+(4) Ist die Verwarnung nach Absatz 1 Satz 1 wirksam, so kann die Tat nicht mehr unter den tatsächlichen und rechtlichen Gesichtspunkten verfolgt werden, unter denen die Verwarnung erteilt worden ist.
+
+## § 57 Verwarnung durch Beamte des Außen- und Polizeidienstes
+(1) Personen, die ermächtigt sind, die Befugnis nach § 56 für die Verwaltungsbehörde im Außendienst wahrzunehmen, haben sich entsprechend auszuweisen.
+(2) Die Befugnis nach § 56 steht auch den hierzu ermächtigten Beamten des Polizeidienstes zu, die eine Ordnungswidrigkeit entdecken oder im ersten Zugriff verfolgen und sich durch ihre Dienstkleidung oder in anderer Weise ausweisen.
+
+## § 58 Ermächtigung zur Erteilung der Verwarnung
+(1) Die Ermächtigung nach § 57 Abs. 2 erteilt die oberste Dienstbehörde des Beamten oder die von ihr bestimmte Stelle. Die oberste Dienstbehörde soll sich wegen der Frage, bei welchen Ordnungswidrigkeiten Ermächtigungen erteilt werden sollen, mit der zuständigen Behörde ins Benehmen setzen. Zuständig ist bei Ordnungswidrigkeiten, für deren Verfolgung und Ahndung eine Verwaltungsbehörde des Bundes zuständig ist, das fachlich zuständige Bundesministerium, sonst die fachlich zuständige oberste Landesbehörde.
+(2) Soweit bei bestimmten Ordnungswidrigkeiten im Hinblick auf ihre Häufigkeit und Gleichartigkeit eine möglichst gleichmäßige Behandlung angezeigt ist, sollen allgemeine Ermächtigungen an Verwaltungsangehörige und Beamte des Polizeidienstes zur Erteilung einer Verwarnung nähere Bestimmungen darüber enthalten, in welchen Fällen und unter welchen Voraussetzungen die Verwarnung erteilt und in welcher Höhe das Verwarnungsgeld erhoben werden soll.
+
+## § 111 Falsche Namensangabe
+(1) Ordnungswidrig handelt, wer einer zuständigen Behörde, einem zuständigen Amtsträger oder einem zuständigen Soldaten der Bundeswehr über seinen Vor-, Familien- oder Geburtsnamen, den Ort oder Tag seiner Geburt, seinen Familienstand, seinen Beruf, seinen Wohnort, seine Wohnung oder seine Staatsangehörigkeit eine unrichtige Angabe macht oder die Angabe verweigert.
+(2) Ordnungswidrig handelt auch der Täter, der fahrlässig nicht erkennt, daß die Behörde, der Amtsträger oder der Soldat zuständig ist.
+(3) Die Ordnungswidrigkeit kann, wenn die Handlung nicht nach anderen Vorschriften geahndet werden kann, in den Fällen des Absatzes 1 mit einer Geldbuße bis zu eintausend Euro, in den Fällen des Absatzes 2 mit einer Geldbuße bis zu fünfhundert Euro geahndet werden.
