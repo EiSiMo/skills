@@ -61,7 +61,7 @@ Angenommen: …
 - Tatvorwurf: Sonstige Ermittlungen, Zusatzbezeichnung "Unfallflucht", § 142 StGB
 - Tatvorwurf: Ordnungswidrigkeit, VK-Owi, § …
 - Tatbestandsnr.: leer wegen der Straftat
-- OWi dahinter: [1xxxxx](https://www.weg.li/charges/1xxxxx), … €
+- OWi dahinter: [1xxxxx](https://www.weg.li/charges/1xxxxx)
 - Fahrzeug: Farbe und Art, soweit bekannt (das Kennzeichen trägt der Nutzer selbst ein)
 - Insassen: leer
 - Gefahrgut: offen

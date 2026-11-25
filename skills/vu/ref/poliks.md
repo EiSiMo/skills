@@ -145,7 +145,7 @@ Angenommen: Pkw fahrbereit, Führerschein vorgelegt, kein Alkohol
 - Strafantrag: von 02 aufnehmen
 - Tatvorwurf: Ordnungswidrigkeit, VK-Owi, § 9 Abs. 3, § 1 Abs. 2, § 49 StVO i. V. m. § 24 StVG
 - Tatbestandsnr.: leer wegen der Straftat
-- OWi dahinter: [1xxxxx](https://www.weg.li/charges/1xxxxx), 170 €, 1 Punkt, 1 Monat Fahrverbot
+- OWi dahinter: [1xxxxx](https://www.weg.li/charges/1xxxxx)
 
 **02 – Radfahrerin, fährt geradeaus**
 - Art der Beteiligung: Radfahrende
@@ -161,7 +161,7 @@ Wird Kategorie 2, falls 02 mindestens 24 Stunden stationär bleibt.
 ```
 
 - Kopf: Unfallkategorie mit Text, Weiterbearbeitung und, wenn nachgeschlagen, die PLZ des Unfallorts. Kein Verjährungsdatum. Warum POLIKS, nur wenn es nicht offensichtlich ist (eigener Punkt "Grund: nicht fahrbereit und Bußgeld").
-- Liegt nur eine Ordnungswidrigkeit vor: je Person "Tatbestandsnr.: [1xxxxx](https://www.weg.li/charges/1xxxxx)" und "Regelbetrag: Verwarnungsgeld, … €" oder "Bußgeld, … €".
+- Liegt nur eine Ordnungswidrigkeit vor: je Person "Tatbestandsnr.: [1xxxxx](https://www.weg.li/charges/1xxxxx)", ohne Betrag.
 - Unter "Unfall" stehen nur Unfallart und Unfalltyp, dazu "Allgemeine Unfallursache: …", wenn es eine gibt. Die Ursachen 01 bis 69 stehen bei der Person, weil die Maske sie dort führt.
 - Art der Beteiligung: Ob der Fahrer auch Halter ist, nicht annehmen; ist es offen, beides nennen.
 - Verletzungen stehen als Punkt "Verletzung: …" bei der Person. Wer nur sich selbst verletzt hat, begründet keinen § 229 StGB.

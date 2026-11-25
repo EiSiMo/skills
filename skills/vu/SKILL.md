@@ -71,11 +71,11 @@ Je Beteiligtem, der etwas falsch gemacht hat, suchst du die Tatbestandsnummer: K
 3. Gibt es keine solche: den Grundtatbestand, und als Konkretisierung "Es kam zum Unfall".
 4. Trifft keine besondere Vorschrift: den Auffangtatbestand nach § 1 Abs. 2 StVO (`grep -i "Außer-Acht-Lassen" recht/tbkat.txt`).
 
-Passen danach zwei Nummern und unterscheiden sich die Folgen deutlich, nimm die speziellere und nenne die andere in einer Zeile mit dem Unterschied. Beispiel: Wer beim Ausparken rückwärts ein geparktes Auto anstößt, bekommt die Parklücken-Nummer; die allgemeine Rückwärtsfahr-Nummer ist die Alternative.
+Passen danach zwei Nummern, nimm die speziellere. Eine Alternative nennst du nur, wenn nach dem Sachverhalt wirklich offen ist, welche Nummer zutrifft, weil es an einem Umstand hängt, den der Nutzer nicht genannt hat (stand der Vordermann schon, oder bremste er gerade?). Eine Nummer, die erkennbar nicht einschlägig ist oder nur allgemeiner dasselbe sagt, lässt du weg: Wer beim Ausparken rückwärts ein geparktes Auto anstößt, bekommt die Parklücken-Nummer, ohne Alternative.
 
 Dazu:
 
-- Gib je Verstoß die Tatbestandsnummer und den Regelsatz aus (mit Punkten und Fahrverbot, falls vorgesehen). Die Nummer ist immer ein Link auf weg.li nach dem Muster `[104106](https://www.weg.li/charges/104106)`, auch bei einer Alternative; dort liest der Nutzer den Wortlaut nach. Den Tatvorwurf zitierst du deshalb nicht. Enthält er eine Auswahl wie `<a/b>`, nennst du die zutreffende Variante als Konkretisierung.
+- Gib je Verstoß die Tatbestandsnummer aus, immer als Link auf weg.li nach dem Muster `[104106](https://www.weg.li/charges/104106)`, auch bei einer Alternative. Dort liest der Nutzer Wortlaut, Regelsatz, Punkte und Fahrverbot nach; du gibst sie deshalb nicht aus. Den Regelsatz brauchst du nur selbst, für Aufnahmeart und Steuerungsmerkmal. Enthält er eine Auswahl wie `<a/b>`, nennst du die zutreffende Variante als Konkretisierung.
 - Bis 55 € ist Verwarnungsgeld, ab 60 € Bußgeld. Was daraus für Verwarnung, Anzeige und Steuerungsmerkmal folgt, steht in `ref/avu.md`.
 - **Steuerungsmerkmal 2 ist der Normalfall, sobald jemandem ein Verstoß vorgehalten wird**, auch im Verwarnungsgeldbereich: Vor Ort wird nicht kassiert, also BOWI-Anzeige und Rückseite. StM 0 gibst du nur aus, wenn der Nutzer sagt, dass vor Ort bezahlt oder mündlich ohne Verwarnungsgeld verwarnt wurde, oder wenn es gar keinen Vorwurf gibt (Wild, aufgewirbelter Stein, Kind unter 14). StM 1 bei fehlendem Führerschein und den anderen Fällen aus `ref/avu.md`.
 - Wer nichts falsch gemacht hat, bekommt "kein Verstoß".
@@ -143,7 +143,6 @@ Angenommen: beide Pkw, niemand verletzt, beide fahrbereit, Führerschein vorgele
 **01 – Pkw, fährt auf**
 - Destatis: 1/21
 - TBNR: [1xxxxx](https://www.weg.li/charges/1xxxxx)
-- Regelsatz: 35 € (Verwarnungsgeld)
 - BOWI-Anzeige: ankreuzen (nicht vor Ort bezahlt)
 - Verkehrsbeteiligung (Rückseite, Feld 13): 1040 (Führer) oder 3040 (Führer und Halter)
 - Beweismittel (Rückseite, Feld 37): 3 (Angaben des Betroffenen)
@@ -158,14 +157,14 @@ Regeln dazu:
 - **Erste Zeile** ist immer "Angenommen: …", auch bei POLIKS und Flucht. Eine Achtung-Zeile steht direkt darunter.
 - **Kopf**: Aufnahmeart als Überschrift, darunter Steuerungsmerkmal (bei 1 und 2 mit Empfänger in Klammern), Verjährungsdatum aus dem Unfalldatum und, wenn nachgeschlagen, die PLZ des Unfallorts (auch bei POLIKS und Flucht der letzte Punkt im Kopf).
 - **Nur ausgeben, was Nachschlagen oder Abwägen braucht.** Unter "Unfall" stehen Unfallart, Unfalltyp und die Ursachen je Ordnungsnummer (dazu "Allgemeine Ursachen", wenn es welche gibt). Was der Nutzer am Ort abliest und dessen Schlüssel auf dem Vordruck steht, lässt du weg, auch wenn es Pflichtfelder sind: Auf, Lichtverhältnisse, Straßenzustand, Charakteristik, Verkehrsregelung, Geschwindigkeitsbegrenzung, Aufprall und einfache Besonderheiten (Zebrastreifen, Haltestelle, Baustelle). Keine Legenden. Eine dieser Angaben nennst du nur, wenn sie nicht auf der Hand liegt: Radverkehrsanlagen bei den Besonderheiten (8, 9 oder 0), oder ein Aufprall-Eintrag bei einer anderen Unfallart als 8 und 9.
-- **Verstoß**: TBNR als Link, und nur einmal (sie gilt für Vorder- und Rückseite), Regelsatz mit der Einordnung Verwarnungsgeld oder Bußgeld, bei einer Alternative ein eigener Punkt "Alternative: [Nummer](Link), Betrag, wann sie passt".
-- **Rückseite** je Betroffenem wie im Muster: BOWI-Anzeige, Konkretisierung (nur wenn nötig), Verkehrsbeteiligung, Beweismittel, je ein Punkt. Gibt es unabhängige Zeugen, ein Punkt "Zeugen: … gegen 01". Bei StM 0 entfallen diese Punkte; stattdessen "Verwarnung: … €, vor Ort bezahlt" oder "Verwarnung: mündlich".
+- **Verstoß**: TBNR als Link, und nur einmal (sie gilt für Vorder- und Rückseite). Kein Regelsatz, keine Punkte, kein Fahrverbot. Eine Alternative, falls nach der Regel oben überhaupt eine zu nennen ist, als eigener Punkt "Alternative: [Nummer](Link), wann sie passt".
+- **Rückseite** je Betroffenem wie im Muster: BOWI-Anzeige, Konkretisierung (nur wenn nötig), Verkehrsbeteiligung, Beweismittel, je ein Punkt. Gibt es unabhängige Zeugen, ein Punkt "Zeugen: … gegen 01". Bei StM 0 entfallen diese Punkte; stattdessen "Verwarnung: vor Ort bezahlt" oder "Verwarnung: mündlich".
 - **Verkehrsbeteiligung (Feld 13)**: Die erste Stelle hängt davon ab, ob der Fahrer auch Halter ist. Nimm nicht von dir aus "Führer" an. Sagt der Nutzer nichts dazu, nenne beide wie im Muster: 1 für Führer, 3 für Führer und Halter.
 - **Sonstige Geschädigte** als eigener Punkt, wenn es welche gibt.
 - **Achtung-Zeile** nur, wenn eine Regel den Fall kippt oder leicht übersehen wird: Führerschein fehlt (keine Verwarnung, StM 1), Kind unter 14, mehr als zwei Beteiligte (zweiter Vordrucksatz; jeder Beteiligte bekommt trotzdem seinen Block), Geschädigter nicht am Ort (Hinweiszettel).
 - **POLIKS und Flucht**: Form und Muster stehen in `ref/poliks.md` und `ref/flucht.md`; die Regeln hier gelten dort ebenso.
 
-Nicht in die Ausgabe gehören: Personalienfelder, Hinweise zum Ausfüllen, die der Nutzer täglich macht, der Wortlaut von Tatvorwürfen, Gesetzestext, Quellenangaben. Fragt der Nutzer nach, liefere genau das Gefragte.
+Nicht in die Ausgabe gehören: Personalienfelder, Hinweise zum Ausfüllen, die der Nutzer täglich macht, der Wortlaut von Tatvorwürfen, Regelsätze, Gesetzestext, Quellenangaben. Fragt der Nutzer nach, liefere genau das Gefragte.
 
 ## "Alles aktuell?"
 
